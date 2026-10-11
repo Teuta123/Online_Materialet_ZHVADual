@@ -25,6 +25,7 @@
   color-scheme:dark;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:0 56px}
 .wrap{max-width:1120px;margin:0 auto}
 h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.15;margin:0}
@@ -199,10 +200,11 @@ footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);color:v
 <script>
 const q = document.getElementById('q');
 q.addEventListener('input', () => {
-  const t = q.value.trim().toLowerCase();
+  const norm = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  const t = norm(q.value.trim());
   let shown = 0;
   document.querySelectorAll('.card').forEach(c => {
-    const hit = !t || (c.dataset.s + ' ' + c.textContent).toLowerCase().includes(t);
+    const hit = !t || norm(c.dataset.s + ' ' + c.textContent).includes(t);
     c.hidden = !hit; if (hit) shown++;
   });
   document.querySelectorAll('section.group').forEach(s => { s.hidden = ![...s.querySelectorAll('.card')].some(c => !c.hidden); });
