@@ -1,0 +1,36 @@
+MATERIALET INTERAKTIVE – SHME "GJIN GAZULLI", PRISHTINË
+Zhvillues i Aplikacioneve Softuerike · Klasa 10 · 2026/2027
+
+Kjo dosje është faqe e plotë statike. Nuk ka nevojë për server, PHP apo bazë të dhënash.
+Faqja hyrëse është index.html; çdo kurs është një skedar .html më vete.
+
+SKEDARËT
+  index.html          – faqja hyrëse me të gjitha kurset
+  bazat.html          – Bazat e zhvillimit të aplikacioneve
+  dizajnimi.html      – Dizajnimi i aplikacioneve
+  programimi.html     – Programimi i aplikacioneve
+  e-ditari.html       – Ndërto një aplikacion web (E-Ditari)
+  testimi.html        – Testimi i aplikacioneve
+  publikimi.html      – Publikimi i aplikacioneve
+  html.html, css.html – HTML dhe CSS hap pas hapi
+  javascript.html     – JavaScript nga zero te React
+  testi-html-a.html, testi-html-b.html – Testi HTML, grupet A dhe B
+
+PUBLIKIMI FALAS ME GITHUB PAGES
+  1. Krijo llogari në github.com.
+  2. "New repository" → emri p.sh. materialet → Public → Create.
+  3. "uploading an existing file" → tërhiq të gjithë skedarët e kësaj dosjeje → "Commit changes".
+  4. Settings → Pages → Source: "Deploy from a branch" → Branch: main, folder: / (root) → Save.
+  5. Pas 1–2 minutash faqja është në: https://EMRI-YT.github.io/materialet/
+
+PUBLIKIMI ME NETLIFY (alternativë)
+  Hyr në app.netlify.com (me llogari), hap "Add new site" → "Deploy manually"
+  dhe tërhiq këtë dosje. Adresa: https://EMRI.netlify.app
+
+PËRDITËSIMI
+  Zëvendëso skedarin përkatës në GitHub (Add file → Upload files) me versionin e ri.
+
+SHËNIME
+  - Progresi i nxënësve ruhet në shfletuesin e secilit (localStorage).
+  - Fontet ngarkohen nga Google Fonts; pa internet përdoret fonti i sistemit.
+  - Të gjithë nxënësit dhe të dhënat në shembuj janë fiktive.

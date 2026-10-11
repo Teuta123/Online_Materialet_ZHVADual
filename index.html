@@ -1,0 +1,213 @@
+<!doctype html><html lang="sq"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Materialet ZhAS · Klasa 10</title></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Onest:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: kokë e thjeshtë, rruga e mësimit si shirit, pastaj grupet me karta në rrjetë */
+:root{
+  --bg:#F2F5F4; --surface:#FFFFFF; --surface2:#E7EDEB; --ink:#172033; --muted:#566074; --line:#D5DDDA;
+  --accent:#0E6E73; --accent-ink:#FFFFFF; --accent-soft:#DDF1F1; --mark:#B86E0B; --mark-soft:#FCEFD9;
+  --display:'Bricolage Grotesque','Onest',system-ui,sans-serif;
+  --body:'Onest',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1417; --surface:#162026; --surface2:#1D2A31; --ink:#E4ECEE; --muted:#9BA9B1; --line:#2A3942;
+    --accent:#4CC2BD; --accent-ink:#06282A; --accent-soft:#12383A; --mark:#F0B35B; --mark-soft:#3A2B14;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1417; --surface:#162026; --surface2:#1D2A31; --ink:#E4ECEE; --muted:#9BA9B1; --line:#2A3942;
+  --accent:#4CC2BD; --accent-ink:#06282A; --accent-soft:#12383A; --mark:#F0B35B; --mark-soft:#3A2B14;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:0 56px}
+.wrap{max-width:1120px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.15;margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+
+header.top{display:flex;flex-wrap:wrap;gap:20px;align-items:end;justify-content:space-between;padding-block:32px 22px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+header h1{font-size:clamp(30px,4.6vw,48px);font-weight:800;margin-top:6px;letter-spacing:-.01em}
+header p{margin:8px 0 0;color:var(--muted);max-width:62ch}
+.search{display:flex;flex-direction:column;gap:6px;min-width:0;flex:0 1 300px}
+.search label{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.search input{font:inherit;font-size:15px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);width:100%}
+
+.path{margin-top:26px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
+.path h2{font-size:17px;font-weight:700}
+.path p{margin:4px 0 12px;color:var(--muted);font-size:14px}
+.steps{display:flex;flex-wrap:wrap;gap:6px;align-items:center;list-style:none;margin:0;padding:0;counter-reset:s}
+.steps li{display:flex;align-items:center;gap:6px}
+.steps a{counter-increment:s;display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-size:14px;font-weight:600;padding:6px 12px 6px 6px;border-radius:999px;background:var(--surface2)}
+.steps a::before{content:counter(s);font-family:var(--mono);font-size:12px;width:22px;height:22px;display:grid;place-items:center;border-radius:50%;background:var(--accent);color:var(--accent-ink)}
+.steps a:hover{background:var(--accent-soft)}
+.steps .arr{color:var(--muted)}
+
+section.group{margin-top:36px}
+.ghead{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:14px}
+.ghead h2{font-size:24px;font-weight:800}
+.ghead span{color:var(--muted);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.card{display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;text-decoration:none;min-width:0;transition:border-color .15s,transform .15s}
+.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.ctop{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.badge{font-family:var(--mono);font-weight:600;font-size:13px;padding:4px 9px;border-radius:8px;background:var(--accent-soft);color:var(--accent)}
+.badge.lang{background:var(--mark-soft);color:var(--mark)}
+.kind{font-size:12px;color:var(--muted);font-weight:600}
+.card h3{font-size:20px;font-weight:700}
+.card p{margin:0;color:var(--muted);font-size:14.5px;flex:1}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tags i{font-style:normal;font-size:12px;padding:2px 8px;border:1px solid var(--line);border-radius:999px;color:var(--muted)}
+.open{font-weight:700;font-size:14px;color:var(--accent)}
+.open::after{content:' →'}
+.sub{margin-top:-2px;display:flex;flex-direction:column;gap:6px}
+.sub a{font-size:14px;font-weight:600;color:var(--accent);text-decoration:none}
+.sub a:hover{text-decoration:underline}
+.empty{color:var(--muted);margin-top:24px}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">SHME “Gjin Gazulli” · Zhvillues i Aplikacioneve Softuerike · Klasa 10</div>
+      <h1>Materialet interaktive</h1>
+      <p>Të gjitha kurset interaktive në një vend: modulet e kualifikimit dhe gjuhët e uebit. Çdo kurs ka mësime, kartela për përsëritje, kuize dhe detyra praktike.</p>
+    </div>
+    <div class="search">
+      <label for="q">Kërko kursin</label>
+      <input id="q" type="search" placeholder="p.sh. CSS, testimi, React" autocomplete="off">
+    </div>
+  </header>
+
+  <nav class="path" aria-label="Rruga e rekomanduar">
+    <h2>Rruga e rekomanduar e mësimit</h2>
+    <p>Nëse fillon nga zero, ndiqi kurset me këtë radhë.</p>
+    <ol class="steps">
+      <li><a href="bazat.html">Bazat</a><span class="arr">→</span></li>
+      <li><a href="html.html">HTML</a><span class="arr">→</span></li>
+      <li><a href="css.html">CSS</a><span class="arr">→</span></li>
+      <li><a href="dizajnimi.html">Dizajnimi</a><span class="arr">→</span></li>
+      <li><a href="javascript.html">JavaScript</a><span class="arr">→</span></li>
+      <li><a href="programimi.html">Programimi</a><span class="arr">→</span></li>
+      <li><a href="testimi.html">Testimi</a><span class="arr">→</span></li>
+      <li><a href="publikimi.html">Publikimi</a></li>
+    </ol>
+  </nav>
+
+  <section class="group" aria-labelledby="g1">
+    <div class="ghead"><h2 id="g1">Modulet e kualifikimit</h2><span>sipas përshkruesve të moduleve dhe Udhëzuesit për mësimdhënës</span></div>
+    <div class="grid">
+      <a class="card" href="bazat.html" data-s="bazat zhvillimit aplikacioneve sdlc">
+        <div class="ctop"><span class="badge">BZA</span><span class="kind">Modul</span></div>
+        <h3>Bazat e zhvillimit të aplikacioneve</h3>
+        <p>Çfarë është aplikacioni, cikli i zhvillimit, rolet në ekip dhe mjetet e punës.</p>
+        <div class="tags"><i>SDLC</i><i>kërkesat</i><i>mjetet</i></div>
+        <span class="open">Hap kursin</span>
+      </a>
+      <a class="card" href="dizajnimi.html" data-s="dizajnimi ui ux wireframe kontrast">
+        <div class="ctop"><span class="badge">DIZ</span><span class="kind">Modul</span></div>
+        <h3>Dizajnimi i aplikacioneve</h3>
+        <p>Analiza e kërkesave, UI/UX, skicat dhe prototipet, ngjyrat, tipografia dhe aksesueshmëria.</p>
+        <div class="tags"><i>UI/UX</i><i>prototipi</i><i>kontrasti</i></div>
+        <span class="open">Hap kursin</span>
+      </a>
+      <div class="card" data-s="programimi aplikacioneve php mysql e-ditari web">
+        <div class="ctop"><span class="badge">PRG</span><span class="kind">Modul · 2 kurse</span></div>
+        <h3>Programimi i aplikacioneve</h3>
+        <p>Procesi i programimit, kodimi dhe lidhja me bazën e të dhënave. Kursi praktik ndërton “E-Ditarin e Shkollës” me HTML, CSS, JS, MySQL dhe PHP.</p>
+        <div class="tags"><i>PHP</i><i>MySQL</i><i>API</i></div>
+        <div class="sub">
+          <a href="programimi.html">Programimi i aplikacioneve →</a>
+          <a href="e-ditari.html">Ndërto një aplikacion web: E-Ditari →</a>
+        </div>
+      </div>
+      <a class="card" href="testimi.html" data-s="testimi testet manual automatik">
+        <div class="ctop"><span class="badge">TST</span><span class="kind">Modul</span></div>
+        <h3>Testimi i aplikacioneve</h3>
+        <p>Proceset e testimit, rastet e testimit, testimi manual dhe testimi automatik.</p>
+        <div class="tags"><i>raste testimi</i><i>gabimet</i><i>automatizimi</i></div>
+        <span class="open">Hap kursin</span>
+      </a>
+      <a class="card" href="publikimi.html" data-s="publikimi hosting domain deploy">
+        <div class="ctop"><span class="badge">PUB</span><span class="kind">Modul</span></div>
+        <h3>Publikimi i aplikacioneve</h3>
+        <p>Përgatitja për publikim, konfigurimi i mjedisit, hostimi, domeni dhe testimi pas publikimit.</p>
+        <div class="tags"><i>hosting</i><i>DNS</i><i>deploy</i></div>
+        <span class="open">Hap kursin</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="group" aria-labelledby="g2">
+    <div class="ghead"><h2 id="g2">Gjuhët e uebit</h2><span>kurse hap pas hapi me kod që ndryshon dhe ekzekutohet në faqe</span></div>
+    <div class="grid">
+      <a class="card" href="html.html" data-s="html struktura etiketat formularet">
+        <div class="ctop"><span class="badge lang">&lt;html&gt;</span><span class="kind">Gjuhë</span></div>
+        <h3>HTML hap pas hapi</h3>
+        <p>Struktura e faqes, tekstet, lidhjet, fotot, tabelat dhe formularët.</p>
+        <div class="tags"><i>elementet</i><i>tabelat</i><i>formularët</i></div>
+        <span class="open">Hap kursin</span>
+      </a>
+      <a class="card" href="css.html" data-s="css stilet flexbox grid responsive">
+        <div class="ctop"><span class="badge lang">{ css }</span><span class="kind">Gjuhë</span></div>
+        <h3>CSS hap pas hapi</h3>
+        <p>Selektorët, ngjyrat, modeli i kutisë, Flexbox, Grid dhe faqet që përshtaten në telefon.</p>
+        <div class="tags"><i>Flexbox</i><i>Grid</i><i>responsive</i></div>
+        <span class="open">Hap kursin</span>
+      </a>
+      <a class="card" href="javascript.html" data-s="javascript js dom node express react">
+        <div class="ctop"><span class="badge lang">JS</span><span class="kind">Gjuhë · 21 mësime</span></div>
+        <h3>JavaScript nga zero te React</h3>
+        <p>Gjuha, DOM-i dhe ngjarjet, kodi asinkron, Node.js dhe Express, dhe aplikacionet me React.</p>
+        <div class="tags"><i>DOM</i><i>Node.js</i><i>React</i></div>
+        <span class="open">Hap kursin</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="group" aria-labelledby="g3">
+    <div class="ghead"><h2 id="g3">Teste</h2><span>për vlerësim në klasë</span></div>
+    <div class="grid">
+      <a class="card" href="testi-html-a.html" data-s="test html grupi a">
+        <div class="ctop"><span class="badge">TEST</span><span class="kind">Grupi A</span></div>
+        <h3>Testi HTML</h3>
+        <p>Test për njohuritë bazë të HTML-së.</p>
+        <span class="open">Hap testin</span>
+      </a>
+      <a class="card" href="testi-html-b.html" data-s="test html grupi b">
+        <div class="ctop"><span class="badge">TEST</span><span class="kind">Grupi B</span></div>
+        <h3>Testi HTML</h3>
+        <p>Varianti i dytë i testit, me pyetje të ndryshme.</p>
+        <span class="open">Hap testin</span>
+      </a>
+    </div>
+  </section>
+
+  <p class="empty" id="empty" hidden>Asnjë kurs nuk përputhet me kërkimin.</p>
+
+  <footer>Përgatiti Teuta Kosumi · Viti shkollor 2026/2027 · Të gjitha të dhënat e nxënësve në shembuj janë fiktive.</footer>
+</div>
+
+<script>
+const q = document.getElementById('q');
+q.addEventListener('input', () => {
+  const t = q.value.trim().toLowerCase();
+  let shown = 0;
+  document.querySelectorAll('.card').forEach(c => {
+    const hit = !t || (c.dataset.s + ' ' + c.textContent).toLowerCase().includes(t);
+    c.hidden = !hit; if (hit) shown++;
+  });
+  document.querySelectorAll('section.group').forEach(s => { s.hidden = ![...s.querySelectorAll('.card')].some(c => !c.hidden); });
+  document.getElementById('empty').hidden = shown > 0;
+});
+</script>
+
+</body></html>

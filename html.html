@@ -1,0 +1,630 @@
+<!doctype html><html lang="sq"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>HTML hap pas hapi</title></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Onest:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#F2F5F4; --surface:#FFFFFF; --surface2:#E9EEEC; --ink:#172033; --muted:#566074; --line:#D5DDDA;
+  --accent:#0E6E73; --accent-ink:#FFFFFF; --accent-soft:#DDF1F1; --mark:#B86E0B; --mark-soft:#FCEFD9;
+  --good:#1C7C3A; --good-soft:#E1F3E6; --bad:#B42318; --bad-soft:#FBE6E3;
+  --code-bg:#172033; --code-ink:#E7EEF2;
+  --svg-ink:#172033; --svg-line:#4B5670; --svg-fill:#FFFFFF; --svg-stroke:#8A93A8; --svg-accent:#0E6E73; --svg-accentFill:#DDF1F1; --svg-muted:#5B6478; --svg-onAccent:#FFFFFF; --svg-good:#1C7C3A; --svg-bad:#B42318;
+  --display:'Bricolage Grotesque', 'Onest', system-ui, sans-serif;
+  --body:'Onest', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono:'JetBrains Mono', ui-monospace, Consolas, monospace;
+  --r:12px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0E1417; --surface:#162026; --surface2:#1D2A31; --ink:#E4ECEE; --muted:#9BA9B1; --line:#2A3942;
+    --accent:#4CC2BD; --accent-ink:#06282A; --accent-soft:#12383A; --mark:#F0B35B; --mark-soft:#3A2B14;
+    --good:#5CCB7E; --good-soft:#153524; --bad:#FF8A7A; --bad-soft:#3D1C18;
+    --code-bg:#0A0F12; --code-ink:#DDE7EA;
+    --svg-ink:#E4ECEE; --svg-line:#A9B6BE; --svg-fill:#162026; --svg-stroke:#5D6F79; --svg-accent:#4CC2BD; --svg-accentFill:#12383A; --svg-muted:#9BA9B1; --svg-onAccent:#06282A; --svg-good:#5CCB7E; --svg-bad:#FF8A7A;
+  }
+}
+:root[data-theme="dark"]{
+    color-scheme:dark;
+    --bg:#0E1417; --surface:#162026; --surface2:#1D2A31; --ink:#E4ECEE; --muted:#9BA9B1; --line:#2A3942;
+    --accent:#4CC2BD; --accent-ink:#06282A; --accent-soft:#12383A; --mark:#F0B35B; --mark-soft:#3A2B14;
+    --good:#5CCB7E; --good-soft:#153524; --bad:#FF8A7A; --bad-soft:#3D1C18;
+    --code-bg:#0A0F12; --code-ink:#DDE7EA;
+    --svg-ink:#E4ECEE; --svg-line:#A9B6BE; --svg-fill:#162026; --svg-stroke:#5D6F79; --svg-accent:#4CC2BD; --svg-accentFill:#12383A; --svg-muted:#9BA9B1; --svg-onAccent:#06282A; --svg-good:#5CCB7E; --svg-bad:#FF8A7A;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;padding-inline:16px;padding-block:0 48px}
+.wrap{max-width:1120px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.15;margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,summary:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:16px;padding-block:28px 20px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.top h1{font-size:clamp(28px,4.2vw,44px);font-weight:800;letter-spacing:-.01em;margin-top:6px}
+.top p{margin:6px 0 0;color:var(--muted);max-width:60ch}
+.overall{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:10px 14px}
+.overall b{font-family:var(--display);font-size:24px;font-variant-numeric:tabular-nums}
+.bar{height:6px;border-radius:6px;background:var(--surface2);overflow:hidden;width:120px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .4s}
+
+/* layout */
+.layout{display:grid;grid-template-columns:270px 1fr;gap:28px;margin-top:24px;align-items:start}
+nav.ch{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);display:flex;flex-direction:column;gap:6px}
+.chbtn{display:grid;grid-template-columns:64px 1fr;gap:10px;align-items:center;text-align:left;background:transparent;border:1px solid transparent;border-radius:10px;padding:8px 10px}
+.chbtn:hover{background:var(--surface)}
+.chbtn[aria-current="true"]{background:var(--surface);border-color:var(--line)}
+.code{font-family:var(--mono);font-weight:600;font-size:13px;display:inline-grid;place-items:center;height:30px;border-radius:8px;background:var(--surface2);color:var(--ink)}
+.chbtn[aria-current="true"] .code{background:var(--accent);color:var(--accent-ink)}
+.chbtn span.t{font-size:14px;line-height:1.3;font-weight:500}
+.chbtn small{display:block;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+
+main{min-width:0}
+.chead{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
+.chead h2{font-size:clamp(24px,3.2vw,34px);font-weight:800}
+.rm{margin:0;color:var(--muted)}
+.rm b{color:var(--ink)}
+.modes{display:flex;gap:4px;background:var(--surface2);padding:4px;border-radius:12px;width:max-content;max-width:100%;overflow-x:auto;margin:6px 0 22px}
+.modes button{border:0;background:transparent;padding:8px 16px;border-radius:9px;font-weight:600;font-size:15px;white-space:nowrap}
+.modes button[aria-selected="true"]{background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+
+/* learn */
+.sec{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:22px clamp(16px,3vw,28px);margin-bottom:16px}
+.sec h3{font-size:21px;font-weight:700;margin-bottom:10px;display:flex;gap:10px;align-items:baseline}
+.sec h3 .n{font-family:var(--mono);font-size:13px;color:var(--accent);font-weight:600}
+.sec p{margin:0 0 12px;max-width:72ch}
+.sec ul{margin:0 0 12px;padding-left:20px;max-width:72ch}
+.sec li{margin:4px 0}
+.tbl{overflow-x:auto;margin:6px 0 14px;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--surface2);font-weight:600;font-size:13px;letter-spacing:.02em}
+tr:last-child td{border-bottom:0}
+td code, .mono{font-family:var(--mono);font-size:13px}
+pre{background:var(--code-bg);color:var(--code-ink);font-family:var(--mono);font-size:13.5px;line-height:1.55;padding:14px 16px;border-radius:10px;overflow-x:auto;margin:6px 0 14px}
+.note{border-left:3px solid var(--mark);background:var(--mark-soft);padding:10px 14px;border-radius:0 10px 10px 0;margin:6px 0 12px;max-width:72ch}
+.formula{font-family:var(--display);font-weight:700;font-size:18px;background:var(--accent-soft);color:var(--ink);padding:12px 16px;border-radius:10px;margin:6px 0 14px;display:inline-block}
+figure{margin:8px 0 16px;overflow-x:auto}
+figure svg{max-width:100%;height:auto;display:block;margin:0 auto}
+
+.rm.intro{color:var(--ink);max-width:75ch;margin-top:4px}
+.sec h4.sub{font-family:var(--display);font-size:17px;margin:16px 0 8px}
+.box{border-left:3px solid var(--accent);background:var(--accent-soft);padding:10px 14px;border-radius:0 10px 10px 0;margin:8px 0 14px;max-width:76ch}
+.box span{display:block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.box.def{font-weight:600}
+.box.did{border-color:var(--mark);background:var(--mark-soft)} .box.did span{color:var(--mark)}
+.box.warn{border-color:var(--bad);background:var(--bad-soft)} .box.warn span{color:var(--bad)}
+.box.ex{border-color:var(--muted);background:var(--surface2)} .box.ex span{color:var(--muted)} .box.ex p{margin:4px 0}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center;background:var(--surface2);border-radius:10px;padding:12px;margin:8px 0 14px}
+.flow b{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:4px 10px;font-size:14px}
+.flow i{color:var(--muted);font-style:normal}
+.codewrap,.try,.apisim{margin:8px 0 16px}
+.ctitle{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:6px;display:flex;gap:8px;align-items:center}
+.ctitle span{background:var(--accent);color:var(--accent-ink);border-radius:5px;padding:1px 6px;font-weight:600}
+.codewrap pre{margin:0}
+.try textarea{width:100%;font-family:var(--mono);font-size:13.5px;line-height:1.55;background:var(--code-bg);color:var(--code-ink);border:0;border-radius:10px 10px 0 0;padding:14px 16px;resize:vertical;tab-size:2;display:block}
+.trybar{display:flex;gap:8px;padding:8px;background:var(--surface2)}
+.try .out{margin:0;border-radius:0 0 10px 10px;background:var(--surface2);color:var(--ink);border-top:1px solid var(--line);min-height:44px;white-space:pre-wrap}
+.out .e{color:var(--bad)} .out .w{color:var(--mark)} .out .m{color:var(--muted)}
+.check{list-style:none;padding-left:0} .check li{padding-left:24px;position:relative;margin:6px 0} .check li::before{content:'✓';position:absolute;left:2px;color:var(--accent);font-weight:700}
+.objectives{background:var(--accent-soft);border-color:transparent}
+.lab{border-left:4px solid var(--accent)}
+ol.rev li{margin:6px 0}
+figcaption{text-align:center;font-size:13px;color:var(--muted);margin-top:6px}
+.apisim{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--bg)}
+.samples{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 12px;font-size:13px}
+.chip:hover{border-color:var(--accent)}
+.reqline{display:flex;gap:8px;flex-wrap:wrap}
+.reqline select,.reqline input,.authrow select,.apisim textarea{font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+.reqline input{flex:1 1 200px;font-family:var(--mono)}
+.authrow{display:flex;flex-wrap:wrap;gap:16px;margin:10px 0;font-size:14px;align-items:center}
+.blabel{font-size:13px;font-weight:600;color:var(--muted)}
+.apisim textarea{width:100%;font-family:var(--mono);margin-top:4px}
+.resp{margin-top:10px}
+.st{font-family:var(--mono);font-size:14px;padding:8px 12px;border-radius:8px;background:var(--surface2)}
+.st.ok{background:var(--good-soft);color:var(--good)} .st.no{background:var(--bad-soft);color:var(--bad)}
+#sim-out{margin-top:8px;max-height:320px}
+
+.live{margin:8px 0 16px}
+.lvgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0;border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.live textarea{width:100%;min-height:160px;font-family:var(--mono);font-size:13px;line-height:1.55;background:var(--code-bg);color:var(--code-ink);border:0;padding:12px 14px;resize:vertical;tab-size:2;display:block}
+.pv{background:#fff;display:flex;flex-direction:column;min-width:0}
+.pvbar{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5B6478;background:#EEF1F0;padding:4px 10px}
+.pv iframe{border:0;width:100%;min-height:140px;background:#fff;flex:1}
+.lvbar{border-radius:0 0 10px 10px;background:transparent;padding:6px 0}
+.task{border-top:1px solid var(--line);padding:16px 0}
+.task:first-of-type{border-top:0}
+.task .trybar{background:transparent;padding:4px 0;align-items:center;flex-wrap:wrap}
+.tscore{font-size:14px;margin-left:6px}
+.checks{list-style:none;padding:0;margin:6px 0 0;display:grid;gap:4px}
+.checks li{font-size:14px;padding:6px 10px;border-radius:8px}
+.checks li.ok{background:var(--good-soft);color:var(--good)}
+.checks li.no{background:var(--bad-soft);color:var(--bad)}
+.task .live .lvbar{display:none}
+@media (max-width:760px){.lvgrid{grid-template-columns:1fr}}
+
+/* flashcards */
+.fc-wrap{display:grid;gap:16px;justify-items:center}
+.card{width:min(560px,100%);min-height:230px;perspective:1200px;background:none;border:0;padding:0}
+.card .in{position:relative;width:100%;min-height:230px;transition:transform .45s;transform-style:preserve-3d}
+.card.flip .in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;padding:24px;text-align:center}
+.face.back{transform:rotateY(180deg);background:var(--accent-soft)}
+.face .term{font-family:var(--display);font-size:clamp(24px,4vw,32px);font-weight:800}
+.face .def{font-size:17px;max-width:44ch}
+.face small{position:absolute;bottom:12px;left:0;right:0;color:var(--muted);font-size:12px}
+.fc-ctrl{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center}
+.btn{border:1px solid var(--line);background:var(--surface);padding:9px 16px;border-radius:10px;font-weight:600;font-size:15px}
+.btn:hover{border-color:var(--accent)}
+.btn.pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.good{border-color:var(--good);color:var(--good)}
+.btn.bad{border-color:var(--bad);color:var(--bad)}
+.count{font-variant-numeric:tabular-nums;color:var(--muted);font-size:14px;min-width:70px;text-align:center}
+.gloss{margin-top:22px;width:100%}
+.gloss summary{cursor:pointer;font-weight:600}
+.gloss dl{display:grid;grid-template-columns:minmax(130px,220px) 1fr;gap:8px 18px;margin:12px 0 0}
+.gloss dt{font-weight:700}
+.gloss dd{margin:0;color:var(--muted)}
+
+/* practice */
+.block{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px clamp(16px,3vw,26px);margin-bottom:16px}
+.block h3{font-size:19px;font-weight:700;margin-bottom:4px}
+.block .sub{color:var(--muted);font-size:14px;margin:0 0 14px}
+.q{padding:14px 0;border-top:1px solid var(--line)}
+.q:first-of-type{border-top:0}
+.q .qt{font-weight:600;margin-bottom:8px}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (max-width:560px){.opts{grid-template-columns:1fr}}
+.opt{text-align:left;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:9px 12px;font-size:15px}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt:disabled{cursor:default}
+.opt.ok{background:var(--good-soft);border-color:var(--good)}
+.opt.no{background:var(--bad-soft);border-color:var(--bad)}
+.fb{font-size:14px;margin-top:8px;padding:8px 12px;border-radius:8px}
+.fb.ok{background:var(--good-soft);color:var(--good)}
+.fb.no{background:var(--bad-soft);color:var(--bad)}
+.fb span{color:var(--ink)}
+.tfrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.tfrow .opts{grid-template-columns:repeat(2,110px)}
+.score{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.score b{font-variant-numeric:tabular-nums}
+.order{list-style:none;padding:0;margin:0;display:grid;gap:6px}
+.order li{display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:6px 8px 6px 12px}
+.order li.ok{border-color:var(--good);background:var(--good-soft)}
+.order li.no{border-color:var(--bad);background:var(--bad-soft)}
+.order .pos{font-family:var(--mono);font-size:13px;color:var(--muted);width:20px}
+.order .txt{flex:1}
+.order .mv{border:1px solid var(--line);background:var(--surface);border-radius:8px;width:34px;height:32px;font-size:15px;line-height:1}
+.ex{border-top:1px solid var(--line);padding:14px 0}
+.ex:first-of-type{border-top:0}
+.ex h4{margin:0 0 4px;font-size:16px}
+.ex p{margin:0 0 8px;max-width:72ch}
+.ex details{background:var(--accent-soft);border-radius:10px;padding:8px 12px}
+.ex summary{cursor:pointer;font-weight:600;color:var(--accent)}
+.ex details p{margin:8px 0 2px}
+
+/* calculator */
+.calc{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:8px 0 12px}
+.calc label{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
+.calc input{font:inherit;font-size:16px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font-variant-numeric:tabular-nums;width:100%}
+.res{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.res div{background:var(--surface2);border-radius:10px;padding:10px 12px}
+.res small{display:block;color:var(--muted);font-size:12px}
+.res b{font-family:var(--display);font-size:22px;font-variant-numeric:tabular-nums}
+.res .final{background:var(--accent);color:var(--accent-ink)}
+.res .final small{color:inherit;opacity:.85}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:1fr;gap:12px}
+  nav.ch{position:static;flex-direction:row;overflow-x:auto;padding-bottom:6px;gap:6px}
+  .chbtn{grid-template-columns:auto;padding:6px}
+  .chbtn span.t{display:none}
+  .chbtn .code{padding:0 12px}
+  .gloss dl{grid-template-columns:1fr}
+  .gloss dd{margin-bottom:6px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div style="max-width:1120px;margin:0 auto;padding-top:14px;font-size:14px"><a href="index.html" style="color:var(--accent,#0E6E73);font-weight:600;text-decoration:none">← Të gjitha materialet</a></div>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">Kurs praktik · Klasa 10 · Zhvillues i Aplikacioneve Softuerike</div>
+      <h1>HTML hap pas hapi</h1>
+      <p>Mëso HTML-në mësim pas mësimi: ndrysho shembujt dhe shiko rezultatin menjëherë, zgjidh detyrat me kontroll automatik dhe ushtro me kuize.</p>
+    </div>
+    <div class="overall" title="Përqindja e përgjigjeve të sakta në kuize">
+      <div><div class="eyebrow">Progresi yt</div><div class="bar"><i id="ovbar"></i></div></div>
+      <b id="ovpct">0%</b>
+    </div>
+  </header>
+  <div class="layout">
+    <nav class="ch" id="nav" aria-label="Kapitujt"></nav>
+    <main id="main"></main>
+  </div>
+</div>
+
+<script>
+const DATA = [{"id": "h1", "code": "HTML 1", "short": "Faqja e parë", "title": "Hyrje në HTML: faqja e parë", "intro": "Çdo faqe interneti që hap, nga faqja e shkollës te YouTube, është ndërtuar me HTML. Në këtë mësim kupton si funksionon web-i, çfarë është HTML-ja dhe krijon faqen tënde të parë.", "objectives": ["të shpjegosh si funksionon web-i: shfletuesi, serveri, URL-ja", "të përkufizosh HTML-në, elementet, etiketat dhe atributet", "të njohësh strukturën bazë të një dokumenti HTML", "të krijosh, ruash dhe hapësh faqen e parë në shfletues"], "sections": [{"h": "Si funksionon web-i", "blocks": [{"p": "Kur shkruan një adresë (URL) në shfletues, p.sh. https://www.shkolla.edu, shfletuesi i dërgon një kërkesë serverit. Serveri kthen skedarë: HTML për përmbajtjen, CSS për pamjen dhe JavaScript për ndërveprimin. Shfletuesi i lexon dhe e vizaton faqen në ekran."}, {"table": [["Gjuha", "Roli", "Krahasim me një shtëpi"], ["HTML", "Struktura dhe përmbajtja", "Muret, dyert, dhomat"], ["CSS", "Pamja: ngjyrat, fontet, vendosja", "Boja, mobilet, dekorimi"], ["JavaScript", "Ndërveprimi dhe logjika", "Drita që ndizet kur shtyp çelësin"]], "cap": "Tri gjuhët e web-it"}, {"def": "HTML (HyperText Markup Language) është gjuha e shënjimit që përshkruan strukturën dhe përmbajtjen e faqeve web. Ajo nuk është gjuhë programimi: nuk llogarit dhe nuk merr vendime, por u tregon shfletuesve çfarë është çdo pjesë e faqes (titull, paragraf, imazh, lidhje...)."}]}, {"h": "Elementet, etiketat dhe atributet", "blocks": [{"p": "HTML-ja përbëhet nga elemente. Shumica e elementeve kanë një etiketë hapëse, përmbajtjen dhe një etiketë mbyllëse me vizë të pjerrët /."}, {"code": "<p>Ky është një paragraf.<\/p>", "lang": "html", "title": "Një element"}, {"table": [["Pjesa", "Shembull", "Kuptimi"], ["Etiketa hapëse", "<p>", "Tregon ku fillon elementi"], ["Përmbajtja", "Ky është një paragraf.", "Teksti ose elementet brenda"], ["Etiketa mbyllëse", "<\/p>", "Tregon ku mbaron elementi"], ["Atributi", "<a href=\"...\">", "Informacion shtesë në etiketën hapëse: emër=\"vlerë\""]], "cap": "Pjesët e një elementi"}, {"p": "Disa elemente nuk kanë përmbajtje dhe as etiketë mbyllëse. Quhen elemente boshe (void): <br>, <hr>, <img>, <input>, <meta>, <link>."}, {"code": "<a href=\"https://www.w3.org\" target=\"_blank\">Faqja e W3C<\/a>\n<img src=\"logo.png\" alt=\"Logoja e shkollës\">", "lang": "html", "title": "Atributet"}, {"warn": "Elementet mbyllen në rendin e kundërt të hapjes: <p><strong>tekst<\/strong><\/p> është saktë, <p><strong>tekst<\/p><\/strong> është gabim."}]}, {"h": "Struktura bazë e dokumentit", "blocks": [{"code": "<!DOCTYPE html>\n<html lang=\"sq\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Faqja ime e parë<\/title>\n<\/head>\n<body>\n  <h1>Përshëndetje, botë!<\/h1>\n  <p>Kjo është faqja ime e parë në HTML.<\/p>\n<\/body>\n<\/html>", "lang": "html", "title": "index.html"}, {"table": [["Pjesa", "Roli"], ["<!DOCTYPE html>", "I tregon shfletuesit që dokumenti është HTML5"], ["<html lang=\"sq\">", "Elementi rrënjë; lang tregon gjuhën shqipe"], ["<head>", "Informacione për faqen që nuk shfaqen direkt"], ["<meta charset=\"UTF-8\">", "Kodimi i shkronjave; pa të “ë” dhe “ç” mund të dalin gabim"], ["<meta name=\"viewport\" ...>", "Përshtatja në telefona"], ["<title>", "Titulli në skedën e shfletuesit"], ["<body>", "Gjithçka që shihet në faqe"]], "cap": "Çfarë bën çdo rresht"}, {"live": "<h1>Përshëndetje, botë!<\/h1>\n<p>Kjo është faqja ime e parë në HTML.<\/p>\n<p>Ndrysho tekstin dhe shiko rezultatin.<\/p>", "title": "Provo vetë"}]}, {"h": "Krijimi i faqes së parë në kompjuter", "blocks": [{"list": ["Krijo një folder: faqja-ime.", "Hap Visual Studio Code → File → Open Folder → zgjidh folderin.", "Krijo skedarin index.html (emri me shkronja të vogla, pa hapësira).", "Shkruaj ! dhe shtyp Tab: VS Code e shkruan vetë strukturën bazë.", "Shto përmbajtjen brenda <body> dhe ruaje me Ctrl + S.", "Hape skedarin në shfletues (dy klikime) ose përdor shtesën Live Server."]}, {"did": "Skedari kryesor i një faqeje quhet zakonisht index.html. Kur hap një adresë pa emër skedari, serveri kërkon automatikisht index.html."}, {"p": "Komentet shkruhen me <!-- ... --> dhe nuk shfaqen në faqe. Përdoren për shënime."}]}], "summary": ["Web-i: shfletuesi kërkon, serveri kthen HTML, CSS dhe JavaScript.", "HTML përshkruan strukturën dhe përmbajtjen; nuk është gjuhë programimi.", "Elementi = etiketë hapëse + përmbajtje + etiketë mbyllëse; atributet japin informacion shtesë.", "Elementet boshe (br, img, input...) nuk kanë etiketë mbyllëse.", "Struktura: <!DOCTYPE html>, html, head, body.", "meta charset=\"UTF-8\" dhe lang=\"sq\" për shkronjat shqipe."], "terms": [["HTML", "Gjuha e shënjimit për strukturën e faqeve web."], ["Element", "Njësi e HTML-së: etiketat bashkë me përmbajtjen."], ["Etiketë (tag)", "Shenja <p> ose <\/p> që hap ose mbyll elementin."], ["Atribut", "Informacion shtesë në etiketën hapëse: href=\"...\"."], ["Element bosh", "Element pa përmbajtje dhe pa etiketë mbyllëse, p.sh. <br>."], ["head", "Pjesa me informacione për faqen."], ["body", "Pjesa që shfaqet në shfletues."], ["URL", "Adresa e një burimi në internet."], ["Shfletues", "Programi që shfaq faqet web."]], "quiz": [{"q": "Çfarë do të thotë HTML?", "o": ["HyperText Markup Language", "High Tech Modern Language", "Home Tool Markup Language", "HyperText Machine Language"], "a": 0, "e": "Gjuha e shënjimit të hipertekstit."}, {"q": "Cili element përmban gjithçka që shfaqet në faqe?", "o": ["<head>", "<body>", "<title>", "<meta>"], "a": 1, "e": "body = trupi i faqes."}, {"q": "Ku shfaqet përmbajtja e <title>?", "o": ["Në mes të faqes", "Në skedën e shfletuesit", "Në fund të faqes", "Nuk shfaqet"], "a": 1, "e": "Dhe në rezultatet e kërkimit."}, {"q": "Cili është element bosh?", "o": ["<p>", "<h1>", "<br>", "<body>"], "a": 2, "e": "br nuk ka përmbajtje."}, {"q": "Si shkruhet saktë?", "o": ["<p><b>A<\/p><\/b>", "<p><b>A<\/b><\/p>", "<p><b>A<\/p>", "<\/p>A<p>"], "a": 1, "e": "Mbyllet në rendin e kundërt."}, {"q": "Çfarë bën meta charset=\"UTF-8\"?", "o": ["Shton ngjyra", "Siguron shfaqjen e saktë të shkronjave si ë, ç", "Shton titull", "Lidh CSS"], "a": 1, "e": "UTF-8 përfshin të gjitha shkronjat."}], "tf": [["HTML është gjuhë programimi.", false], ["Atributet shkruhen në etiketën hapëse.", true], ["<!DOCTYPE html> shkruhet në fund të dokumentit.", false], ["Komentet HTML nuk shfaqen në faqe.", true]], "order": {"prompt": "Rendit pjesët e strukturës bazë:", "items": ["<!DOCTYPE html>", "<html lang=\"sq\">", "<head> ... <\/head>", "<body> ... <\/body>", "<\/html>"]}, "exercises": [{"t": "Faqja ime e parë", "task": "Krijo një titull kryesor <h1> me tekstin “Mirë se erdhe” dhe dy paragrafë <p> me dy fjali për veten.", "start": "<!-- Shkruaj kodin këtu -->\n", "sol": "<h1>Mirë se erdhe<\/h1>\n<p>Unë jam Arta.<\/p>\n<p>Mësoj në klasën X-5.<\/p>", "checks": [{"s": "h1", "m": "Ka një element <h1>"}, {"s": "h1", "m": "Titulli përmban “Mirë se erdhe”", "t": "Mirë se erdhe"}, {"s": "p", "m": "Ka të paktën dy paragrafë", "n": 2}]}, {"t": "Rregullo gabimet", "task": "Kodi ka dy gabime në mbylljen e elementeve. Korrigjoje që të shfaqet saktë titulli dhe teksti i theksuar brenda paragrafit.", "start": "<h1>Shkolla ime<\/h2>\n<p>Emri: <strong>Gjin Gazulli<\/p><\/strong>", "sol": "<h1>Shkolla ime<\/h1>\n<p>Emri: <strong>Gjin Gazulli<\/strong><\/p>", "checks": [{"s": "h1", "m": "Titulli <h1> përmban “Shkolla ime”", "t": "Shkolla ime"}, {"s": "*", "m": "Titulli mbyllet me <\/h1>", "src": "Shkolla ime<\/h1>"}, {"s": "*", "m": "<strong> mbyllet para <\/p>", "src": "<\/strong><\/p>"}]}], "review": ["Si funksionon komunikimi ndërmjet shfletuesit dhe serverit?", "Cili është roli i HTML-së, CSS-së dhe JavaScript-it?", "Shpjego pjesët e një elementi HTML.", "Çfarë janë atributet? Jep dy shembuj.", "Përshkruaj strukturën bazë të një dokumenti HTML.", "Pse vendoset meta charset=\"UTF-8\"?"], "lab": {"t": "Faqja e parë në VS Code", "goal": "Të krijosh dhe të hapësh faqen e parë në kompjuter.", "tools": "VS Code, shfletues.", "steps": ["Krijo folderin faqja-ime dhe hape në VS Code.", "Krijo index.html dhe shkruaj ! + Tab.", "Ndrysho <title> dhe lang=\"sq\".", "Shto një <h1> dhe tre paragrafë për veten.", "Shto një koment me emrin tënd.", "Ruaje dhe hape në shfletues."], "out": "Skedari index.html i hapur në shfletues."}, "rm": "", "part": 1}, {"id": "h2", "code": "HTML 2", "short": "Tekstet", "title": "Titujt, paragrafët dhe formatimi i tekstit", "intro": "Teksti është pjesa më e madhe e çdo faqeje. Në këtë mësim mëson si organizohet teksti me tituj dhe paragrafë, si theksohen fjalët dhe si shkruhen simbolet e veçanta.", "objectives": ["të përdorësh titujt h1–h6 sipas hierarkisë", "të krijosh paragrafë, kalime rreshti dhe vija ndarëse", "të theksosh tekstin me strong, em, mark dhe elemente të tjera", "të shkruash citate, komente dhe entitete HTML"], "sections": [{"h": "Titujt", "blocks": [{"p": "HTML ka gjashtë nivele titujsh: <h1> është më i rëndësishmi, <h6> më i vogli. Titujt formojnë “përmbajtjen” e faqes, si kapitujt e një libri."}, {"live": "<h1>Titulli i faqes (h1)<\/h1>\n<h2>Kapitulli (h2)<\/h2>\n<h3>Nënkapitulli (h3)<\/h3>\n<h4>Titull h4<\/h4>\n<h5>Titull h5<\/h5>\n<h6>Titull h6<\/h6>", "title": "Provo vetë"}, {"warn": "Përdor vetëm një <h1> për faqe dhe mos kapërce nivele (nga h2 direkt te h4). Mos zgjidh titullin sipas madhësisë: madhësinë e ndryshon CSS-ja."}, {"did": "Motorët e kërkimit (Google) dhe lexuesit e ekranit për të verbrit përdorin titujt për të kuptuar strukturën e faqes."}]}, {"h": "Paragrafët, kalimi i rreshtit dhe vija ndarëse", "blocks": [{"p": "Paragrafi <p> është blloku bazë i tekstit. Shfletuesi i injoron hapësirat dhe rreshtat e rinj në kod: disa hapësira bëhen një. Për kalim rreshti brenda paragrafit përdoret <br>, ndërsa <hr> vendos një vijë ndarëse tematike."}, {"live": "<p>Ky    tekst    ka    shumë    hapësira\nnë kod, por shfaqet normalisht.<\/p>\n<p>Adresa:<br>Rr. Agim Ramadani<br>10000 Prishtinë<\/p>\n<hr>\n<p>Pjesa tjetër e faqes.<\/p>", "title": "Provo vetë"}, {"p": "Për tekst ku hapësirat kanë rëndësi (p.sh. kod) përdoret <pre>, i cili i ruan hapësirat dhe rreshtat."}]}, {"h": "Formatimi i tekstit", "blocks": [{"table": [["Elementi", "Kuptimi", "Shfaqet"], ["<strong>", "Rëndësi e madhe", "trashë"], ["<em>", "Theksim", "pjerrët"], ["<mark>", "Tekst i shënuar", "sfond i verdhë"], ["<small>", "Shënim i vogël", "më i vogël"], ["<del> / <ins>", "Tekst i fshirë / i shtuar", "i vizuar / i nënvizuar"], ["<sub> / <sup>", "Poshtë / lart", "H₂O, x²"], ["<code>", "Kod", "font monospace"], ["<abbr title=\"...\">", "Shkurtesë", "shpjegim kur kalon miu"]], "cap": "Elementet e formatimit"}, {"live": "<p>Kjo është <strong>shumë e rëndësishme<\/strong> dhe kjo është <em>e theksuar<\/em>.<\/p>\n<p>Afati: <mark>e premte<\/mark>. Çmimi: <del>20 €<\/del> <ins>15 €<\/ins><\/p>\n<p>Uji: H<sub>2<\/sub>O, syprina: 5 m<sup>2<\/sup><\/p>\n<p>Komanda <code>npm start<\/code> nis serverin.<\/p>\n<p><abbr title=\"HyperText Markup Language\">HTML<\/abbr> është e lehtë.<\/p>", "title": "Provo vetë"}, {"p": "<b> dhe <i> e ndryshojnë vetëm pamjen, ndërsa <strong> dhe <em> kanë edhe kuptim (rëndësi, theksim), prandaj preferohen."}]}, {"h": "Citatet dhe entitetet", "blocks": [{"code": "<blockquote cite=\"https://...\">\n  <p>Dituria është pushtet.<\/p>\n<\/blockquote>\n<p>Siç tha ai: <q>Mëso sot, fito nesër.<\/q><\/p>", "lang": "html", "title": "Citatet"}, {"p": "Disa shenja kanë kuptim të veçantë në HTML (< dhe >). Për t'i shfaqur si tekst përdoren entitetet:"}, {"table": [["Entiteti", "Shfaqet", "Përdorimi"], ["&lt;", "<", "më e vogël"], ["&gt;", ">", "më e madhe"], ["&amp;", "&", "dhe"], ["&copy;", "©", "e drejta e autorit"], ["&nbsp;", "hapësirë", "hapësirë që nuk ndahet"], ["&euro;", "€", "euro"]], "cap": "Entitetet më të përdorura"}, {"live": "<p>Etiketa e paragrafit shkruhet &lt;p&gt;.<\/p>\n<p>&copy; 2026 SHME Gjin Gazulli &amp; nxënësit<\/p>\n<p>Çmimi: 10&nbsp;&euro;<\/p>", "title": "Provo vetë"}]}], "summary": ["h1–h6 formojnë hierarkinë; një h1 për faqe.", "p për paragrafë; br për kalim rreshti; hr për ndarje tematike; pre ruan hapësirat.", "strong dhe em kanë kuptim; mark, small, del, ins, sub, sup, code, abbr për raste të veçanta.", "blockquote dhe q për citate.", "Entitetet: &lt; &gt; &amp; &copy; &nbsp; &euro;."], "terms": [["Titull (heading)", "Element h1–h6 që organizon përmbajtjen."], ["Paragraf", "Blloku bazë i tekstit: <p>."], ["<br>", "Kalim në rresht të ri brenda bllokut."], ["<hr>", "Ndarje tematike, shfaqet si vijë."], ["<strong>", "Tekst me rëndësi të madhe."], ["<em>", "Tekst i theksuar."], ["Entitet", "Kod për shenja të veçanta, p.sh. &lt;."], ["<pre>", "Tekst që ruan hapësirat dhe rreshtat."]], "quiz": [{"q": "Cili është titulli më i rëndësishëm?", "o": ["<h6>", "<h1>", "<head>", "<title>"], "a": 1, "e": "h1."}, {"q": "Si shkruhet x²?", "o": ["x<sub>2<\/sub>", "x<sup>2<\/sup>", "x<small>2<\/small>", "x^2"], "a": 1, "e": "sup = lart."}, {"q": "Si shfaqet shenja < si tekst?", "o": ["<", "&lt;", "&gt;", "\\<"], "a": 1, "e": "less than."}, {"q": "Cili element ka kuptim “rëndësi e madhe”?", "o": ["<b>", "<strong>", "<i>", "<small>"], "a": 1, "e": "strong."}, {"q": "Pesë hapësira në kod brenda <p> shfaqen si:", "o": ["pesë", "një", "asnjë", "rresht i ri"], "a": 1, "e": "Shfletuesi i bashkon."}, {"q": "Për kalim rreshti brenda paragrafit përdoret:", "o": ["<hr>", "<br>", "<p>", "<lb>"], "a": 1, "e": "br = break."}], "tf": [["Në një faqe rekomandohet vetëm një <h1>.", true], ["Madhësia e titullit zgjidhet sipas numrit h1–h6.", false], ["&copy; shfaq ©.", true], ["<pre> i ruan hapësirat.", true]], "order": null, "exercises": [{"t": "Receta", "task": "Krijo recetën: titulli <h1> “Flia”, nëntitulli <h2> “Përbërësit”, një paragraf me fjalën “miell” të theksuar me <strong>, vijë ndarëse <hr> dhe paragraf me © 2026.", "start": "", "sol": "<h1>Flia<\/h1>\n<h2>Përbërësit<\/h2>\n<p>Na duhet <strong>miell<\/strong>, ujë dhe kripë.<\/p>\n<hr>\n<p>&copy; 2026<\/p>", "checks": [{"s": "h1", "m": "Ka <h1> me “Flia”", "t": "Flia"}, {"s": "h2", "m": "Ka <h2> “Përbërësit”", "t": "Përbërësit"}, {"s": "p strong", "m": "Fjala “miell” është në <strong>", "t": "miell"}, {"s": "hr", "m": "Ka vijë ndarëse <hr>"}, {"s": "p", "m": "Ka paragraf me ©", "t": "©"}]}, {"t": "Formula kimike", "task": "Shkruaj në një paragraf: “Formula e ujit është H2O dhe e dioksidit të karbonit CO2”, me numrat si indekse poshtë (<sub>).", "start": "<p>Formula e ujit është H2O dhe e dioksidit të karbonit CO2<\/p>", "sol": "<p>Formula e ujit është H<sub>2<\/sub>O dhe e dioksidit të karbonit CO<sub>2<\/sub><\/p>", "checks": [{"s": "p sub", "m": "Ka të paktën dy <sub>", "n": 2}]}], "review": ["Si përdoren titujt h1–h6 dhe pse ka rëndësi hierarkia?", "Cili është dallimi ndërmjet <br> dhe <p>?", "Pse preferohen <strong> dhe <em> ndaj <b> dhe <i>?", "Kur përdoret <pre>?", "Pse nevojiten entitetet? Jep tre shembuj."], "lab": {"t": "Artikulli i shkollës", "goal": "Të strukturosh një artikull me tituj, paragrafë dhe formatim.", "tools": "VS Code, shfletues.", "steps": ["Krijo artikull.html.", "Shkruaj artikull për një aktivitet të shkollës me një h1 dhe tre h2.", "Shto paragrafë me strong, em dhe mark.", "Shto një citat me blockquote.", "Shto në fund © me vitin dhe emrin tënd."], "out": "artikull.html."}, "rm": "", "part": 1}, {"id": "h3", "code": "HTML 3", "short": "Listat", "title": "Listat", "intro": "Listat na ndihmojnë të paraqesim informacione të renditura ose jo: hapat e një recete, lëndët e orarit, menunë e faqes. HTML ka tri lloje listash.", "objectives": ["të krijosh lista të parenditura me ul dhe li", "të krijosh lista të renditura me ol dhe atributet e tyre", "të krijosh lista përshkrimi me dl, dt, dd", "të fusësh lista brenda listave"], "sections": [{"h": "Lista e parenditur", "blocks": [{"p": "Lista e parenditur <ul> (unordered list) përdoret kur renditja nuk ka rëndësi. Çdo element i listës është <li> (list item)."}, {"live": "<h3>Lëndët profesionale<\/h3>\n<ul>\n  <li>Programimi i aplikacioneve<\/li>\n  <li>Bazat e zhvillimit të aplikacioneve<\/li>\n  <li>Bazat e të dhënave<\/li>\n<\/ul>", "title": "Provo vetë"}]}, {"h": "Lista e renditur", "blocks": [{"p": "Lista e renditur <ol> (ordered list) përdoret kur renditja ka rëndësi: hapat e një procedure, renditja në garë."}, {"live": "<h3>Si ta ndezim kompjuterin<\/h3>\n<ol>\n  <li>Shtyp butonin e ndezjes<\/li>\n  <li>Prit të hapet Windows<\/li>\n  <li>Shkruaj fjalëkalimin<\/li>\n<\/ol>\n\n<ol type=\"A\" start=\"3\">\n  <li>Fillon nga C<\/li>\n  <li>Vazhdon me D<\/li>\n<\/ol>\n\n<ol reversed>\n  <li>Tre<\/li><li>Dy<\/li><li>Një<\/li>\n<\/ol>", "title": "Provo vetë"}, {"table": [["Atributi", "Vlerat", "Efekti"], ["type", "1, A, a, I, i", "Lloji i numërimit"], ["start", "numër", "Numri i fillimit"], ["reversed", "(pa vlerë)", "Numërim zbritës"]], "cap": "Atributet e <ol>"}]}, {"h": "Lista e përshkrimit dhe listat e futura", "blocks": [{"p": "Lista e përshkrimit <dl> përmban terma <dt> dhe përshkrimet e tyre <dd>, si një fjalor."}, {"live": "<dl>\n  <dt>HTML<\/dt>\n  <dd>Gjuha për strukturën e faqes.<\/dd>\n  <dt>CSS<\/dt>\n  <dd>Gjuha për pamjen e faqes.<\/dd>\n<\/dl>", "title": "Provo vetë"}, {"p": "Një listë mund të futet brenda një <li> tjetër:"}, {"live": "<ul>\n  <li>Frontend\n    <ul>\n      <li>HTML<\/li>\n      <li>CSS<\/li>\n      <li>JavaScript<\/li>\n    <\/ul>\n  <\/li>\n  <li>Backend\n    <ol>\n      <li>Node.js<\/li>\n      <li>Express<\/li>\n    <\/ol>\n  <\/li>\n<\/ul>", "title": "Provo vetë"}, {"warn": "Brenda <ul> dhe <ol> lejohen vetëm elemente <li>. Lista e futur vendoset brenda një <li>, jo direkt brenda <ul>."}]}], "summary": ["ul + li: lista pa renditje (pika).", "ol + li: lista e renditur; type, start, reversed.", "dl + dt + dd: terma dhe përshkrime.", "Listat e futura vendosen brenda <li>."], "terms": [["<ul>", "Listë e parenditur."], ["<ol>", "Listë e renditur."], ["<li>", "Element i listës."], ["<dl>", "Listë përshkrimi."], ["<dt>", "Termi në listën e përshkrimit."], ["<dd>", "Përshkrimi i termit."]], "quiz": [{"q": "Për hapat e një recete përdoret:", "o": ["<ul>", "<ol>", "<dl>", "<li>"], "a": 1, "e": "Renditja ka rëndësi."}, {"q": "Çfarë bën <ol type=\"I\">?", "o": ["Numra romakë I, II, III", "Pika", "Shkronja", "Asgjë"], "a": 0, "e": "type I = romakë."}, {"q": "Brenda <ul> lejohen direkt vetëm:", "o": ["<p>", "<li>", "<div>", "<h2>"], "a": 1, "e": "li."}, {"q": "Në <dl>, termi shkruhet me:", "o": ["<dd>", "<dt>", "<li>", "<th>"], "a": 1, "e": "dt = description term."}, {"q": "Si fillon lista nga 5?", "o": ["<ol begin=\"5\">", "<ol start=\"5\">", "<ol from=\"5\">", "<ol n=\"5\">"], "a": 1, "e": "start."}], "tf": [["<ol reversed> numëron zbritës.", true], ["Lista e futur vendoset direkt brenda <ul>, jashtë <li>.", false], ["<ul> shfaq zakonisht pika.", true], ["dl përdoret për fjalorë.", true]], "order": null, "exercises": [{"t": "Orari i së hënës", "task": "Krijo një listë të renditur <ol> me 4 lëndë të së hënës.", "start": "", "sol": "<ol>\n  <li>Programimi<\/li>\n  <li>Programimi<\/li>\n  <li>Matematikë<\/li>\n  <li>Anglisht<\/li>\n<\/ol>", "checks": [{"s": "ol", "m": "Ka një listë <ol>"}, {"s": "ol > li", "m": "Lista ka të paktën 4 elemente", "n": 4}]}, {"t": "Menuja me nënmenu", "task": "Krijo një <ul> me elementet “Ballina”, “Lajme” dhe “Kontakt”. Brenda “Lajme” fut një <ul> me “Sport” dhe “Kulturë”.", "start": "", "sol": "<ul>\n  <li>Ballina<\/li>\n  <li>Lajme\n    <ul>\n      <li>Sport<\/li>\n      <li>Kulturë<\/li>\n    <\/ul>\n  <\/li>\n  <li>Kontakt<\/li>\n<\/ul>", "checks": [{"s": "ul > li", "m": "Lista kryesore ka të paktën 3 elemente", "n": 3}, {"s": "li ul li", "m": "Ka listë të futur me të paktën 2 elemente", "n": 2}, {"s": "li ul", "m": "Lista e futur është brenda një <li>"}]}, {"t": "Fjalori", "task": "Krijo një <dl> me dy terma (dt) dhe përshkrimet e tyre (dd): “Shfletues” dhe “Server”.", "start": "", "sol": "<dl>\n  <dt>Shfletues<\/dt><dd>Programi që shfaq faqet.<\/dd>\n  <dt>Server<\/dt><dd>Kompjuteri që ruan faqet.<\/dd>\n<\/dl>", "checks": [{"s": "dl dt", "m": "Ka dy terma <dt>", "n": 2}, {"s": "dl dd", "m": "Ka dy përshkrime <dd>", "n": 2}]}], "review": ["Kur përdoret ul dhe kur ol?", "Cilat atribute ka ol?", "Si ndërtohet lista e përshkrimit?", "Si krijohet një listë brenda listës?"], "lab": {"t": "Faqja “Hobet e mia”", "goal": "Të përdorësh të tri llojet e listave.", "tools": "VS Code, shfletues.", "steps": ["Krijo hobet.html.", "Listë ul me 5 hobe.", "Listë ol me hapat për një hobi.", "Listë dl me 3 terma të hobit dhe shpjegimet.", "Një listë e futur."], "out": "hobet.html."}, "rm": "", "part": 1}, {"id": "h4", "code": "HTML 4", "short": "Lidhjet", "title": "Lidhjet (hyperlinks)", "intro": "Lidhjet e bëjnë web-in “rrjet”: me një klikim kalojmë nga një faqe në tjetrën. Në këtë mësim mëson të krijosh lidhje drejt faqeve të tjera, drejt skedarëve të tu, brenda së njëjtës faqe dhe drejt email-it.", "objectives": ["të krijosh lidhje me elementin a dhe atributin href", "të dallosh adresat absolute dhe relative", "të hapësh lidhje në skedë të re në mënyrë të sigurt", "të krijosh lidhje brenda faqes, për email dhe për shkarkim"], "sections": [{"h": "Elementi <a>", "blocks": [{"code": "<a href=\"https://www.w3schools.com\">Mëso në W3Schools<\/a>", "lang": "html", "title": "Lidhje e thjeshtë"}, {"p": "href (hypertext reference) përmban adresën. Teksti ndërmjet etiketave është ai që klikohet; duhet të tregojë qartë ku të çon lidhja (jo “kliko këtu”)."}, {"live": "<p>Burime të dobishme:<\/p>\n<ul>\n  <li><a href=\"https://developer.mozilla.org\" target=\"_blank\" rel=\"noopener\">MDN Web Docs<\/a><\/li>\n  <li><a href=\"https://www.w3schools.com/html/\" target=\"_blank\" rel=\"noopener\">Mësimet HTML në W3Schools<\/a><\/li>\n<\/ul>", "title": "Provo vetë"}, {"table": [["Atributi", "Shembull", "Efekti"], ["href", "href=\"kontakt.html\"", "Adresa"], ["target", "target=\"_blank\"", "Hapet në skedë të re"], ["rel", "rel=\"noopener\"", "Siguri kur hapet skedë e re"], ["title", "title=\"Faqja zyrtare\"", "Shpjegim kur kalon miu"], ["download", "download", "Shkarkon skedarin"]], "cap": "Atributet e <a>"}]}, {"h": "Adresat absolute dhe relative", "blocks": [{"table": [["Lloji", "Shembull", "Kur"], ["Absolute", "https://www.shkolla.edu/kontakt.html", "Drejt faqeve të tjera në internet"], ["Relative – i njëjti folder", "kontakt.html", "Faqe në të njëjtin folder"], ["Relative – nënfolder", "faqet/lajme.html", "Faqe në një nënfolder"], ["Relative – folderi prind", "../index.html", "Një nivel më lart"]], "cap": "Llojet e adresave"}, {"code": "faqja-ime/\n├── index.html\n├── kontakt.html\n├── faqet/\n│   └── lajme.html\n└── img/\n    └── logo.png", "lang": "text", "title": "Struktura e folderit"}, {"example": "Nga faqet/lajme.html te index.html", "lines": ["Duhet të dalim një nivel lart: <a href=\"../index.html\">Ballina<\/a>"]}, {"warn": "Në emrat e skedarëve mos përdor hapësira, shkronja të mëdha apo ë/ç. Shkruaj kontakt-ynë.html si kontakt-yne.html."}]}, {"h": "Lidhje brenda faqes, email dhe telefon", "blocks": [{"p": "Për të kërcyer te një pjesë e së njëjtës faqe, pjesës i jepet një id dhe lidhja përdor #id."}, {"live": "<p><a href=\"#kontakti\">Shko te kontakti ↓<\/a><\/p>\n<h2>Rreth nesh<\/h2>\n<p>Tekst...<\/p><p>Tekst...<\/p><p>Tekst...<\/p>\n<h2 id=\"kontakti\">Kontakti<\/h2>\n<p>Email: <a href=\"mailto:info@shkolla.edu\">info@shkolla.edu<\/a><\/p>\n<p>Tel: <a href=\"tel:+38338000000\">038 000 000<\/a><\/p>", "title": "Provo vetë"}, {"did": "Lidhjet mailto: dhe tel: hapin programin e email-it ose thirrjen në telefon, nëse pajisja e lejon."}]}], "summary": ["<a href=\"...\">tekst<\/a> krijon lidhje.", "Adresat absolute përmbajnë protokollin dhe domenin; relative nisen nga skedari aktual.", "../ = folderi prind.", "target=\"_blank\" + rel=\"noopener\" për skedë të re.", "#id për lidhje brenda faqes; mailto: dhe tel:."], "terms": [["Hyperlink", "Lidhje që të çon te një burim tjetër."], ["href", "Atributi me adresën e lidhjes."], ["Adresë absolute", "Adresë e plotë me https:// dhe domen."], ["Adresë relative", "Adresë e nisur nga vendndodhja e skedarit aktual."], ["target=\"_blank\"", "Hap lidhjen në skedë të re."], ["Ankorë (#id)", "Lidhje te një pjesë e së njëjtës faqe."]], "quiz": [{"q": "Cili atribut mban adresën e lidhjes?", "o": ["src", "href", "link", "url"], "a": 1, "e": "href."}, {"q": "Nga faqet/lajme.html, si lidhet index.html që është një nivel lart?", "o": ["index.html", "../index.html", "/faqet/index.html", "./faqet/index.html"], "a": 1, "e": "../ del një nivel lart."}, {"q": "Si hapet lidhja në skedë të re?", "o": ["new=\"tab\"", "target=\"_blank\"", "open=\"new\"", "href=\"_blank\""], "a": 1, "e": "target."}, {"q": "Lidhja #kontakti të çon te elementi me:", "o": ["class=\"kontakti\"", "id=\"kontakti\"", "name=\"kontakti\"", "title=\"kontakti\""], "a": 1, "e": "id."}, {"q": "Cili tekst lidhjeje është më i mirë?", "o": ["Kliko këtu", "Këtu", "Shkarko orarin e mësimit (PDF)", "Link"], "a": 2, "e": "Tregon qartë ku të çon."}], "tf": [["https://www.w3.org është adresë relative.", false], ["mailto: hap email-in.", true], ["Emrat e skedarëve duhet të jenë pa hapësira.", true], ["rel=\"noopener\" rrit sigurinë me target=\"_blank\".", true]], "order": null, "exercises": [{"t": "Lidhje të jashtme", "task": "Krijo dy lidhje: te https://developer.mozilla.org me tekst “MDN” dhe te https://www.w3schools.com me tekst “W3Schools”. Të dyja të hapen në skedë të re.", "start": "", "sol": "<a href=\"https://developer.mozilla.org\" target=\"_blank\" rel=\"noopener\">MDN<\/a>\n<a href=\"https://www.w3schools.com\" target=\"_blank\" rel=\"noopener\">W3Schools<\/a>", "checks": [{"s": "a", "m": "Ka të paktën dy lidhje", "n": 2}, {"s": "a[href^=\"https://developer.mozilla.org\"]", "m": "Lidhja te MDN"}, {"s": "a[target=\"_blank\"]", "m": "Të dyja hapen në skedë të re", "n": 2}]}, {"t": "Lidhje brenda faqes", "task": "Shto lidhjen “Shko poshtë” që të çon te titulli <h2> me id=\"fundi\".", "start": "<p>Shumë tekst...<\/p>\n<h2>Fundi i faqes<\/h2>", "sol": "<a href=\"#fundi\">Shko poshtë<\/a>\n<p>Shumë tekst...<\/p>\n<h2 id=\"fundi\">Fundi i faqes<\/h2>", "checks": [{"s": "h2#fundi", "m": "Titulli ka id=\"fundi\""}, {"s": "a[href=\"#fundi\"]", "m": "Lidhja të çon te #fundi"}]}, {"t": "Email-i i shkollës", "task": "Krijo lidhje për email-in info@shkolla.edu.", "start": "", "sol": "<a href=\"mailto:info@shkolla.edu\">info@shkolla.edu<\/a>", "checks": [{"s": "a[href^=\"mailto:\"]", "m": "Lidhja fillon me mailto:"}, {"s": "a[href=\"mailto:info@shkolla.edu\"]", "m": "Adresa është info@shkolla.edu"}]}], "review": ["Nga cilat pjesë përbëhet një lidhje?", "Cili është dallimi ndërmjet adresës absolute dhe relative?", "Si del një nivel lart në adresat relative?", "Si krijohet lidhje te një pjesë e faqes?", "Pse teksti i lidhjes duhet të jetë përshkrues?"], "lab": {"t": "Faqe të lidhura", "goal": "Të krijosh një faqe me tri nënfaqe të lidhura.", "tools": "VS Code, shfletues.", "steps": ["Krijo index.html, rreth.html dhe kontakt.html.", "Në secilën shto menunë me lidhje te të tri faqet.", "Krijo folderin faqet/ me lajme.html dhe lidhe me ../index.html.", "Te kontakt.html shto mailto: dhe tel:.", "Shto lidhje të jashtme që hapen në skedë të re."], "out": "Folderi i faqes me 4 skedarë të lidhur."}, "rm": "", "part": 1}, {"id": "h5", "code": "HTML 5", "short": "Imazhet & media", "title": "Imazhet, audio dhe video", "intro": "Një faqe pa figura është e mërzitshme. Në këtë mësim mëson të vendosësh imazhe me përshkrim të duhur, të përdorësh formatet e duhura dhe të shtosh audio dhe video.", "objectives": ["të vendosësh imazhe me img, src dhe alt", "të zgjedhësh formatin e duhur të imazhit", "të përdorësh figure dhe figcaption", "të shtosh audio dhe video", "të respektosh të drejtën e autorit për imazhet"], "sections": [{"h": "Elementi <img>", "blocks": [{"code": "<img src=\"img/shkolla.jpg\" alt=\"Ndërtesa e shkollës Gjin Gazulli\" width=\"400\">", "lang": "html", "title": "Imazh"}, {"table": [["Atributi", "Roli"], ["src", "Adresa e imazhit (relative ose absolute)"], ["alt", "Përshkrimi me tekst: për lexuesit e ekranit dhe kur imazhi nuk ngarkohet"], ["width / height", "Përmasat në piksel"], ["loading=\"lazy\"", "Ngarkohet vetëm kur afrohet në ekran"], ["title", "Tekst kur kalon miu"]], "cap": "Atributet e <img>"}, {"live": "<img src=\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='150'><rect width='300' height='150' fill='%230E6E73'/><text x='150' y='85' font-size='26' fill='white' text-anchor='middle' font-family='Arial'>Imazh shembull<\/text><\/svg>\" alt=\"Drejtkëndësh i gjelbër me tekstin Imazh shembull\" width=\"300\">\n<p>Nëse imazhi nuk gjendet, shfaqet teksti alt:<\/p>\n<img src=\"nuk-ekziston.jpg\" alt=\"Foto e klasës X-5\">", "title": "Provo vetë"}, {"warn": "Atributi alt është i detyrueshëm. Përshkruaj çfarë tregon imazhi, jo “foto” apo “imazh”. Për imazhe thjesht dekorative përdor alt=\"\"."}]}, {"h": "Formatet e imazheve", "blocks": [{"table": [["Formati", "Përdorimi", "Karakteristika"], ["JPG", "Fotografi", "Madhësi e vogël, pa transparencë"], ["PNG", "Logo, ikona, pamje ekrani", "Transparencë, cilësi e lartë"], ["SVG", "Logo, ikona, diagrame", "Vektorial: nuk humb cilësi kur zmadhohet"], ["WebP", "Fotografi dhe grafika për web", "Më i vogël se JPG/PNG"], ["GIF", "Animacione të thjeshta", "Vetëm 256 ngjyra"]], "cap": "Formatet kryesore"}, {"did": "Një fotografi nga telefoni mund të ketë 4–5 MB. Para se ta vendosësh në faqe, zvogëloje (p.sh. në 1200 piksel gjerësi); faqja hapet shumë më shpejt."}]}, {"h": "figure dhe figcaption", "blocks": [{"live": "<figure>\n  <img src=\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='120'><rect width='260' height='120' fill='%23DDF1F1'/><circle cx='130' cy='60' r='40' fill='%230E6E73'/><\/svg>\" alt=\"Rreth i gjelbër në sfond të çelët\" width=\"260\">\n  <figcaption>Figura 1. Logoja e klubit të programimit<\/figcaption>\n<\/figure>", "title": "Provo vetë"}, {"p": "<figure> grupon imazhin (ose diagramin, kodin) me përshkrimin e tij <figcaption>."}]}, {"h": "Audio dhe video", "blocks": [{"code": "<audio controls>\n  <source src=\"media/himni.mp3\" type=\"audio/mpeg\">\n  Shfletuesi yt nuk e mbështet audion.\n<\/audio>\n\n<video width=\"480\" controls poster=\"img/kopertina.jpg\">\n  <source src=\"media/prezantimi.mp4\" type=\"video/mp4\">\n  Shfletuesi yt nuk e mbështet videon.\n<\/video>", "lang": "html", "title": "Audio dhe video"}, {"table": [["Atributi", "Efekti"], ["controls", "Shfaq butonat play/pauzë/zëri"], ["autoplay", "Nis vetë (shpesh vetëm nëse është muted)"], ["muted", "Pa zë"], ["loop", "Përsëritet"], ["poster", "Imazhi para nisjes së videos"]], "cap": "Atributet e medias"}, {"p": "Videot e YouTube vendosen me <iframe> që jep vetë YouTube te “Share → Embed”."}, {"warn": "Përdor vetëm imazhe, muzikë dhe video që ke të drejtë t'i përdorësh: të krijuara nga ti, me licencë të lirë (p.sh. Unsplash, Pixabay, Wikimedia Commons) ose me leje të autorit. Shëno burimin."}]}], "summary": ["<img src alt>: alt është i detyrueshëm dhe përshkrues.", "JPG për foto, PNG për transparencë, SVG për logo, WebP për web.", "figure + figcaption për imazhe me përshkrim.", "audio dhe video me controls dhe source.", "Respekto të drejtën e autorit për median."], "terms": [["<img>", "Element bosh për imazhe."], ["src", "Adresa e burimit."], ["alt", "Teksti alternativ i imazhit."], ["SVG", "Format vektorial imazhesh."], ["<figure>", "Grup i imazhit me përshkrimin."], ["<figcaption>", "Përshkrimi i figurës."], ["controls", "Shfaq kontrollet e audios/videos."]], "quiz": [{"q": "Cili atribut përshkruan imazhin për lexuesit e ekranit?", "o": ["title", "alt", "src", "desc"], "a": 1, "e": "alt."}, {"q": "Për logon që zmadhohet pa humbur cilësi përdoret:", "o": ["JPG", "GIF", "SVG", "BMP"], "a": 2, "e": "Vektoriale."}, {"q": "Cili atribut shfaq butonat e videos?", "o": ["buttons", "controls", "play", "show"], "a": 1, "e": "controls."}, {"q": "Përshkrimi i një figure shkruhet me:", "o": ["<caption>", "<figcaption>", "<alt>", "<label>"], "a": 1, "e": "figcaption."}, {"q": "<img> është element:", "o": ["me etiketë mbyllëse", "bosh", "blloku i tekstit", "liste"], "a": 1, "e": "Nuk ka <\/img>."}], "tf": [["alt=\"foto\" është përshkrim i mirë.", false], ["Mund të përdorësh çdo imazh nga Google pa leje.", false], ["JPG mbështet transparencën.", false], ["loading=\"lazy\" e shpejton faqen.", true]], "order": null, "exercises": [{"t": "Imazhi me përshkrim", "task": "Vendos një imazh me src=\"img/klasa.jpg\", alt=\"Nxënësit e klasës X-5 në laborator\" dhe width=\"300\".", "start": "", "sol": "<img src=\"img/klasa.jpg\" alt=\"Nxënësit e klasës X-5 në laborator\" width=\"300\">", "checks": [{"s": "img", "m": "Ka një imazh"}, {"s": "img[src=\"img/klasa.jpg\"]", "m": "src është img/klasa.jpg"}, {"s": "img", "m": "Imazhi ka alt jo bosh", "a": "alt"}, {"s": "img[width=\"300\"]", "m": "Gjerësia 300"}]}, {"t": "Figura", "task": "Krijo një <figure> me një imazh (çfarëdo src, me alt) dhe <figcaption> “Laboratori i TIK-ut”.", "start": "", "sol": "<figure>\n  <img src=\"img/lab.jpg\" alt=\"Laboratori me kompjuterë\">\n  <figcaption>Laboratori i TIK-ut<\/figcaption>\n<\/figure>", "checks": [{"s": "figure img", "m": "Imazhi është brenda figure"}, {"s": "figure img", "m": "Imazhi ka alt", "a": "alt"}, {"s": "figure figcaption", "m": "Ka figcaption “Laboratori i TIK-ut”", "t": "Laboratori i TIK-ut"}]}, {"t": "Videoja", "task": "Shto një <video> me kontrolle dhe burim media/video.mp4.", "start": "", "sol": "<video controls width=\"400\">\n  <source src=\"media/video.mp4\" type=\"video/mp4\">\n<\/video>", "checks": [{"s": "video", "m": "Ka element video"}, {"s": "video[controls]", "m": "Videoja ka controls"}, {"s": "video source[src=\"media/video.mp4\"], video[src=\"media/video.mp4\"]", "m": "Burimi është media/video.mp4"}]}], "review": ["Cilat janë atributet kryesore të img?", "Si shkruhet një alt i mirë?", "Kur përdoret JPG, PNG dhe SVG?", "Për çfarë shërben figure?", "Si shtohen audio dhe video?", "Si respektohet e drejta e autorit për imazhet?"], "lab": {"t": "Galeria e shkollës", "goal": "Të krijosh një galeri me imazhe të përshkruara dhe media.", "tools": "VS Code, imazhe me licencë të lirë.", "steps": ["Krijo folderin img/ dhe vendos 4 imazhe (të zvogëluara).", "Krijo galeria.html me 4 figure dhe figcaption.", "Shkruaj alt përshkrues për secilin.", "Shto një video ose audio me controls.", "Shëno burimin dhe licencën e çdo imazhi në fund."], "out": "galeria.html me folderin img/."}, "rm": "", "part": 1}, {"id": "h6", "code": "HTML 6", "short": "Tabelat", "title": "Tabelat", "intro": "Tabelat përdoren për të dhëna me rreshta dhe kolona: orari, notat, çmimet. Në këtë mësim mëson të ndërtosh tabela të strukturuara mirë, me tituj, grupe rreshtash dhe qeliza të bashkuara.", "objectives": ["të krijosh tabela me table, tr, th dhe td", "të ndash tabelën në thead, tbody dhe tfoot", "të shtosh titull me caption", "të bashkosh qeliza me colspan dhe rowspan"], "sections": [{"h": "Tabela e thjeshtë", "blocks": [{"table": [["Elementi", "Kuptimi"], ["<table>", "Tabela"], ["<tr>", "Rresht (table row)"], ["<th>", "Qelizë titulli (table header)"], ["<td>", "Qelizë të dhënash (table data)"], ["<caption>", "Titulli i tabelës"]], "cap": "Elementet e tabelës"}, {"live": "<table border=\"1\">\n  <caption>Notat e tremujorit<\/caption>\n  <tr>\n    <th>Nxënësi<\/th>\n    <th>Programim<\/th>\n    <th>Bazat<\/th>\n  <\/tr>\n  <tr>\n    <td>Arta<\/td>\n    <td>5<\/td>\n    <td>4<\/td>\n  <\/tr>\n  <tr>\n    <td>Dren<\/td>\n    <td>4<\/td>\n    <td>5<\/td>\n  <\/tr>\n<\/table>", "title": "Provo vetë"}, {"warn": "Atributi border përdoret këtu vetëm për t'i parë vijat. Në faqet e vërteta vijat vendosen me CSS."}]}, {"h": "thead, tbody, tfoot", "blocks": [{"live": "<table border=\"1\">\n  <caption>Shpenzimet e ekskursionit<\/caption>\n  <thead>\n    <tr><th scope=\"col\">Artikulli<\/th><th scope=\"col\">Çmimi<\/th><\/tr>\n  <\/thead>\n  <tbody>\n    <tr><td>Autobusi<\/td><td>300 €<\/td><\/tr>\n    <tr><td>Biletat<\/td><td>150 €<\/td><\/tr>\n  <\/tbody>\n  <tfoot>\n    <tr><th scope=\"row\">Gjithsej<\/th><td>450 €<\/td><\/tr>\n  <\/tfoot>\n<\/table>", "title": "Provo vetë"}, {"p": "thead mban titujt, tbody të dhënat dhe tfoot përmbledhjen. Atributi scope=\"col\" ose scope=\"row\" u tregon lexuesve të ekranit nëse titulli vlen për kolonën apo rreshtin."}]}, {"h": "Bashkimi i qelizave", "blocks": [{"p": "colspan bashkon qeliza horizontalisht (disa kolona), rowspan vertikalisht (disa rreshta)."}, {"live": "<table border=\"1\">\n  <tr><th>Ora<\/th><th>E hënë<\/th><th>E martë<\/th><\/tr>\n  <tr><td>1<\/td><td rowspan=\"2\">Programimi<\/td><td>Anglisht<\/td><\/tr>\n  <tr><td>2<\/td><td>Matematikë<\/td><\/tr>\n  <tr><td>3<\/td><td colspan=\"2\">Pushim i madh<\/td><\/tr>\n<\/table>", "title": "Provo vetë"}, {"warn": "Tabelat përdoren vetëm për të dhëna tabelare, jo për të vendosur pjesët e faqes (menu, kolona). Për vendosjen përdoret CSS (flexbox, grid)."}]}], "summary": ["table → tr → th/td.", "caption për titullin; thead, tbody, tfoot për strukturën.", "scope ndihmon aksesueshmërinë.", "colspan bashkon kolona; rowspan bashkon rreshta.", "Tabelat vetëm për të dhëna, jo për vendosje."], "terms": [["<tr>", "Rresht i tabelës."], ["<th>", "Qelizë titulli."], ["<td>", "Qelizë të dhënash."], ["<caption>", "Titulli i tabelës."], ["colspan", "Bashkimi i kolonave."], ["rowspan", "Bashkimi i rreshtave."], ["scope", "Tregon nëse th vlen për kolonë apo rresht."]], "quiz": [{"q": "Qeliza e titullit shkruhet me:", "o": ["<td>", "<th>", "<tr>", "<thead>"], "a": 1, "e": "th."}, {"q": "Një qelizë që zë 3 kolona:", "o": ["rowspan=\"3\"", "colspan=\"3\"", "span=\"3\"", "cols=\"3\""], "a": 1, "e": "colspan."}, {"q": "Cili element grupon rreshtin e totalit?", "o": ["<thead>", "<tbody>", "<tfoot>", "<caption>"], "a": 2, "e": "tfoot."}, {"q": "Titulli i gjithë tabelës shkruhet me:", "o": ["<title>", "<caption>", "<th>", "<h1>"], "a": 1, "e": "caption."}, {"q": "Tabelat duhet të përdoren për:", "o": ["vendosjen e menusë", "të dhëna tabelare", "çdo gjë", "imazhe"], "a": 1, "e": "Jo për layout."}], "tf": [["tr = table row.", true], ["rowspan bashkon qeliza vertikalisht.", true], ["Tabelat janë mënyra më e mirë për të ndërtuar faqen.", false], ["caption shkruhet menjëherë pas <table>.", true]], "order": {"prompt": "Rendit elementet nga jashtë brenda:", "items": ["<table>", "<tbody>", "<tr>", "<td>"]}, "exercises": [{"t": "Orari", "task": "Krijo tabelë me caption “Orari”, rreshtin e titujve (th): Ora, E hënë, E martë dhe dy rreshta të dhënash.", "start": "", "sol": "<table border=\"1\">\n  <caption>Orari<\/caption>\n  <tr><th>Ora<\/th><th>E hënë<\/th><th>E martë<\/th><\/tr>\n  <tr><td>1<\/td><td>Programim<\/td><td>Anglisht<\/td><\/tr>\n  <tr><td>2<\/td><td>Programim<\/td><td>Matematikë<\/td><\/tr>\n<\/table>", "checks": [{"s": "table caption", "m": "Tabela ka caption “Orari”", "t": "Orari"}, {"s": "table th", "m": "Ka të paktën 3 tituj th", "n": 3}, {"s": "table tr", "m": "Ka të paktën 3 rreshta", "n": 3}, {"s": "table td", "m": "Ka të paktën 6 qeliza td", "n": 6}]}, {"t": "Totali", "task": "Shto te tabela një <tfoot> me rreshtin “Gjithsej” dhe qelizën 450 €.", "start": "<table border=\"1\">\n  <tbody>\n    <tr><td>Autobusi<\/td><td>300 €<\/td><\/tr>\n    <tr><td>Biletat<\/td><td>150 €<\/td><\/tr>\n  <\/tbody>\n<\/table>", "sol": "<table border=\"1\">\n  <tbody>\n    <tr><td>Autobusi<\/td><td>300 €<\/td><\/tr>\n    <tr><td>Biletat<\/td><td>150 €<\/td><\/tr>\n  <\/tbody>\n  <tfoot>\n    <tr><th>Gjithsej<\/th><td>450 €<\/td><\/tr>\n  <\/tfoot>\n<\/table>", "checks": [{"s": "table tfoot", "m": "Ka tfoot"}, {"s": "tfoot", "m": "Rreshti përmban “Gjithsej”", "t": "Gjithsej"}, {"s": "tfoot", "m": "Totali është 450 €", "t": "450"}]}, {"t": "Qeliza e bashkuar", "task": "Krijo tabelë 3×3 ku rreshti i fundit ka një qelizë të vetme që zë 3 kolona me tekstin “Pushim”.", "start": "", "sol": "<table border=\"1\">\n  <tr><th>A<\/th><th>B<\/th><th>C<\/th><\/tr>\n  <tr><td>1<\/td><td>2<\/td><td>3<\/td><\/tr>\n  <tr><td colspan=\"3\">Pushim<\/td><\/tr>\n<\/table>", "checks": [{"s": "td[colspan=\"3\"]", "m": "Ka qelizë me colspan=\"3\""}, {"s": "td[colspan=\"3\"]", "m": "Qeliza përmban “Pushim”", "t": "Pushim"}]}], "review": ["Nga cilat elemente përbëhet një tabelë?", "Cili është dallimi ndërmjet th dhe td?", "Për çfarë shërbejnë thead, tbody dhe tfoot?", "Shpjego colspan dhe rowspan me shembuj.", "Pse tabelat nuk përdoren për vendosjen e faqes?"], "lab": {"t": "Orari i klasës", "goal": "Të krijosh orarin javor të klasës si tabelë.", "tools": "VS Code, shfletues.", "steps": ["Krijo orari.html.", "Tabelë me caption, thead (ditët) dhe tbody (orët).", "Përdor rowspan për lëndët me dy orë radhazi.", "Përdor colspan për pushimin e madh.", "Shto scope te titujt."], "out": "orari.html."}, "rm": "", "part": 1}, {"id": "h7", "code": "HTML 7", "short": "Formularët", "title": "Formularët", "intro": "Formularët janë mënyra si përdoruesi i jep të dhëna faqes: regjistrimi, hyrja, kërkimi, anketa. Në këtë mësim mëson të ndërtosh formularë të plotë, me fushat e duhura, etiketa dhe validim.", "objectives": ["të krijosh formularë me form, label dhe input", "të përdorësh llojet e ndryshme të input-it", "të përdorësh select, textarea, fieldset dhe button", "të shtosh validim në shfletues me required, min, max, pattern"], "sections": [{"h": "Elementi form dhe fushat bazë", "blocks": [{"code": "<form action=\"/regjistrohu\" method=\"post\">\n  <label for=\"emri\">Emri<\/label>\n  <input type=\"text\" id=\"emri\" name=\"emri\" placeholder=\"p.sh. Arta\">\n  <button type=\"submit\">Dërgo<\/button>\n<\/form>", "lang": "html", "title": "Formulari më i thjeshtë"}, {"table": [["Atributi", "Ku", "Roli"], ["action", "form", "Ku dërgohen të dhënat"], ["method", "form", "get (në URL) ose post (në trup)"], ["name", "input", "Emri i fushës që dërgohet te serveri"], ["id + label for", "input + label", "Lidhin etiketën me fushën"], ["placeholder", "input", "Tekst ndihmës brenda fushës"], ["value", "input", "Vlera fillestare"]], "cap": "Atributet kryesore"}, {"warn": "Çdo fushë ka <label> të lidhur me for=\"id\". Kështu, klikimi mbi etiketë e fokuson fushën, dhe lexuesi i ekranit e lexon emrin e saj. Placeholder nuk e zëvendëson label-in."}]}, {"h": "Llojet e input-it", "blocks": [{"table": [["type", "Përdorimi"], ["text", "Tekst i shkurtër"], ["email", "Email; shfletuesi kontrollon formatin"], ["password", "Fjalëkalim; fshihen shkronjat"], ["number", "Numër; min, max, step"], ["date", "Datë me kalendar"], ["tel", "Numër telefoni"], ["checkbox", "Zgjedhje e shumëfishtë"], ["radio", "Një zgjedhje nga disa (i njëjti name)"], ["range", "Rrëshqitës"], ["color", "Zgjedhje ngjyre"], ["file", "Ngarkim skedari"], ["search", "Kërkim"]], "cap": "Llojet më të përdorura"}, {"live": "<form>\n  <p><label for=\"em\">Email<\/label><br><input type=\"email\" id=\"em\" name=\"email\"><\/p>\n  <p><label for=\"pw\">Fjalëkalimi<\/label><br><input type=\"password\" id=\"pw\" name=\"pw\"><\/p>\n  <p><label for=\"mo\">Mosha<\/label><br><input type=\"number\" id=\"mo\" name=\"mosha\" min=\"14\" max=\"19\"><\/p>\n  <p><label for=\"dt\">Data e lindjes<\/label><br><input type=\"date\" id=\"dt\" name=\"dt\"><\/p>\n  <p>Gjinia:\n    <input type=\"radio\" id=\"f\" name=\"gjinia\" value=\"F\"><label for=\"f\">F<\/label>\n    <input type=\"radio\" id=\"m\" name=\"gjinia\" value=\"M\"><label for=\"m\">M<\/label><\/p>\n  <p><input type=\"checkbox\" id=\"kushtet\" name=\"kushtet\"> <label for=\"kushtet\">Pranoj rregullat<\/label><\/p>\n  <p><label for=\"ng\">Ngjyra e preferuar<\/label> <input type=\"color\" id=\"ng\" name=\"ng\"><\/p>\n<\/form>", "title": "Provo vetë"}]}, {"h": "select, textarea, fieldset dhe butonat", "blocks": [{"live": "<form>\n  <fieldset>\n    <legend>Regjistrimi në klub<\/legend>\n    <p><label for=\"klasa\">Klasa<\/label>\n      <select id=\"klasa\" name=\"klasa\">\n        <option value=\"\">-- Zgjidh --<\/option>\n        <option>X-4<\/option>\n        <option selected>X-5<\/option>\n        <option>X-6<\/option>\n      <\/select><\/p>\n    <p><label for=\"msg\">Pse dëshiron të bashkohesh?<\/label><br>\n      <textarea id=\"msg\" name=\"msg\" rows=\"4\" cols=\"40\"><\/textarea><\/p>\n    <button type=\"submit\">Dërgo<\/button>\n    <button type=\"reset\">Pastro<\/button>\n  <\/fieldset>\n<\/form>", "title": "Provo vetë"}, {"p": "<fieldset> grupon fushat e lidhura dhe <legend> u jep titull. Butoni type=\"submit\" dërgon formularin, type=\"reset\" i pastron fushat, type=\"button\" nuk bën asgjë pa JavaScript."}]}, {"h": "Validimi në shfletues", "blocks": [{"table": [["Atributi", "Shembull", "Kontrolli"], ["required", "<input required>", "Fusha është e detyrueshme"], ["minlength / maxlength", "minlength=\"8\"", "Gjatësia e tekstit"], ["min / max", "min=\"1\" max=\"5\"", "Kufijtë e numrit ose datës"], ["pattern", "pattern=\"[0-9]{3}\"", "Formati me shprehje të rregullt"], ["type=\"email\"", "", "Formati i email-it"]], "cap": "Atributet e validimit"}, {"live": "<form>\n  <p><label for=\"u\">Emri i përdoruesit (3–12 shkronja)<\/label><br>\n    <input id=\"u\" name=\"u\" required minlength=\"3\" maxlength=\"12\"><\/p>\n  <p><label for=\"n\">Nota (1–5)<\/label><br>\n    <input id=\"n\" type=\"number\" name=\"nota\" min=\"1\" max=\"5\" required><\/p>\n  <p><label for=\"k\">Kodi postar (5 shifra)<\/label><br>\n    <input id=\"k\" name=\"kodi\" pattern=\"[0-9]{5}\" title=\"5 shifra\"><\/p>\n  <button>Dërgo<\/button>\n<\/form>", "title": "Provo vetë"}, {"warn": "Validimi në shfletues e ndihmon përdoruesin, por mund të anashkalohet. Serveri duhet t'i kontrollojë sërish të dhënat."}]}], "summary": ["form me action dhe method; fushat me name.", "label for=\"id\" për çdo fushë.", "input: text, email, password, number, date, tel, checkbox, radio, range, color, file.", "select/option, textarea, fieldset/legend, button submit/reset.", "required, minlength, maxlength, min, max, pattern për validim."], "terms": [["<form>", "Formulari që mbledh të dhëna."], ["<input>", "Fushë hyrëse, lloji sipas type."], ["<label>", "Etiketa e fushës."], ["name", "Emri me të cilin fusha dërgohet te serveri."], ["<select>", "Listë zgjedhjeje."], ["<textarea>", "Fushë teksti me shumë rreshta."], ["<fieldset>", "Grup fushash."], ["required", "Fushë e detyrueshme."], ["pattern", "Formati i lejuar i vlerës."]], "quiz": [{"q": "Si lidhet label me input?", "o": ["label name=\"x\"", "label for=\"x\" dhe input id=\"x\"", "label id=\"x\"", "Nuk lidhen"], "a": 1, "e": "for ↔ id."}, {"q": "Për të zgjedhur vetëm një nga disa opsione përdoret:", "o": ["checkbox", "radio me të njëjtin name", "text", "range"], "a": 1, "e": "radio."}, {"q": "Cili atribut e bën fushën të detyrueshme?", "o": ["must", "required", "needed", "valid"], "a": 1, "e": "required."}, {"q": "Tekst me shumë rreshta shkruhet në:", "o": ["<input>", "<textarea>", "<text>", "<p>"], "a": 1, "e": "textarea."}, {"q": "method=\"get\" i dërgon të dhënat:", "o": ["në URL", "të fshehura", "me email", "në bazë direkt"], "a": 0, "e": "Prandaj fjalëkalimet dërgohen me post."}, {"q": "Titulli i një fieldset shkruhet me:", "o": ["<title>", "<legend>", "<caption>", "<label>"], "a": 1, "e": "legend."}], "tf": [["Placeholder e zëvendëson label-in.", false], ["type=\"email\" kontrollon formatin e email-it.", true], ["Validimi në shfletues mjafton për siguri.", false], ["name përcakton emrin e fushës që dërgohet.", true]], "order": null, "exercises": [{"t": "Formulari i hyrjes", "task": "Krijo formularin e hyrjes: fushë email (type=\"email\") dhe fjalëkalim (type=\"password\"), të dyja required dhe me label të lidhur, dhe butonin “Hyr”.", "start": "", "sol": "<form>\n  <label for=\"email\">Email<\/label>\n  <input type=\"email\" id=\"email\" name=\"email\" required>\n  <label for=\"pass\">Fjalëkalimi<\/label>\n  <input type=\"password\" id=\"pass\" name=\"pass\" required>\n  <button type=\"submit\">Hyr<\/button>\n<\/form>", "checks": [{"s": "form", "m": "Ka formular"}, {"s": "input[type=\"email\"][required]", "m": "Email-i është type=email dhe required"}, {"s": "input[type=\"password\"][required]", "m": "Fjalëkalimi është type=password dhe required"}, {"s": "label[for]", "m": "Ka të paktën dy label me for", "n": 2, "labelfor": true}, {"s": "button", "m": "Ka butonin “Hyr”", "t": "Hyr"}]}, {"t": "Anketa", "task": "Krijo anketë me: radio “Po”/“Jo” me name=\"pelqen\", select me 3 lëndë dhe textarea për koment.", "start": "", "sol": "<form>\n  <p>A të pëlqen programimi?\n  <input type=\"radio\" id=\"po\" name=\"pelqen\" value=\"po\"><label for=\"po\">Po<\/label>\n  <input type=\"radio\" id=\"jo\" name=\"pelqen\" value=\"jo\"><label for=\"jo\">Jo<\/label><\/p>\n  <label for=\"l\">Lënda<\/label>\n  <select id=\"l\" name=\"lenda\"><option>Programim<\/option><option>Bazat<\/option><option>Matematikë<\/option><\/select>\n  <label for=\"k\">Komenti<\/label>\n  <textarea id=\"k\" name=\"komenti\"><\/textarea>\n<\/form>", "checks": [{"s": "input[type=\"radio\"][name=\"pelqen\"]", "m": "Dy radio me name=\"pelqen\"", "n": 2}, {"s": "select option", "m": "Select ka të paktën 3 opsione", "n": 3}, {"s": "textarea", "m": "Ka textarea"}]}, {"t": "Nota 1–5", "task": "Krijo fushë numerike për notën me min=\"1\", max=\"5\" dhe required.", "start": "", "sol": "<label for=\"n\">Nota<\/label>\n<input type=\"number\" id=\"n\" name=\"nota\" min=\"1\" max=\"5\" required>", "checks": [{"s": "input[type=\"number\"]", "m": "Fusha është type=number"}, {"s": "input[min=\"1\"][max=\"5\"]", "m": "Ka min=1 dhe max=5"}, {"s": "input[required]", "m": "Është required"}]}], "review": ["Cilat janë atributet action dhe method?", "Pse çdo fushë duhet të ketë label?", "Përmend gjashtë lloje input-i dhe përdorimin.", "Cili është dallimi ndërmjet radio dhe checkbox?", "Si validohet një fushë në shfletues?", "Pse validimi në shfletues nuk mjafton?"], "lab": {"t": "Formulari i regjistrimit", "goal": "Të ndërtosh formular të plotë regjistrimi me validim.", "tools": "VS Code, shfletues.", "steps": ["Krijo regjistrimi.html.", "Dy fieldset: “Të dhënat personale” dhe “Llogaria”.", "Fushat: emri, mbiemri, email, data e lindjes, klasa (select), fjalëkalimi (minlength 8), gjinia (radio), interesat (checkbox), koment (textarea).", "Label për çdo fushë; required ku duhet.", "Butonat Dërgo dhe Pastro.", "Provo validimin duke dërguar fusha bosh."], "out": "regjistrimi.html."}, "rm": "", "part": 1}, {"id": "h8", "code": "HTML 8", "short": "Semantika", "title": "Struktura semantike e faqes", "intro": "Një faqe e mirë nuk është vetëm një varg paragrafësh. Ajo ka kokë, menu, përmbajtje kryesore, anë dhe fund. HTML5 ka elemente të veçanta për secilën pjesë, të cilat e bëjnë kodin të kuptueshëm për njerëzit, për Google-in dhe për lexuesit e ekranit.", "objectives": ["të përdorësh elementet semantike header, nav, main, section, article, aside, footer", "të dallosh elementet bllok dhe në rresht; div dhe span", "të përdorësh atributet id dhe class", "të ndërtosh skeletin e plotë të një faqeje"], "sections": [{"h": "Elementet semantike", "blocks": [{"def": "Një element është semantik kur emri i tij tregon kuptimin e përmbajtjes, p.sh. <nav> për menunë. <div> nuk tregon asgjë për përmbajtjen."}, {"table": [["Elementi", "Përdorimi"], ["<header>", "Koka e faqes ose e një seksioni: logo, titulli"], ["<nav>", "Menuja kryesore e navigimit"], ["<main>", "Përmbajtja kryesore; vetëm një për faqe"], ["<section>", "Seksion tematik me titull"], ["<article>", "Përmbajtje e pavarur: lajm, postim"], ["<aside>", "Përmbajtje anësore: lidhje, reklama"], ["<footer>", "Fundi: kontakti, ©"]], "cap": "Elementet semantike të strukturës"}, {"live": "<header>\n  <h1>SHME “Gjin Gazulli”<\/h1>\n  <nav>\n    <a href=\"#\">Ballina<\/a> |\n    <a href=\"#lajme\">Lajme<\/a> |\n    <a href=\"#kontakt\">Kontakt<\/a>\n  <\/nav>\n<\/header>\n<main>\n  <section id=\"lajme\">\n    <h2>Lajmet<\/h2>\n    <article>\n      <h3>Gara e programimit<\/h3>\n      <p>Nxënësit e klasës X-5 zunë vendin e parë.<\/p>\n    <\/article>\n  <\/section>\n  <aside>\n    <h3>Lidhje të shpejta<\/h3>\n    <p><a href=\"#\">Orari<\/a><\/p>\n  <\/aside>\n<\/main>\n<footer id=\"kontakt\">\n  <p>&copy; 2026 SHME Gjin Gazulli · info@shkolla.edu<\/p>\n<\/footer>", "title": "Provo vetë"}]}, {"h": "Elementet bllok dhe në rresht; div dhe span", "blocks": [{"table": [["", "Bllok (block)", "Në rresht (inline)"], ["Si shfaqet", "Nis në rresht të ri, zë gjithë gjerësinë", "Qëndron brenda rreshtit, zë vetëm sa i duhet"], ["Shembuj", "p, h1–h6, ul, li, div, section, table, form", "a, strong, em, span, img, input, code"]], "cap": "Bllok dhe në rresht"}, {"p": "<div> është kontejner bllok pa kuptim, <span> kontejner në rresht pa kuptim. Përdoren kur nuk ka element semantik të përshtatshëm, zakonisht për t'i stilizuar me CSS."}, {"live": "<div style=\"background:#DDF1F1; padding:8px\">Ky është një div (bllok).<\/div>\n<div style=\"background:#FCEFD9; padding:8px\">Div tjetër nis në rresht të ri.<\/div>\n<p>Brenda paragrafit, <span style=\"color:#B42318\">ky span<\/span> mbetet në rresht.<\/p>", "title": "Provo vetë"}]}, {"h": "Atributet id dhe class", "blocks": [{"table": [["", "id", "class"], ["Unik?", "Po: vetëm një element në faqe", "Jo: shumë elemente mund ta kenë"], ["Shembull", "<section id=\"lajme\">", "<p class=\"shenim e-rendesishme\">"], ["Përdorimi", "Lidhje #lajme, JavaScript", "Stilizim i përbashkët me CSS"]], "cap": "id dhe class"}, {"p": "Një element mund të ketë disa klasa, të ndara me hapësirë. Emrat shkruhen me shkronja të vogla dhe viza: kartela-lajmi."}]}], "summary": ["Elementet semantike: header, nav, main, section, article, aside, footer.", "Semantika ndihmon Google-in, aksesueshmërinë dhe lexueshmërinë e kodit.", "Bllok vs në rresht; div dhe span pa kuptim, për stilizim.", "id unik; class e përbashkët, mund të ketë disa."], "terms": [["Semantik", "Element që tregon kuptimin e përmbajtjes."], ["<main>", "Përmbajtja kryesore e faqes."], ["<article>", "Përmbajtje e pavarur."], ["<aside>", "Përmbajtje anësore."], ["<div>", "Kontejner bllok pa kuptim."], ["<span>", "Kontejner në rresht pa kuptim."], ["id", "Emër unik i elementit."], ["class", "Emër grupi për elemente."]], "quiz": [{"q": "Menuja kryesore vendoset në:", "o": ["<menu>", "<nav>", "<aside>", "<header> vetëm"], "a": 1, "e": "nav."}, {"q": "Sa <main> duhet të ketë faqja?", "o": ["Asnjë", "Një", "Sa të duash", "Dy"], "a": 1, "e": "Një."}, {"q": "Një lajm i pavarur vendoset në:", "o": ["<article>", "<aside>", "<span>", "<footer>"], "a": 0, "e": "article."}, {"q": "Cili është element në rresht?", "o": ["<div>", "<p>", "<span>", "<section>"], "a": 2, "e": "span."}, {"q": "Cili atribut duhet të jetë unik?", "o": ["class", "id", "style", "title"], "a": 1, "e": "id."}], "tf": [["<div> ka kuptim semantik.", false], ["Një element mund të ketë disa klasa.", true], ["<footer> mund të përmbajë kontaktin dhe ©.", true], ["<a> është element bllok.", false]], "order": {"prompt": "Rendit pjesët e faqes nga lart poshtë:", "items": ["<header>", "<nav>", "<main>", "<footer>"]}, "exercises": [{"t": "Skeleti i faqes", "task": "Krijo skeletin: header (me h1), nav (me 3 lidhje), main (me një section që ka h2) dhe footer.", "start": "", "sol": "<header><h1>Faqja ime<\/h1><\/header>\n<nav><a href=\"#\">Ballina<\/a> <a href=\"#\">Rreth<\/a> <a href=\"#\">Kontakt<\/a><\/nav>\n<main>\n  <section><h2>Mirë se erdhe<\/h2><p>Tekst.<\/p><\/section>\n<\/main>\n<footer><p>&copy; 2026<\/p><\/footer>", "checks": [{"s": "header h1", "m": "header ka h1"}, {"s": "nav a", "m": "nav ka 3 lidhje", "n": 3}, {"s": "main section h2", "m": "main ka section me h2"}, {"s": "footer", "m": "Ka footer"}]}, {"t": "Lajmet", "task": "Brenda main krijo një section me id=\"lajme\" që përmban dy article, secili me h3 dhe p.", "start": "<main>\n<\/main>", "sol": "<main>\n  <section id=\"lajme\">\n    <article><h3>Lajmi 1<\/h3><p>Tekst.<\/p><\/article>\n    <article><h3>Lajmi 2<\/h3><p>Tekst.<\/p><\/article>\n  <\/section>\n<\/main>", "checks": [{"s": "main section#lajme", "m": "section#lajme është brenda main"}, {"s": "#lajme article", "m": "Dy article", "n": 2}, {"s": "#lajme article h3", "m": "Çdo article ka h3", "n": 2}]}, {"t": "Klasat", "task": "Krijo tre paragrafë; dy prej tyre të kenë class=\"shenim\" dhe njëri prej këtyre të ketë edhe klasën \"i-rendesishem\".", "start": "", "sol": "<p class=\"shenim\">Shënim 1<\/p>\n<p class=\"shenim i-rendesishem\">Shënim 2<\/p>\n<p>Paragraf i zakonshëm<\/p>", "checks": [{"s": "p", "m": "Ka 3 paragrafë", "n": 3}, {"s": "p.shenim", "m": "Dy paragrafë me klasën shenim", "n": 2}, {"s": "p.shenim.i-rendesishem", "m": "Njëri ka dy klasa"}]}], "review": ["Çfarë do të thotë semantik?", "Përshkruaj elementet semantike kryesore.", "Cili është dallimi ndërmjet section dhe article?", "Cili është dallimi ndërmjet elementeve bllok dhe në rresht?", "Kur përdoren div dhe span?", "Krahaso id dhe class."], "lab": {"t": "Skeleti i faqes së shkollës", "goal": "Të ndërtosh strukturën semantike të faqes së shkollës.", "tools": "VS Code, shfletues.", "steps": ["Krijo shkolla.html.", "header me logo dhe h1; nav me 5 lidhje.", "main me section “Rreth shkollës”, section “Lajme” me 3 article dhe section “Profilet”.", "aside me lidhje të shpejta.", "footer me adresë, email, ©.", "Përdor id për seksionet dhe lidhi nga nav."], "out": "shkolla.html (do ta stilizojmë në kursin CSS)."}, "rm": "", "part": 1}, {"id": "h9", "code": "HTML 9", "short": "Head & cilësia", "title": "Head, meta, aksesueshmëria dhe validimi", "intro": "Pjesa <head> nuk shihet, por vendos shumë: si shfaqet faqja në telefon, si e gjen Google, si shfaqet kur ndahet në rrjete sociale dhe cilat stile ngarkohen. Në këtë mësim mëson edhe si ta bësh faqen të aksesueshme për të gjithë dhe si ta kontrollosh kodin për gabime.", "objectives": ["të plotësosh head-in me title, meta, link dhe favicon", "të zbatosh rregullat bazë të aksesueshmërisë", "të validosh kodin me W3C Validator", "të zbatosh praktikat e mira të shkrimit të HTML-së"], "sections": [{"h": "Pjesa head", "blocks": [{"code": "<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Lajme – SHME Gjin Gazulli<\/title>\n  <meta name=\"description\" content=\"Lajmet dhe aktivitetet e shkollës Gjin Gazulli në Prishtinë.\">\n  <meta name=\"author\" content=\"Klasa X-5\">\n  <link rel=\"icon\" href=\"img/favicon.png\">\n  <link rel=\"stylesheet\" href=\"css/style.css\">\n<\/head>", "lang": "html", "title": "Head i plotë"}, {"table": [["Elementi", "Roli"], ["<title>", "Titulli në skedë dhe në rezultatet e Google"], ["meta charset", "Kodimi i shkronjave"], ["meta viewport", "Përshtatja në telefona"], ["meta description", "Përshkrimi në rezultatet e kërkimit"], ["link rel=\"icon\"", "Ikona e vogël në skedë (favicon)"], ["link rel=\"stylesheet\"", "Lidhja me skedarin CSS"], ["<style>, <script>", "CSS dhe JavaScript brenda faqes"]], "cap": "Elementet e head"}, {"did": "Titujt e mirë janë të shkurtër dhe specifikë: “Lajme – SHME Gjin Gazulli” është më i mirë se “Faqja ime”. Google shfaq rreth 60 karakteret e para."}]}, {"h": "Aksesueshmëria", "blocks": [{"def": "Aksesueshmëria (accessibility) do të thotë që faqja të përdoret nga të gjithë, përfshirë personat me vështirësi në shikim, dëgjim ose lëvizje."}, {"list": ["lang=\"sq\" te <html> që lexuesi i ekranit të lexojë shqip.", "alt përshkrues për çdo imazh informues.", "Tituj në hierarki të rregullt (h1 → h2 → h3).", "label për çdo fushë të formularit.", "Tekste lidhjesh që tregojnë ku të çojnë.", "Elemente semantike (nav, main, button) në vend të div për gjithçka.", "Kontrast i mjaftueshëm ngjyrash (do ta shohim te CSS).", "Faqja përdoret edhe vetëm me tastierë (Tab, Enter)."]}, {"example": "Provo vetë", "lines": ["Hap faqen tënde dhe lëviz vetëm me tastin Tab. A arrin te çdo lidhje dhe fushë? A e sheh ku ndodhet fokusi?"]}]}, {"h": "Validimi dhe praktikat e mira", "blocks": [{"p": "W3C Markup Validation Service (validator.w3.org) kontrollon kodin për gabime: etiketa të pambyllura, atribute të gabuara, elemente të vendosura keq. Ngarkon skedarin ose ngjit kodin dhe merr listën e gabimeve me numrin e rreshtit."}, {"table": [["Praktika", "Shembull"], ["Shkronja të vogla për etiketat dhe atributet", "<p class=\"x\">, jo <P CLASS=\"x\">"], ["Vlerat e atributeve në thonjëza", "href=\"index.html\""], ["Dhëmbëzim i rregullt (2 hapësira)", "Elementet brenda të tjerëve zhvendosen djathtas"], ["Mbyll çdo element që ka etiketë mbyllëse", "<\/p>, <\/li>"], ["Emra skedarësh pa hapësira dhe me shkronja të vogla", "kontakt.html"], ["Komente për pjesët e mëdha", "<!-- Seksioni i lajmeve -->"]], "cap": "Praktikat e mira"}, {"warn": "Stilet me atributin style=\"...\" brenda HTML-së përdoren vetëm për prova. Pamja vendoset në skedarin CSS."}]}], "summary": ["head: title, meta charset, viewport, description, favicon, stylesheet.", "Aksesueshmëria: lang, alt, tituj, label, lidhje të qarta, semantikë, tastierë.", "validator.w3.org gjen gabimet e kodit.", "Shkronja të vogla, thonjëza, dhëmbëzim, komente."], "terms": [["meta description", "Përshkrimi i faqes për motorët e kërkimit."], ["viewport", "Zona e dukshme e ekranit; meta viewport e përshtat faqen."], ["Favicon", "Ikona e vogël në skedën e shfletuesit."], ["Aksesueshmëria", "Përdorimi i faqes nga të gjithë."], ["Lexues ekrani", "Program që ua lexon faqen personave me vështirësi në shikim."], ["Validator", "Mjet që kontrollon kodin për gabime."], ["SEO", "Optimizimi i faqes për motorët e kërkimit."]], "quiz": [{"q": "Cili element lidh skedarin CSS?", "o": ["<style src>", "<link rel=\"stylesheet\" href>", "<css>", "<script>"], "a": 1, "e": "link."}, {"q": "Përshkrimi në rezultatet e Google vjen nga:", "o": ["title", "meta description", "h1", "footer"], "a": 1, "e": "meta description."}, {"q": "Ikona në skedë quhet:", "o": ["logo", "favicon", "emoji", "banner"], "a": 1, "e": "favicon."}, {"q": "Ku kontrollohet kodi HTML për gabime?", "o": ["validator.w3.org", "Paint", "Excel", "phpMyAdmin"], "a": 0, "e": "W3C Validator."}, {"q": "Cila është praktikë e mirë aksesueshmërie?", "o": ["Imazhe pa alt", "Lidhje “kliko këtu”", "label për çdo fushë", "Vetëm div"], "a": 2, "e": "label."}], "tf": [["Përmbajtja e head shfaqet në mes të faqes.", false], ["lang=\"sq\" ndihmon lexuesit e ekranit.", true], ["Faqja duhet të përdoret edhe vetëm me tastierë.", true], ["Stilet inline janë mënyra më e mirë.", false]], "order": null, "exercises": [{"t": "Lidhja e CSS dhe favicon", "task": "Kodi i mëposhtëm është head-i. Shto link për css/style.css dhe favicon img/ikona.png. (Kontrollohet përmbajtja e kodit.)", "start": "<meta charset=\"UTF-8\">\n<title>Faqja<\/title>\n", "sol": "<meta charset=\"UTF-8\">\n<title>Faqja<\/title>\n<link rel=\"stylesheet\" href=\"css/style.css\">\n<link rel=\"icon\" href=\"img/ikona.png\">", "checks": [{"s": "link[rel=\"stylesheet\"][href=\"css/style.css\"]", "m": "Ka lidhje me css/style.css"}, {"s": "link[rel=\"icon\"]", "m": "Ka favicon"}]}, {"t": "Rregullo aksesueshmërinë", "task": "Korrigjo kodin: imazhi pa alt, fusha pa label dhe lidhja “kliko këtu”.", "start": "<img src=\"img/biblioteka.jpg\">\n<input type=\"text\" id=\"kerko\" name=\"q\">\n<a href=\"orari.pdf\">kliko këtu<\/a>", "sol": "<img src=\"img/biblioteka.jpg\" alt=\"Salla e bibliotekës me rafte librash\">\n<label for=\"kerko\">Kërko librin<\/label>\n<input type=\"text\" id=\"kerko\" name=\"q\">\n<a href=\"orari.pdf\">Shkarko orarin e bibliotekës (PDF)<\/a>", "checks": [{"s": "img", "m": "Imazhi ka alt jo bosh", "a": "alt"}, {"s": "label[for=\"kerko\"]", "m": "Fusha ka label for=\"kerko\""}, {"s": "a", "m": "Lidhja nuk thotë më “kliko këtu”", "nt": "kliko këtu"}]}], "review": ["Cilat elemente vendosen në head dhe pse?", "Pse është i rëndësishëm meta viewport?", "Çfarë është aksesueshmëria? Përmend pesë rregulla.", "Si përdoret W3C Validator?", "Përmend katër praktika të mira të shkrimit të HTML-së."], "lab": {"t": "Kontrolli i cilësisë", "goal": "Të përmirësosh head-in, aksesueshmërinë dhe vlefshmërinë e faqes së shkollës.", "tools": "VS Code, validator.w3.org, shfletues.", "steps": ["Plotëso head-in e shkolla.html (title, description, viewport, favicon).", "Kontrollo alt, label, titujt dhe tekstet e lidhjeve.", "Lundro në faqe vetëm me Tab.", "Valido kodin në validator.w3.org dhe korrigjo gabimet.", "Shëno në koment çfarë ndryshove."], "out": "shkolla.html pa gabime në validator."}, "rm": "", "part": 1}, {"id": "h10", "code": "HTML 10", "short": "Projekti", "title": "Projekti: faqja e shkollës hap pas hapi", "intro": "Tani i bashkojmë të gjitha: ndërtojmë një faqe të plotë për shkollën, me disa nënfaqe, menu, lajme, galeri, orar dhe formular kontakti. Pas këtij projekti, faqja do të jetë gati për t'u stilizuar në kursin e CSS-së.", "objectives": ["të planifikosh strukturën e një faqeje me disa nënfaqe", "të zbatosh të gjitha elementet e mësuara", "të validosh dhe të prezantosh punën"], "sections": [{"h": "Plani i faqes", "blocks": [{"code": "shkolla/\n├── index.html        Ballina: prezantimi, lajmet e fundit\n├── profilet.html     Profilet e shkollës (lista, tabela)\n├── galeria.html      Figura me figcaption\n├── kontakt.html      Formulari i kontaktit\n├── css/style.css     (kursi CSS)\n└── img/              Imazhet", "lang": "text", "title": "Struktura e projektit"}, {"list": ["Hapi 1: Krijo folderin dhe skedarët.", "Hapi 2: Skeleti semantik i njëjtë në çdo faqe (header, nav, main, footer).", "Hapi 3: Menuja me lidhje relative te të gjitha faqet.", "Hapi 4: Ballina: h1, paragraf prezantues, tre article lajmesh.", "Hapi 5: Profilet: ul me profilet dhe tabelë me orët javore.", "Hapi 6: Galeria: gjashtë figure me alt dhe figcaption.", "Hapi 7: Kontakti: formular me validim, adresa, email dhe hartë (lidhje).", "Hapi 8: Head i plotë në çdo faqe.", "Hapi 9: Validimi dhe kontrolli i aksesueshmërisë.", "Hapi 10: Prezantimi në klasë."]}]}, {"h": "Shembull: ballina", "blocks": [{"live": "<header>\n  <h1>SHME “Gjin Gazulli”<\/h1>\n  <nav>\n    <a href=\"index.html\">Ballina<\/a> ·\n    <a href=\"profilet.html\">Profilet<\/a> ·\n    <a href=\"galeria.html\">Galeria<\/a> ·\n    <a href=\"kontakt.html\">Kontakt<\/a>\n  <\/nav>\n<\/header>\n<main>\n  <section>\n    <h2>Mirë se erdhët!<\/h2>\n    <p>Shkolla e mesme elektroteknike në Prishtinë, me profile në <strong>TIK<\/strong> dhe <strong>elektroteknikë<\/strong>.<\/p>\n  <\/section>\n  <section>\n    <h2>Lajmet e fundit<\/h2>\n    <article>\n      <h3>Klasa X-5 në garën e programimit<\/h3>\n      <p><time datetime=\"2026-10-15\">15 tetor 2026<\/time> – Nxënësit prezantuan aplikacionin “Biblioteka e Shkollës”.<\/p>\n    <\/article>\n  <\/section>\n<\/main>\n<footer>\n  <p>&copy; 2026 SHME Gjin Gazulli · <a href=\"mailto:info@shkolla.edu\">info@shkolla.edu<\/a><\/p>\n<\/footer>", "title": "Provo vetë"}, {"p": "Elementi <time datetime=\"...\"> e bën datën të lexueshme edhe për programet. Faqja duket e thjeshtë pa CSS; kjo është normale."}]}, {"h": "Kriteret e vlerësimit", "blocks": [{"table": [["Kriteri", "Pikë"], ["Struktura e folderave dhe emrat e skedarëve", "5"], ["Elementet semantike dhe titujt", "10"], ["Lidhjet dhe menuja në çdo faqe", "5"], ["Imazhet me alt dhe figcaption", "5"], ["Lista dhe tabela", "5"], ["Formulari me label dhe validim", "10"], ["Head i plotë", "5"], ["Pa gabime në validator", "5"], ["Gjithsej", "50"]], "cap": "Lista e kontrollit (50 pikë)"}]}], "summary": ["Projekti bashkon strukturën, tekstin, listat, lidhjet, median, tabelat dhe formularët.", "Çdo faqe ka të njëjtin skelet semantik dhe menu.", "Faqja validohet dhe kontrollohet për aksesueshmëri para dorëzimit."], "terms": [["<time>", "Datë ose kohë e lexueshme nga programet."], ["Nënfaqe", "Faqe tjetër e së njëjtës faqe interneti."], ["Skelet", "Struktura e përbashkët e faqeve."]], "quiz": [], "tf": [], "order": null, "exercises": [], "review": ["Cilat faqe ka projekti dhe çfarë përmban secila?", "Si siguron që menuja punon nga çdo faqe?", "Si e kontrollon cilësinë e projektit para dorëzimit?"], "lab": {"t": "Faqja e shkollës", "goal": "Të ndërtosh dhe të prezantosh faqen e plotë të shkollës në HTML.", "tools": "VS Code, validator.w3.org, shfletues.", "steps": ["Ndiq 10 hapat e planit.", "Kontrollo listën e vlerësimit pikë për pikë.", "Ruaje projektin në GitHub (opsionale).", "Prezantoje në klasë (5 minuta)."], "out": "Folderi shkolla/ me 4 faqe."}, "rm": "", "part": 1}];
+const FIGS = {};
+const MODES = [['learn','Mëso'],['review','Përsërit'],['practice','Ushtro']];
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem('htm:'+k); return v ? JSON.parse(v) : d; }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem('htm:'+k, JSON.stringify(v)); }catch(e){} }
+};
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const FINAL = {id:'test', short:'Test', code:'TEST', title:'Test përmbledhës', rm:'15 pyetje të rastësishme nga i gjithë moduli. Ideal para testit me shkrim.'};
+const CHAPTERS = [...DATA, FINAL];
+
+let state = { ch: store.get('ch', DATA[0].id), mode: store.get('mode', 'learn') };
+if (!CHAPTERS.find(c => c.id === state.ch)) state.ch = DATA[0].id;
+const scores = store.get('scores', {}); // {chId: {quiz:{i:bool}, tf:{i:bool}}}
+
+function chStats(id){
+  const c = DATA.find(x => x.id === id); if (!c) return null;
+  const s = scores[id] || {};
+  const total = c.quiz.length + c.tf.length + c.exercises.length; if (!total) return null;
+  const done = Object.keys(s.quiz||{}).length + Object.keys(s.tf||{}).length + Object.keys(s.task||{}).length;
+  const ok = Object.values(s.quiz||{}).filter(Boolean).length + Object.values(s.tf||{}).filter(Boolean).length + Object.values(s.task||{}).filter(Boolean).length;
+  return {total, done, ok};
+}
+function renderOverall(){
+  let t=0, ok=0; DATA.forEach(c => { const s = chStats(c.id); if (s) { t += s.total; ok += s.ok; } });
+  const p = t ? Math.round(ok/t*100) : 0;
+  document.getElementById('ovpct').textContent = p + '%';
+  document.getElementById('ovbar').style.width = p + '%';
+}
+function renderNav(){
+  const nav = document.getElementById('nav');
+  nav.innerHTML = CHAPTERS.map(c => {
+    const s = chStats(c.id);
+    const meta = s ? `${s.ok}/${s.total} pikë` : (c.id==='test' ? 'nga i gjithë moduli' : 'projekt');
+    return `<button class="chbtn" data-ch="${c.id}" aria-current="${c.id===state.ch}"><span class="code">${c.code}</span><span class="t">${esc(c.title)}<small>${meta}</small></span></button>`;
+  }).join('');
+  nav.querySelectorAll('.chbtn').forEach(b => b.onclick = () => { state.ch = b.dataset.ch; store.set('ch', state.ch); if(state.ch==='test') state.mode='practice'; render(); window.scrollTo({top:0}); });
+}
+function setScore(ch, kind, i, val){
+  scores[ch] = scores[ch] || {}; scores[ch][kind] = scores[ch][kind] || {};
+  scores[ch][kind][i] = val; store.set('scores', scores); renderOverall(); renderNav();
+}
+
+/* ---------- LEARN ---------- */
+function blockHTML(b){
+  if (b.p) return `<p>${esc(b.p)}</p>`;
+  if (b.list) return `<ul>${b.list.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`;
+  if (b.note) return `<div class="note">${esc(b.note)}</div>`;
+  if (b.sub) return `<h4 class="sub">${esc(b.sub)}</h4>`;
+  if (b.def) return `<div class="box def"><span>Përkufizim</span>${esc(b.def)}</div>`;
+  if (b.did) return `<div class="box did"><span>A e dini?</span>${esc(b.did)}</div>`;
+  if (b.warn) return `<div class="box warn"><span>Kujdes!</span>${esc(b.warn)}</div>`;
+  if (b.example) return `<div class="box ex"><span>Shembull · ${esc(b.example)}</span>${b.lines.map(l=>`<p>${esc(l)}</p>`).join('')}</div>`;
+  if (b.flow) return `<div class="flow">${b.flow.map(x=>`<b>${esc(x)}</b>`).join('<i>→</i>')}</div>`;
+  if (b.code) return `<div class="codewrap">${b.title?`<div class="ctitle"><span>${esc((b.lang||'').toUpperCase())}</span>${esc(b.title)}</div>`:''}<pre>${esc(b.code)}</pre></div>`;
+  if (b.try) { const id = 'try' + (++TRYN); return `<div class="try" data-id="${id}"><div class="ctitle"><span>JS</span>Provo kodin – ndryshoje dhe ekzekutoje</div><textarea id="${id}" spellcheck="false" aria-label="Kodi JavaScript">${esc(b.try)}</textarea><div class="trybar"><button class="btn pri run">▶ Ekzekuto</button><button class="btn reset">Rikthe</button></div><pre class="out" aria-live="polite">Rezultati del këtu.</pre></div>`; }
+  if (b.apisim) return apisimHTML();
+  if (b.live) return liveHTML(b.live, b.title || 'Provo vetë – ndrysho kodin', 'live');
+  if (b.formula) return `<div class="formula">${esc(b.formula)}</div>`;
+  if (b.figure) return `<figure>${FIGS[b.figure]}${b.cap?`<figcaption>${esc(b.cap)}</figcaption>`:''}</figure>`;
+  if (b.table){
+    const [h, ...rows] = b.table;
+    const cell = v => /^(INSERT|SELECT|UPDATE|DELETE)/.test(v) ? `<code>${esc(v)}</code>` : esc(v);
+    return `<div class="tbl"><table><thead><tr>${h.map(x=>`<th>${esc(x)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(x=>`<td>${cell(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+  }
+  if (b.calc) return calcHTML();
+  return '';
+}
+let TRYN = 0;
+function learnHTML(c){
+  const n = DATA.indexOf(c)+1;
+  const obj = `<section class="sec objectives"><h3>Në këtë kapitull do të mësosh</h3><ul class="check">${c.objectives.map(o=>`<li>${esc(o)}</li>`).join('')}</ul></section>`;
+  const body = c.sections.map((s,i)=>`<section class="sec"><h3><span class="n">${n}.${i+1}</span>${esc(s.h)}</h3>${s.blocks.map(blockHTML).join('')}</section>`).join('');
+  const sum = `<section class="sec"><h3>Përmbledhje</h3><ul class="check">${c.summary.map(o=>`<li>${esc(o)}</li>`).join('')}</ul></section>`;
+  const lab = `<section class="sec lab"><h3>Veprimtari praktike: ${esc(c.lab.t)}</h3><p><b>Qëllimi:</b> ${esc(c.lab.goal)}</p><p><b>Mjetet:</b> ${esc(c.lab.tools)}</p><ol>${c.lab.steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol><p><b>Rezultati:</b> ${esc(c.lab.out)}</p></section>`;
+  return obj + body + sum + lab;
+}
+function calcHTML(){
+  return `<div class="block" style="margin-top:8px"><h3>Llogaritësi i çmimit</h3><p class="sub">Ndrysho vlerat dhe shiko si ndryshon çmimi.</p>
+  <div class="calc">
+    <label for="c-h">Orë pune<input id="c-h" type="number" min="0" value="18"></label>
+    <label for="c-r">Vlera e orës (€)<input id="c-r" type="number" min="0" value="10"></label>
+    <label for="c-e">Shpenzime të tjera (€)<input id="c-e" type="number" min="0" value="30"></label>
+    <label for="c-p">Fitimi (%)<input id="c-p" type="number" min="0" value="20"></label>
+  </div>
+  <div class="res" id="c-res"></div></div>`;
+}
+function bindCalc(){
+  const ids = ['c-h','c-r','c-e','c-p']; if (!document.getElementById('c-h')) return;
+  const f = n => n.toLocaleString('sq-AL',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €';
+  const upd = () => {
+    const [h,r,e,p] = ids.map(i => parseFloat(document.getElementById(i).value) || 0);
+    const labor = h*r, cost = labor+e, profit = cost*p/100, price = cost+profit;
+    document.getElementById('c-res').innerHTML =
+      `<div><small>Kostoja e punës</small><b>${f(labor)}</b></div><div><small>Kostoja e projektit</small><b>${f(cost)}</b></div><div><small>Fitimi</small><b>${f(profit)}</b></div><div class="final"><small>Çmimi i projektit</small><b>${f(price)}</b></div>`;
+  };
+  ids.forEach(i => document.getElementById(i).addEventListener('input', upd)); upd();
+}
+
+/* ---------- TRY (sandbox JS) ---------- */
+const fmt = v => { if (typeof v === 'string') return v; try { return JSON.stringify(v, null, 1).replace(/\n\s*/g, ' '); } catch(e) { return String(v); } };
+function bindTry(){
+  document.querySelectorAll('.try').forEach(box => {
+    const ta = box.querySelector('textarea'), out = box.querySelector('.out'), orig = ta.value;
+    const fit = () => { ta.style.height = 'auto'; ta.style.height = (ta.scrollHeight + 4) + 'px'; }; fit();
+    ta.addEventListener('input', fit);
+    ta.addEventListener('keydown', e => { if (e.key === 'Tab') { e.preventDefault(); const p = ta.selectionStart; ta.setRangeText('  ', p, ta.selectionEnd, 'end'); } if ((e.ctrlKey||e.metaKey) && e.key === 'Enter') box.querySelector('.run').click(); });
+    box.querySelector('.reset').onclick = () => { ta.value = orig; fit(); out.textContent = 'Rezultati del këtu.'; out.className = 'out'; };
+    box.querySelector('.run').onclick = () => {
+      out.textContent = ''; out.className = 'out';
+      const write = (cls, args) => { const line = document.createElement('div'); line.className = cls; line.textContent = args.map(fmt).join(' '); out.appendChild(line); };
+      const con = { log: (...a) => write('', a), info: (...a) => write('', a), warn: (...a) => write('w', a), error: (...a) => write('e', a), table: a => write('', [a]) };
+      try {
+        const r = new Function('console', '"use strict";\n' + ta.value)(con);
+        if (r && typeof r.then === 'function') r.catch(err => write('e', ['Gabim: ' + err.message]));
+        setTimeout(() => { if (!out.childNodes.length) write('m', ['(Kodi u ekzekutua pa shfaqur asgjë. Përdor console.log(...)).']); }, 50);
+      } catch (err) { write('e', [err.name + ': ' + err.message]); }
+    };
+  });
+}
+
+/* ---------- LIVE EDITOR ---------- */
+function liveHTML(code, title, kind){
+  const id = 'lv' + (++TRYN);
+  return `<div class="live ${kind}" data-id="${id}"><div class="ctitle"><span>HTML</span>${esc(title)}</div><div class="lvgrid"><textarea id="${id}" spellcheck="false" aria-label="Kodi">${esc(code)}</textarea><div class="pv"><div class="pvbar">Rezultati</div><iframe title="Rezultati" sandbox="allow-same-origin"></iframe></div></div><div class="trybar lvbar"><button class="btn reset">Rikthe kodin</button></div></div>`;
+}
+function srcdocOf(code){
+  const base = '<style>body{font-family:system-ui,Arial,sans-serif;margin:12px;color:#1B2233;background:#fff}</style>';
+  return /<html[\s>]/i.test(code) ? code : '<!doctype html><html lang="sq"><head><meta charset="utf-8">' + base + '</head><body>' + code + '</body></html>';
+}
+function bindLive(){
+  document.querySelectorAll('.live').forEach(box => {
+    if (box.dataset.bound) return; box.dataset.bound = 1;
+    const ta = box.querySelector('textarea'), fr = box.querySelector('iframe'), orig = ta.value;
+    let t = null;
+    const fit = () => { ta.style.height = 'auto'; ta.style.height = Math.max(ta.scrollHeight + 4, 160) + 'px'; };
+    const render = () => { fr.srcdoc = srcdocOf(ta.value); };
+    fr.addEventListener('load', () => { try { const h = fr.contentDocument.documentElement.scrollHeight; fr.style.height = Math.min(Math.max(h + 8, 140), 520) + 'px'; } catch(e) {} });
+    ta.addEventListener('input', () => { fit(); clearTimeout(t); t = setTimeout(render, 300); });
+    ta.addEventListener('keydown', e => { if (e.key === 'Tab') { e.preventDefault(); ta.setRangeText('  ', ta.selectionStart, ta.selectionEnd, 'end'); ta.dispatchEvent(new Event('input')); } });
+    box.querySelector('.reset').onclick = () => { ta.value = orig; fit(); render(); };
+    fit(); render();
+  });
+}
+function normVal(doc, el, prop, v){
+  const tmp = doc.createElement(el.tagName.toLowerCase() === 'img' ? 'div' : el.tagName);
+  if (/^border.*width$/.test(prop)) tmp.style.borderStyle = 'solid';
+  tmp.style.setProperty(prop, v); doc.body.appendChild(tmp);
+  const r = doc.defaultView.getComputedStyle(tmp).getPropertyValue(prop); tmp.remove(); return r;
+}
+function runCheck(doc, code, c){
+  if (c.src) return code.toLowerCase().replace(/\s+/g, ' ').includes(c.src.toLowerCase());
+  const els = [...doc.querySelectorAll(c.s)];
+  if (c.max !== undefined) return els.length <= c.max;
+  if (els.length < (c.n || 1)) return false;
+  const el = els[0], lc = x => (x || '').toLowerCase();
+  if (c.t && !els.some(e => lc(e.textContent).includes(lc(c.t)))) return false;
+  if (c.nt && els.some(e => lc(e.textContent).includes(lc(c.nt)))) return false;
+  if (c.a && !els.every(e => (e.getAttribute(c.a) || '').trim())) return false;
+  const cs = e => doc.defaultView.getComputedStyle(e);
+  if (c.css) {
+    const list = c.all ? els : [el];
+    for (const e of list) {
+      const got = cs(e).getPropertyValue(c.css).trim();
+      if (c.v !== undefined && got !== normVal(doc, e, c.css, c.v).trim()) return false;
+      if (c.has && !lc(got).includes(lc(c.has))) return false;
+      if (c.nv && got === c.nv) return false;
+    }
+  }
+  if (c.w && Math.abs(el.getBoundingClientRect().width - c.w) > 1) return false;
+  if (c.cols && cs(el).gridTemplateColumns.trim().split(/\s+/).length !== c.cols) return false;
+  if (c.center) { const s = cs(el); if (Math.abs(parseFloat(s.marginLeft) - parseFloat(s.marginRight)) > 1) return false; if (!/auto/.test(code)) return false; }
+  if (c.fits && el.getBoundingClientRect().width > doc.documentElement.clientWidth + 1) return false;
+  return true;
+}
+function bindTasks(c){
+  document.querySelectorAll('.task').forEach(box => {
+    const i = +box.dataset.i, ex = c.exercises[i], ta = box.querySelector('textarea'), fr = box.querySelector('iframe'), ul = box.querySelector('.checks'), sc = box.querySelector('.tscore');
+    box.querySelector('.chk').onclick = () => {
+      fr.srcdoc = srcdocOf(ta.value);
+      fr.addEventListener('load', function h(){ fr.removeEventListener('load', h);
+        let ok = 0; ul.innerHTML = '';
+        ex.checks.forEach(ch => { let r = false; try { r = runCheck(fr.contentDocument, ta.value, ch); } catch(e) {} if (r) ok++;
+          const li = document.createElement('li'); li.className = r ? 'ok' : 'no'; li.textContent = (r ? '✓ ' : '✗ ') + ch.m; ul.appendChild(li); });
+        const all = ok === ex.checks.length;
+        sc.innerHTML = all ? '<b style="color:var(--good)">Shkëlqyeshëm! Detyra u krye.</b>' : `<b>${ok} / ${ex.checks.length}</b> kushte të plotësuara`;
+        if (all) setScore(c.id, 'task', i, true);
+      });
+    };
+    box.querySelector('.sol').onclick = () => { ta.value = ex.sol; ta.dispatchEvent(new Event('input')); ul.innerHTML = ''; sc.textContent = 'Zgjidhja u vendos. Studioje dhe provo ta ndryshosh.'; };
+  });
+}
+
+/* ---------- API SIMULATOR ---------- */
+const SIM = { books: [
+  { id: 1, isbn: '9780132350884', title: 'Clean Code', author: 'Robert C. Martin', year: 2008, copies: 2 },
+  { id: 2, isbn: '9781593279509', title: 'Eloquent JavaScript', author: 'Marijn Haverbeke', year: 2018, copies: 3 },
+  { id: 3, isbn: null, title: 'Lahuta e Malcís', author: 'Gjergj Fishta', year: 1937, copies: 1 } ], next: 4 };
+const SAMPLES = {
+  list: ['GET', '/api/books', ''], search: ['GET', '/api/books?search=java', ''], one: ['GET', '/api/books/2', ''],
+  create: ['POST', '/api/books', '{\n  "title": "JavaScript për fillestarë",\n  "author": "Autor Shembull",\n  "year": 2024,\n  "copies": 2\n}'],
+  bad: ['POST', '/api/books', '{\n  "title": "",\n  "author": "A",\n  "year": 3000\n}'],
+  update: ['PUT', '/api/books/1', '{\n  "title": "Clean Code (2nd)",\n  "author": "Robert C. Martin",\n  "year": 2009,\n  "copies": 4\n}'],
+  del: ['DELETE', '/api/books/3', ''], missing: ['GET', '/api/books/99', '']
+};
+function simValidate(d){ const e = []; const y = new Date().getFullYear();
+  if (!d.title || String(d.title).trim().length < 2) e.push('Titulli është i detyrueshëm (të paktën 2 shkronja).');
+  if (!d.author || String(d.author).trim().length < 2) e.push('Autori është i detyrueshëm.');
+  if (d.year != null && d.year !== '' && (!Number.isInteger(+d.year) || d.year < 1000 || d.year > y)) e.push(`Viti duhet të jetë numër nga 1000 deri në ${y}.`);
+  if (d.copies !== undefined && (!Number.isInteger(+d.copies) || d.copies < 0)) e.push('Numri i kopjeve duhet të jetë numër i plotë 0 ose më i madh.');
+  return e; }
+function simHandle(method, url, body, auth, role){
+  const u = new URL(url, 'http://localhost:3000'); const m = u.pathname.match(/^\/api\/books(?:\/(\d+))?\/?$/);
+  if (u.pathname === '/api/health' && method === 'GET') return [200, { status: 'ok' }];
+  if (!m) return [404, { error: 'Kjo rrugë nuk ekziston.' }];
+  const id = m[1] ? +m[1] : null; const find = () => SIM.books.find(b => b.id === id);
+  if (method === 'GET' && id === null) { const q = (u.searchParams.get('search')||'').toLowerCase(); return [200, SIM.books.filter(b => !q || b.title.toLowerCase().includes(q) || b.author.toLowerCase().includes(q))]; }
+  if (method === 'GET') return find() ? [200, find()] : [404, { error: 'Libri nuk u gjet.' }];
+  if (!auth) return [401, { error: 'Duhet të identifikohesh.' }];
+  let data = {}; if (method === 'POST' || method === 'PUT') { try { data = body.trim() ? JSON.parse(body) : {}; } catch(e) { return [400, { error: 'Trupi nuk është JSON i vlefshëm: ' + e.message }]; } }
+  if (method === 'POST' && id === null) { const e = simValidate(data); if (e.length) return [400, { errors: e }]; const b = { id: SIM.next++, isbn: data.isbn||null, title: data.title.trim(), author: data.author.trim(), year: data.year ?? null, copies: data.copies ?? 1 }; SIM.books.push(b); return [201, b]; }
+  if (method === 'PUT' && id !== null) { const b = find(); if (!b) return [404, { error: 'Libri nuk u gjet.' }]; const e = simValidate(data); if (e.length) return [400, { errors: e }]; Object.assign(b, { title: data.title.trim(), author: data.author.trim(), year: data.year ?? null, copies: data.copies ?? 1, isbn: data.isbn || null }); return [200, b]; }
+  if (method === 'DELETE' && id !== null) { if (role !== 'admin') return [403, { error: 'Nuk ke të drejtë për këtë veprim.' }]; const i = SIM.books.findIndex(b => b.id === id); if (i < 0) return [404, { error: 'Libri nuk u gjet.' }]; SIM.books.splice(i, 1); return [204, null]; }
+  return [404, { error: 'Kjo rrugë nuk ekziston.' }];
+}
+const STATUS = {200:'OK',201:'Created',204:'No Content',400:'Bad Request',401:'Unauthorized',403:'Forbidden',404:'Not Found'};
+function apisimHTML(){
+  return `<div class="apisim"><div class="ctitle"><span>API</span>Simulatori i API-së së bibliotekës – provo kërkesa pa server</div>
+  <div class="samples">${[['list','Lista'],['search','Kërkim'],['one','Një libër'],['create','Shto'],['bad','Të dhëna të gabuara'],['update','Ndrysho'],['del','Fshij'],['missing','ID që s\'ekziston']].map(([k,l])=>`<button class="chip" data-s="${k}">${l}</button>`).join('')}</div>
+  <div class="reqline"><select id="sim-m" aria-label="Metoda"><option>GET</option><option>POST</option><option>PUT</option><option>DELETE</option></select><input id="sim-u" value="/api/books" aria-label="URL"><button class="btn pri" id="sim-send">Dërgo</button></div>
+  <div class="authrow"><label><input type="checkbox" id="sim-auth"> Authorization: Bearer &lt;token&gt;</label><label>Roli <select id="sim-role"><option value="bibliotekar">bibliotekar</option><option value="admin">admin</option></select></label></div>
+  <label class="blabel" for="sim-b">Body (JSON)</label><textarea id="sim-b" spellcheck="false" rows="6"></textarea>
+  <div class="resp"><div id="sim-status" class="st">Zgjidh një shembull ose shkruaj kërkesën dhe kliko “Dërgo”.</div><pre id="sim-out"></pre></div></div>`;
+}
+function bindApisim(){
+  const send = document.getElementById('sim-send'); if (!send) return;
+  const $ = id => document.getElementById(id);
+  document.querySelectorAll('.apisim .chip').forEach(b => b.onclick = () => { const [m,u,body] = SAMPLES[b.dataset.s]; $('sim-m').value = m; $('sim-u').value = u; $('sim-b').value = body; if (m !== 'GET') $('sim-auth').checked = true; if (b.dataset.s === 'del') $('sim-role').value = 'admin'; });
+  send.onclick = () => {
+    const m = $('sim-m').value, [code, data] = simHandle(m, $('sim-u').value.trim(), $('sim-b').value, $('sim-auth').checked, $('sim-role').value);
+    const st = $('sim-status'); st.textContent = `${m} ${$('sim-u').value.trim()}  →  ${code} ${STATUS[code]||''}`; st.className = 'st ' + (code < 300 ? 'ok' : 'no');
+    $('sim-out').textContent = data === null ? '(pa trup përgjigjeje)' : JSON.stringify(data, null, 2);
+  };
+}
+
+/* ---------- REVIEW ---------- */
+let fc = {i:0, known:new Set(), order:null};
+function reviewHTML(c){
+  return `<div class="fc-wrap">
+    <button class="card" id="card" aria-label="Kthe kartelën"><div class="in"><div class="face"><div class="term" id="fterm"></div><small>Kliko për ta kthyer</small></div><div class="face back"><div class="def" id="fdef"></div><small>Kliko për ta kthyer</small></div></div></button>
+    <div class="fc-ctrl">
+      <button class="btn" id="fprev" aria-label="Kartela e mëparshme">←</button>
+      <span class="count" id="fcount"></span>
+      <button class="btn" id="fnext" aria-label="Kartela tjetër">→</button>
+    </div>
+    <div class="fc-ctrl">
+      <button class="btn bad" id="fno">Ende jo</button>
+      <button class="btn good" id="fyes">E dija</button>
+      <button class="btn" id="fshuf">Përziej</button>
+    </div>
+    <p class="count" id="fknown" style="min-width:0"></p>
+    <details class="gloss sec"><summary>Fjalori i kapitullit (${c.terms.length} terma)</summary><dl>${c.terms.map(t=>`<dt>${esc(t[0])}</dt><dd>${esc(t[1])}</dd>`).join('')}</dl></details>
+  </div>`;
+}
+function bindReview(c){
+  fc = {i:0, known:new Set(store.get('known:'+c.id, [])), order:c.terms.map((_,i)=>i)};
+  const card = document.getElementById('card');
+  const show = () => {
+    const t = c.terms[fc.order[fc.i]];
+    card.classList.remove('flip');
+    document.getElementById('fterm').textContent = t[0];
+    document.getElementById('fdef').textContent = t[1];
+    document.getElementById('fcount').textContent = `${fc.i+1} / ${c.terms.length}`;
+    document.getElementById('fknown').textContent = `I di: ${fc.known.size} nga ${c.terms.length} terma`;
+  };
+  card.onclick = () => card.classList.toggle('flip');
+  const step = d => { fc.i = (fc.i + d + c.terms.length) % c.terms.length; show(); };
+  document.getElementById('fprev').onclick = () => step(-1);
+  document.getElementById('fnext').onclick = () => step(1);
+  const mark = yes => { const k = fc.order[fc.i]; yes ? fc.known.add(k) : fc.known.delete(k); store.set('known:'+c.id, [...fc.known]); step(1); };
+  document.getElementById('fyes').onclick = () => mark(true);
+  document.getElementById('fno').onclick = () => mark(false);
+  document.getElementById('fshuf').onclick = () => { fc.order.sort(()=>Math.random()-.5); fc.i=0; show(); };
+  show();
+}
+
+/* ---------- PRACTICE ---------- */
+function quizQ(q, idx, key){
+  return `<div class="q" data-key="${key}" data-i="${idx}"><div class="qt">${idx+1}. ${esc(q.q)}</div><div class="opts">${q.o.map((o,j)=>`<button class="opt" data-j="${j}">${String.fromCharCode(97+j)}) ${esc(o)}</button>`).join('')}</div><div class="fbh"></div></div>`;
+}
+function practiceHTML(c){
+  if (!c.quiz.length && !c.exercises.length) return `<div class="block"><h3>Pyetje për përsëritje</h3><ol>${c.review.map(q=>`<li>${esc(q)}</li>`).join('')}</ol><p class="sub">Për këtë kapitull, ushtrimi është vetë projekti. Shiko veprimtarinë praktike te “Mëso”.</p></div>`;
+  let h = `<div class="block"><h3>Pyetje për përsëritje</h3><p class="sub">Përgjigju me gojë ose në fletore.</p><ol class="rev">${c.review.map(q=>`<li>${esc(q)}</li>`).join('')}</ol></div>`;
+  h += `<div class="block"><h3>Kuiz</h3><p class="sub">Zgjidh përgjigjen. Shpjegimi del menjëherë.</p><div id="quiz">${c.quiz.map((q,i)=>quizQ(q,i,'quiz')).join('')}</div><div class="score"><span>Rezultati: <b id="qs">0 / ${c.quiz.length}</b></span><button class="btn" id="qreset">Fillo nga e para</button></div></div>`;
+  h += `<div class="block"><h3>E vërtetë apo e gabuar?</h3><p class="sub">Vlerëso secilin pohim.</p><div id="tf">${c.tf.map((t,i)=>`<div class="q" data-i="${i}"><div class="tfrow"><div class="qt" style="margin:0;flex:1 1 260px">${esc(t[0])}</div><div class="opts"><button class="opt" data-v="1">E vërtetë</button><button class="opt" data-v="0">E gabuar</button></div></div><div class="fbh"></div></div>`).join('')}</div></div>`;
+  if (c.order) h += `<div class="block"><h3>Renditja</h3><p class="sub">${esc(c.order.prompt)} Përdor shigjetat ↑ ↓.</p><ol class="order" id="ord"></ol><div class="score"><span id="ordmsg"></span><span style="display:flex;gap:8px"><button class="btn" id="ordmix">Përziej</button><button class="btn pri" id="ordchk">Kontrollo</button></span></div></div>`;
+  h = `<div class="block"><h3>Detyra praktike</h3><p class="sub">Shkruaj kodin, shiko rezultatin dhe kliko “Kontrollo”. Kontrolli automatik tregon çfarë është në rregull dhe çfarë mungon.</p>${c.exercises.map((e,i)=>`<div class="ex task" data-i="${i}"><h4>Detyra ${i+1}: ${esc(e.t)}</h4><p>${esc(e.task)}</p>${liveHTML(e.start, 'Kodi yt', 'lvtask')}<div class="trybar"><button class="btn pri chk">✓ Kontrollo</button><button class="btn sol">Shfaq zgjidhjen</button><span class="tscore"></span></div><ul class="checks"></ul></div>`).join('')}</div>` + h;
+  return h;
+}
+function bindQuiz(root, list, chId, kind, onScore){
+  const s = (scores[chId]||{})[kind] || {};
+  root.querySelectorAll('.q').forEach(qd => {
+    const i = +qd.dataset.i, q = list[i];
+    const answer = j => {
+      qd.querySelectorAll('.opt').forEach((b,k) => { b.disabled = true; if (k===q.a) b.classList.add('ok'); });
+      const ok = j === q.a;
+      if (!ok) qd.querySelectorAll('.opt')[j].classList.add('no');
+      qd.querySelector('.fbh').innerHTML = `<div class="fb ${ok?'ok':'no'}">${ok?'Saktë!':'Jo saktë.'} <span>${esc(q.e||'')}</span></div>`;
+      return ok;
+    };
+    qd.querySelectorAll('.opt').forEach(b => b.onclick = () => { const ok = answer(+b.dataset.j); if(chId) setScore(chId, kind, i, ok); onScore(); });
+    if (chId && s[i] !== undefined && q.picked === undefined){ /* restore only correctness state */ }
+  });
+}
+function bindPractice(c){
+  bindLive(); bindTasks(c);
+  if (!c.quiz.length) return;
+  const qs = () => { const n = [...document.querySelectorAll('#quiz .fb.ok')].length; document.getElementById('qs').textContent = `${n} / ${c.quiz.length}`; };
+  bindQuiz(document.getElementById('quiz'), c.quiz, c.id, 'quiz', qs);
+  document.getElementById('qreset').onclick = () => { if(scores[c.id]) { scores[c.id].quiz = {}; store.set('scores',scores); } render(); };
+  document.querySelectorAll('#tf .q').forEach(qd => {
+    const i = +qd.dataset.i, [txt, val] = c.tf[i];
+    qd.querySelectorAll('.opt').forEach(b => b.onclick = () => {
+      const pick = b.dataset.v === '1', ok = pick === val;
+      qd.querySelectorAll('.opt').forEach(x => { x.disabled = true; if ((x.dataset.v==='1') === val) x.classList.add('ok'); });
+      if (!ok) b.classList.add('no');
+      qd.querySelector('.fbh').innerHTML = `<div class="fb ${ok?'ok':'no'}">${ok?'Saktë!':'Jo saktë.'} <span>Pohimi është ${val?'i vërtetë':'i gabuar'}.</span></div>`;
+      setScore(c.id, 'tf', i, ok);
+    });
+  });
+  if (c.order){
+    let cur = c.order.items.map((_,i)=>i);
+    const mix = () => { do { cur.sort(()=>Math.random()-.5); } while (cur.every((v,i)=>v===i)); draw(); document.getElementById('ordmsg').textContent=''; };
+    const draw = (check) => {
+      document.getElementById('ord').innerHTML = cur.map((k,pos)=>`<li class="${check ? (k===pos?'ok':'no') : ''}"><span class="pos">${pos+1}.</span><span class="txt">${esc(c.order.items[k])}</span><button class="mv" data-p="${pos}" data-d="-1" aria-label="Lart">↑</button><button class="mv" data-p="${pos}" data-d="1" aria-label="Poshtë">↓</button></li>`).join('');
+      document.querySelectorAll('#ord .mv').forEach(b => b.onclick = () => { const p=+b.dataset.p, d=+b.dataset.d, t=p+d; if(t<0||t>=cur.length) return; [cur[p],cur[t]]=[cur[t],cur[p]]; draw(); document.getElementById('ordmsg').textContent=''; });
+    };
+    document.getElementById('ordmix').onclick = mix;
+    document.getElementById('ordchk').onclick = () => { draw(true); const n = cur.filter((k,p)=>k===p).length; document.getElementById('ordmsg').innerHTML = n===cur.length ? '<b style="color:var(--good)">Renditje e saktë!</b>' : `<b>${n} / ${cur.length}</b> në vendin e duhur`; };
+    mix();
+  }
+}
+
+/* ---------- FINAL TEST ---------- */
+function finalTest(){
+  const pool = []; DATA.forEach(c => c.quiz.forEach(q => pool.push({...q, from:c.code.replace('·','')})));
+  pool.sort(()=>Math.random()-.5);
+  const list = pool.slice(0,15);
+  const main = document.getElementById('main');
+  main.innerHTML = `<div class="chead"><span class="eyebrow">Përsëritje e përgjithshme</span><h2>${FINAL.title}</h2><p class="rm">${FINAL.rm}</p></div>
+  <div class="block"><div id="fq">${list.map((q,i)=>quizQ(q,i,'final').replace('<div class="qt">', `<div class="qt"><span class="code" style="height:22px;padding:0 6px;font-size:11px;margin-right:8px">${q.from}</span>`)).join('')}</div>
+  <div class="score"><span>Rezultati: <b id="fs">0 / ${list.length}</b> <span id="fgrade" class="count"></span></span><button class="btn pri" id="fnew">Test i ri</button></div></div>`;
+  const upd = () => {
+    const ok = document.querySelectorAll('#fq .fb.ok').length, done = document.querySelectorAll('#fq .fb').length;
+    document.getElementById('fs').textContent = `${ok} / ${list.length}`;
+    if (done === list.length){ const p = ok/list.length; const g = p>=.9?5:p>=.75?4:p>=.6?3:p>=.45?2:1; document.getElementById('fgrade').textContent = `· nota orientuese: ${g}`; }
+  };
+  bindQuiz(document.getElementById('fq'), list, null, 'final', upd);
+  document.getElementById('fnew').onclick = () => { finalTest(); window.scrollTo({top:0}); };
+}
+
+/* ---------- RENDER ---------- */
+function render(){
+  renderNav(); renderOverall();
+  if (state.ch === 'test') return finalTest();
+  const c = DATA.find(x => x.id === state.ch);
+  const main = document.getElementById('main');
+  main.innerHTML = `<div class="chead"><span class="eyebrow">${'Mësimi ' + (DATA.indexOf(c)+1) + ' nga ' + DATA.length}</span><h2>${esc(c.title)}</h2><p class="rm intro">${esc(c.intro)}</p></div>
+  <div class="modes" role="tablist">${MODES.map(([k,l])=>`<button role="tab" data-m="${k}" aria-selected="${k===state.mode}">${l}</button>`).join('')}</div>
+  <div id="pane"></div>`;
+  main.querySelectorAll('.modes button').forEach(b => b.onclick = () => { state.mode = b.dataset.m; store.set('mode', state.mode); render(); });
+  const pane = document.getElementById('pane');
+  if (state.mode === 'learn'){ pane.innerHTML = learnHTML(c); bindCalc(); bindTry(); bindApisim(); bindLive(); }
+  if (state.mode === 'review'){ pane.innerHTML = reviewHTML(c); bindReview(c); }
+  if (state.mode === 'practice'){ pane.innerHTML = practiceHTML(c); bindPractice(c); }
+}
+render();
+</script>
+
+</body></html>

@@ -1,0 +1,2342 @@
+<!doctype html><html lang="sq"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>Bazat e zhvillimit të aplikacioneve</title></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Onest:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#F2F5F4; --surface:#FFFFFF; --surface2:#E9EEEC; --ink:#172033; --muted:#566074; --line:#D5DDDA;
+  --accent:#0E6E73; --accent-ink:#FFFFFF; --accent-soft:#DDF1F1; --mark:#B86E0B; --mark-soft:#FCEFD9;
+  --good:#1C7C3A; --good-soft:#E1F3E6; --bad:#B42318; --bad-soft:#FBE6E3;
+  --code-bg:#172033; --code-ink:#E7EEF2;
+  --svg-ink:#172033; --svg-line:#4B5670; --svg-fill:#FFFFFF; --svg-stroke:#8A93A8; --svg-accent:#0E6E73; --svg-accentFill:#DDF1F1; --svg-muted:#5B6478; --svg-onAccent:#FFFFFF; --svg-good:#1C7C3A; --svg-bad:#B42318;
+  --display:'Bricolage Grotesque', 'Onest', system-ui, sans-serif;
+  --body:'Onest', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono:'JetBrains Mono', ui-monospace, Consolas, monospace;
+  --r:12px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0E1417; --surface:#162026; --surface2:#1D2A31; --ink:#E4ECEE; --muted:#9BA9B1; --line:#2A3942;
+    --accent:#4CC2BD; --accent-ink:#06282A; --accent-soft:#12383A; --mark:#F0B35B; --mark-soft:#3A2B14;
+    --good:#5CCB7E; --good-soft:#153524; --bad:#FF8A7A; --bad-soft:#3D1C18;
+    --code-bg:#0A0F12; --code-ink:#DDE7EA;
+    --svg-ink:#E4ECEE; --svg-line:#A9B6BE; --svg-fill:#162026; --svg-stroke:#5D6F79; --svg-accent:#4CC2BD; --svg-accentFill:#12383A; --svg-muted:#9BA9B1; --svg-onAccent:#06282A; --svg-good:#5CCB7E; --svg-bad:#FF8A7A;
+  }
+}
+:root[data-theme="dark"]{
+    color-scheme:dark;
+    --bg:#0E1417; --surface:#162026; --surface2:#1D2A31; --ink:#E4ECEE; --muted:#9BA9B1; --line:#2A3942;
+    --accent:#4CC2BD; --accent-ink:#06282A; --accent-soft:#12383A; --mark:#F0B35B; --mark-soft:#3A2B14;
+    --good:#5CCB7E; --good-soft:#153524; --bad:#FF8A7A; --bad-soft:#3D1C18;
+    --code-bg:#0A0F12; --code-ink:#DDE7EA;
+    --svg-ink:#E4ECEE; --svg-line:#A9B6BE; --svg-fill:#162026; --svg-stroke:#5D6F79; --svg-accent:#4CC2BD; --svg-accentFill:#12383A; --svg-muted:#9BA9B1; --svg-onAccent:#06282A; --svg-good:#5CCB7E; --svg-bad:#FF8A7A;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;padding-inline:16px;padding-block:0 48px}
+.wrap{max-width:1120px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.15;margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,summary:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:16px;padding-block:28px 20px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.top h1{font-size:clamp(28px,4.2vw,44px);font-weight:800;letter-spacing:-.01em;margin-top:6px}
+.top p{margin:6px 0 0;color:var(--muted);max-width:60ch}
+.overall{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:10px 14px}
+.overall b{font-family:var(--display);font-size:24px;font-variant-numeric:tabular-nums}
+.bar{height:6px;border-radius:6px;background:var(--surface2);overflow:hidden;width:120px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .4s}
+
+/* layout */
+.layout{display:grid;grid-template-columns:250px 1fr;gap:28px;margin-top:24px;align-items:start}
+nav.ch{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);display:flex;flex-direction:column;gap:6px}
+.chbtn{display:grid;grid-template-columns:52px 1fr;gap:10px;align-items:center;text-align:left;background:transparent;border:1px solid transparent;border-radius:10px;padding:8px 10px}
+.chbtn:hover{background:var(--surface)}
+.chbtn[aria-current="true"]{background:var(--surface);border-color:var(--line)}
+.code{font-family:var(--mono);font-weight:600;font-size:13px;display:inline-grid;place-items:center;height:30px;border-radius:8px;background:var(--surface2);color:var(--ink)}
+.chbtn[aria-current="true"] .code{background:var(--accent);color:var(--accent-ink)}
+.chbtn span.t{font-size:14px;line-height:1.3;font-weight:500}
+.chbtn small{display:block;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+
+main{min-width:0}
+.chead{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
+.chead h2{font-size:clamp(24px,3.2vw,34px);font-weight:800}
+.rm{margin:0;color:var(--muted)}
+.rm b{color:var(--ink)}
+.modes{display:flex;gap:4px;background:var(--surface2);padding:4px;border-radius:12px;width:max-content;max-width:100%;overflow-x:auto;margin:6px 0 22px}
+.modes button{border:0;background:transparent;padding:8px 16px;border-radius:9px;font-weight:600;font-size:15px;white-space:nowrap}
+.modes button[aria-selected="true"]{background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+
+/* learn */
+.sec{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:22px clamp(16px,3vw,28px);margin-bottom:16px}
+.sec h3{font-size:21px;font-weight:700;margin-bottom:10px;display:flex;gap:10px;align-items:baseline}
+.sec h3 .n{font-family:var(--mono);font-size:13px;color:var(--accent);font-weight:600}
+.sec p{margin:0 0 12px;max-width:72ch}
+.sec ul{margin:0 0 12px;padding-left:20px;max-width:72ch}
+.sec li{margin:4px 0}
+.tbl{overflow-x:auto;margin:6px 0 14px;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--surface2);font-weight:600;font-size:13px;letter-spacing:.02em}
+tr:last-child td{border-bottom:0}
+td code, .mono{font-family:var(--mono);font-size:13px}
+pre{background:var(--code-bg);color:var(--code-ink);font-family:var(--mono);font-size:13.5px;line-height:1.55;padding:14px 16px;border-radius:10px;overflow-x:auto;margin:6px 0 14px}
+.note{border-left:3px solid var(--mark);background:var(--mark-soft);padding:10px 14px;border-radius:0 10px 10px 0;margin:6px 0 12px;max-width:72ch}
+.formula{font-family:var(--display);font-weight:700;font-size:18px;background:var(--accent-soft);color:var(--ink);padding:12px 16px;border-radius:10px;margin:6px 0 14px;display:inline-block}
+figure{margin:8px 0 16px;overflow-x:auto}
+figure svg{max-width:100%;height:auto;display:block;margin:0 auto}
+
+/* flashcards */
+.fc-wrap{display:grid;gap:16px;justify-items:center}
+.card{width:min(560px,100%);min-height:230px;perspective:1200px;background:none;border:0;padding:0}
+.card .in{position:relative;width:100%;min-height:230px;transition:transform .45s;transform-style:preserve-3d}
+.card.flip .in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;padding:24px;text-align:center}
+.face.back{transform:rotateY(180deg);background:var(--accent-soft)}
+.face .term{font-family:var(--display);font-size:clamp(24px,4vw,32px);font-weight:800}
+.face .def{font-size:17px;max-width:44ch}
+.face small{position:absolute;bottom:12px;left:0;right:0;color:var(--muted);font-size:12px}
+.fc-ctrl{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center}
+.btn{border:1px solid var(--line);background:var(--surface);padding:9px 16px;border-radius:10px;font-weight:600;font-size:15px}
+.btn:hover{border-color:var(--accent)}
+.btn.pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.good{border-color:var(--good);color:var(--good)}
+.btn.bad{border-color:var(--bad);color:var(--bad)}
+.count{font-variant-numeric:tabular-nums;color:var(--muted);font-size:14px;min-width:70px;text-align:center}
+.gloss{margin-top:22px;width:100%}
+.gloss summary{cursor:pointer;font-weight:600}
+.gloss dl{display:grid;grid-template-columns:minmax(130px,220px) 1fr;gap:8px 18px;margin:12px 0 0}
+.gloss dt{font-weight:700}
+.gloss dd{margin:0;color:var(--muted)}
+
+/* practice */
+.block{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px clamp(16px,3vw,26px);margin-bottom:16px}
+.block h3{font-size:19px;font-weight:700;margin-bottom:4px}
+.block .sub{color:var(--muted);font-size:14px;margin:0 0 14px}
+.q{padding:14px 0;border-top:1px solid var(--line)}
+.q:first-of-type{border-top:0}
+.q .qt{font-weight:600;margin-bottom:8px}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (max-width:560px){.opts{grid-template-columns:1fr}}
+.opt{text-align:left;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:9px 12px;font-size:15px}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt:disabled{cursor:default}
+.opt.ok{background:var(--good-soft);border-color:var(--good)}
+.opt.no{background:var(--bad-soft);border-color:var(--bad)}
+.fb{font-size:14px;margin-top:8px;padding:8px 12px;border-radius:8px}
+.fb.ok{background:var(--good-soft);color:var(--good)}
+.fb.no{background:var(--bad-soft);color:var(--bad)}
+.fb span{color:var(--ink)}
+.tfrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.tfrow .opts{grid-template-columns:repeat(2,110px)}
+.score{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.score b{font-variant-numeric:tabular-nums}
+.order{list-style:none;padding:0;margin:0;display:grid;gap:6px}
+.order li{display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:6px 8px 6px 12px}
+.order li.ok{border-color:var(--good);background:var(--good-soft)}
+.order li.no{border-color:var(--bad);background:var(--bad-soft)}
+.order .pos{font-family:var(--mono);font-size:13px;color:var(--muted);width:20px}
+.order .txt{flex:1}
+.order .mv{border:1px solid var(--line);background:var(--surface);border-radius:8px;width:34px;height:32px;font-size:15px;line-height:1}
+.ex{border-top:1px solid var(--line);padding:14px 0}
+.ex:first-of-type{border-top:0}
+.ex h4{margin:0 0 4px;font-size:16px}
+.ex p{margin:0 0 8px;max-width:72ch}
+.ex details{background:var(--accent-soft);border-radius:10px;padding:8px 12px}
+.ex summary{cursor:pointer;font-weight:600;color:var(--accent)}
+.ex details p{margin:8px 0 2px}
+
+/* calculator */
+.calc{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:8px 0 12px}
+.calc label{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
+.calc input{font:inherit;font-size:16px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font-variant-numeric:tabular-nums;width:100%}
+.res{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.res div{background:var(--surface2);border-radius:10px;padding:10px 12px}
+.res small{display:block;color:var(--muted);font-size:12px}
+.res b{font-family:var(--display);font-size:22px;font-variant-numeric:tabular-nums}
+.res .final{background:var(--accent);color:var(--accent-ink)}
+.res .final small{color:inherit;opacity:.85}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:1fr;gap:12px}
+  nav.ch{position:static;flex-direction:row;overflow-x:auto;padding-bottom:6px;gap:6px}
+  .chbtn{grid-template-columns:auto;padding:6px}
+  .chbtn span.t{display:none}
+  .chbtn .code{padding:0 12px}
+  .gloss dl{grid-template-columns:1fr}
+  .gloss dd{margin-bottom:6px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div style="max-width:1120px;margin:0 auto;padding-top:14px;font-size:14px"><a href="index.html" style="color:var(--accent,#0E6E73);font-weight:600;text-decoration:none">← Të gjitha materialet</a></div>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">Moduli · Klasa 10 · Zhvillues i Aplikacioneve Softuerike</div>
+      <h1>Bazat e zhvillimit të aplikacioneve</h1>
+      <p>Mëso çdo rezultat mësimor, përsërit me kartela dhe ushtro me kuize, renditje dhe detyra me zgjidhje.</p>
+    </div>
+    <div class="overall" title="Përqindja e përgjigjeve të sakta në kuize">
+      <div><div class="eyebrow">Progresi yt</div><div class="bar"><i id="ovbar"></i></div></div>
+      <b id="ovpct">0%</b>
+    </div>
+  </header>
+  <div class="layout">
+    <nav class="ch" id="nav" aria-label="Kapitujt"></nav>
+    <main id="main"></main>
+  </div>
+</div>
+
+<script>
+const DATA = [
+ {
+  "id": "hyrje",
+  "short": "Hyrje",
+  "code": "H",
+  "title": "Hyrje në zhvillimin e aplikacioneve softuerike",
+  "rm": "Njohja me profesionin, etikën, ndërmarrësinë dhe rregullat e sigurisë në punë.",
+  "sections": [
+   {
+    "h": "Profesioni i Zhvilluesit të Aplikacioneve Softuerike",
+    "blocks": [
+     {
+      "p": "Zhvilluesi i Aplikacioneve Softuerike është profesionist që analizon kërkesat, dizajnon, programon, teston, publikon dhe mirëmban aplikacione softuerike. Ai përdor gjuhë programimi, baza të të dhënave dhe mjete zhvillimi për të krijuar zgjidhje funksionale, të sigurta dhe të përshtatshme për përdoruesit."
+     },
+     {
+      "p": "Aplikacionet përdoren pothuajse kudo:"
+     },
+     {
+      "list": [
+       "biznesi dhe administrimi, bankat dhe financat",
+       "tregtia elektronike (e-commerce) dhe shërbimet publike elektronike",
+       "arsimi, shëndetësia, transporti dhe telekomunikacioni",
+       "rrjetet sociale, lojërat digjitale dhe pajisjet inteligjente"
+      ]
+     },
+     {
+      "p": "Mjetet kryesore të punës janë kompjuteri, editorët e kodit dhe mjediset e integruara të zhvillimit (IDE) si Visual Studio Code, Visual Studio, IntelliJ IDEA ose Eclipse, sistemet e kontrollit të versioneve (Git, GitHub, GitLab), sistemet e bazave të të dhënave dhe platformat cloud."
+     },
+     {
+      "p": "Zhvilluesi mund të punojë në kompani softuerike, banka, institucione publike, kompani telekomunikacioni, si freelancer ose në distancë (remote) për klientë jashtë Kosovës. Me përvojë mund të bëhet zhvillues frontend, backend, full-stack, mobile, testues (QA), inxhinier DevOps, arkitekt softuerik ose menaxher projektesh."
+     }
+    ]
+   },
+   {
+    "h": "Etika dhe ndërmarrësia",
+    "blocks": [
+     {
+      "p": "Etika profesionale janë parimet që udhëheqin sjelljen e profesionistit. Për zhvilluesin kjo do të thotë:"
+     },
+     {
+      "list": [
+       "përgjegjësi për cilësinë e aplikacionit dhe respektim i afateve",
+       "ruajtje e konfidencialitetit dhe mbrojtje e të dhënave personale",
+       "respektim i të drejtës së autorit dhe i licencave të softuerit",
+       "programim i sigurt dhe mosshfrytëzim i paautorizuar i sistemeve",
+       "komunikim profesional dhe punë e barabartë në ekip"
+      ]
+     },
+     {
+      "p": "Ndërmarrësia është aftësia për të gjetur nevoja në treg dhe për t'i kthyer idetë në produkte ose shërbime me vlerë. Zhvilluesi mund të hapë kompaninë e vet, të krijojë një start-up, të zhvillojë një produkt digjital ose të punojë si freelancer."
+     }
+    ]
+   },
+   {
+    "h": "Siguria në punë dhe mbrojtja e mjedisit",
+    "blocks": [
+     {
+      "list": [
+       "Vendi i punës duhet të jetë i rregullt, i pastër dhe i ndriçuar mirë; kabllot nuk duhet të pengojnë lëvizjen.",
+       "Pajisjet elektrike nuk preken me duar të lagura; pajisjet e dëmtuara nuk përdoren dhe defektet raportohen.",
+       "Lëngjet dhe ushqimet mbahen larg kompjuterëve.",
+       "Ergonomia: monitori përballë, afërsisht në nivelin e syve; këmbët të mbështetura; duart dhe kyçet në pozicion natyral; pushime të shkurtra e të rregullta.",
+       "Pajisjet që nuk përdoren fiken ose kalojnë në regjim kursimi të energjisë; shmanget printimi i panevojshëm.",
+       "Mbetjet elektronike (kompjuterë, bateri, disqe) nuk hidhen me mbeturinat e zakonshme; para riciklimit të disqeve fshihen në mënyrë të sigurt të dhënat."
+      ]
+     }
+    ]
+   }
+  ],
+  "terms": [
+   [
+    "IDE",
+    "Mjedis i integruar zhvillimi: program ku shkruhet, ekzekutohet dhe korrigjohet kodi (p.sh. Visual Studio Code)."
+   ],
+   [
+    "Git",
+    "Sistem për kontrollin e versioneve që ruan historikun e ndryshimeve të kodit."
+   ],
+   [
+    "Freelancer",
+    "Profesionist i pavarur që punon me projekte për klientë të ndryshëm."
+   ],
+   [
+    "Etika profesionale",
+    "Tërësia e parimeve dhe rregullave që udhëheqin sjelljen gjatë ushtrimit të profesionit."
+   ],
+   [
+    "Ndërmarrësia",
+    "Aftësia për të identifikuar mundësi në treg dhe për t'i kthyer idetë në produkte ose shërbime me vlerë."
+   ],
+   [
+    "Ergonomia",
+    "Organizimi i vendit të punës që mbron shëndetin: pozicioni i trupit, monitori, ndriçimi, pushimet."
+   ],
+   [
+    "Mbetje elektronike",
+    "Pajisje elektronike të vjetra ose të prishura që duhet të riciklohen në mënyrë të veçantë."
+   ]
+  ],
+  "quiz": [
+   {
+    "q": "Cila NUK është detyrë e Zhvilluesit të Aplikacioneve Softuerike?",
+    "o": [
+     "Analizimi i kërkesave",
+     "Testimi i aplikacionit",
+     "Riparimi i instalimeve elektrike në ndërtesë",
+     "Mirëmbajtja e aplikacionit"
+    ],
+    "a": 2,
+    "e": "Ndërhyrjet në instalimet elektrike i bëjnë vetëm persona të autorizuar dhe të kualifikuar."
+   },
+   {
+    "q": "Visual Studio Code është:",
+    "o": [
+     "sistem operativ",
+     "editor kodi / mjedis zhvillimi",
+     "bazë e të dhënave",
+     "shfletues interneti"
+    ],
+    "a": 1,
+    "e": "VS Code përdoret për shkrimin dhe korrigjimin e kodit."
+   },
+   {
+    "q": "Cili është parim i etikës profesionale?",
+    "o": [
+     "Përdorimi i softuerit pa licencë",
+     "Ndarja e fjalëkalimeve të klientit me kolegët",
+     "Ruajtja e konfidencialitetit",
+     "Kopjimi i kodit pa leje"
+    ],
+    "a": 2,
+    "e": "Zhvilluesi ruan të dhënat dhe informacionet konfidenciale të klientit."
+   },
+   {
+    "q": "Monitori duhet të vendoset:",
+    "o": [
+     "anash, nën nivelin e tavolinës",
+     "përballë, afërsisht në nivelin e syve",
+     "sa më afër syve",
+     "përballë dritares me diell"
+    ],
+    "a": 1,
+    "e": "Kështu zvogëlohet lodhja e syve dhe e qafës."
+   },
+   {
+    "q": "Një bateri e vjetër e laptopit duhet:",
+    "o": [
+     "të hidhet në kosh",
+     "të dorëzohet për riciklim",
+     "të ruhet pranë kompjuterit",
+     "të digjet"
+    ],
+    "a": 1,
+    "e": "Bateritë janë mbetje elektronike dhe riciklohen veçmas."
+   }
+  ],
+  "tf": [
+   [
+    "Zhvilluesi mund të punojë në distancë për klientë jashtë Kosovës.",
+    true
+   ],
+   [
+    "Etika profesionale lejon përdorimin e fjalëkalimeve të përdoruesve pa autorizim.",
+    false
+   ],
+   [
+    "Lëngjet duhet të mbahen larg kompjuterëve dhe serverëve.",
+    true
+   ],
+   [
+    "Ndërmarrësia ka të bëjë vetëm me punësimin në një kompani të madhe.",
+    false
+   ]
+  ],
+  "order": null,
+  "exercises": [
+   {
+    "t": "Harta e profesionit",
+    "task": "Shkruaj tri fusha ku përdoren aplikacionet dhe për secilën jep nga një shembull aplikacioni që e njeh.",
+    "sol": "Shembull: arsimi – platforma e-Shkollori / Google Classroom; bankat – aplikacioni mobil i bankës; tregtia – dyqan online. Çdo shembull i saktë pranohet."
+   },
+   {
+    "t": "Kontrolli i vendit të punës",
+    "task": "Shiko vendin tënd të punës në laborator dhe shëno dy gjëra që janë në rregull dhe një gjë që duhet përmirësuar sipas rregullave të sigurisë dhe ergonomisë.",
+    "sol": "Kontrollo: pozicionin e monitorit, karrigen dhe këmbët, kabllot, ndriçimin, praninë e lëngjeve pranë kompjuterit."
+   }
+  ]
+ },
+ {
+  "id": "rm1",
+  "short": "RM1",
+  "code": "RM1",
+  "title": "Konceptet bazë dhe cikli i jetës së aplikacioneve",
+  "rm": "Nxënësi përshkruan konceptet bazë dhe ciklin e jetës së aplikacioneve.",
+  "sections": [
+   {
+    "h": "Çfarë është aplikacioni softuerik",
+    "blocks": [
+     {
+      "p": "Aplikacioni softuerik është program ose grup programesh i krijuar për të realizuar detyra të caktuara për përdoruesin. Harduerin e përbëjnë pjesët fizike të kompjuterit, ndërsa softueri është pjesa logjike që i tregon pajisjes çfarë të bëjë."
+     },
+     {
+      "p": "Shembuj: përpunuesi i tekstit, shfletuesi i internetit, aplikacionet e komunikimit, dyqanet online, sistemet bankare, kalkulatori."
+     },
+     {
+      "p": "Aplikacionet janë të rëndësishme sepse automatizojnë punët, i kryejnë më shpejt dhe me më pak gabime, kursejnë burime dhe rrisin produktivitetin në arsim, biznes, shëndetësi e kudo tjetër."
+     }
+    ]
+   },
+   {
+    "h": "Arkitektura dhe llojet e aplikacioneve",
+    "blocks": [
+     {
+      "p": "Arkitektura tregon si janë organizuar pjesët e aplikacionit dhe si komunikojnë mes vete."
+     },
+     {
+      "table": [
+       [
+        "Arkitektura",
+        "Si funksionon"
+       ],
+       [
+        "Me tri shtresa",
+        "1) ndërfaqja me përdoruesin, 2) logjika e aplikacionit, 3) të dhënat / baza e të dhënave"
+       ],
+       [
+        "Klient – server",
+        "Klienti dërgon kërkesë, serveri e përpunon dhe kthen përgjigjen"
+       ],
+       [
+        "Mikroshërbime",
+        "Aplikacioni ndahet në shumë shërbime të vogla që komunikojnë mes vete"
+       ]
+      ]
+     },
+     {
+      "p": "Llojet kryesore të aplikacioneve:"
+     },
+     {
+      "list": [
+       "Desktop – instalohen në kompjuter (p.sh. Word).",
+       "Web – përdoren përmes shfletuesit (p.sh. Gmail në web).",
+       "Mobile – për telefona dhe tableta.",
+       "Aplikacione biznesi – për menaxhimin e proceseve të organizatës.",
+       "Aplikacione të bazave të të dhënave – për ruajtjen dhe përpunimin e informacionit.",
+       "Aplikacione komunikimi dhe rrjete sociale."
+      ]
+     }
+    ]
+   },
+   {
+    "h": "Komponentët dhe nocionet kryesore",
+    "blocks": [
+     {
+      "table": [
+       [
+        "Nocioni",
+        "Kuptimi"
+       ],
+       [
+        "Ndërfaqja e përdoruesit",
+        "Pjesa me të cilën ndërvepron përdoruesi: butonat, menutë, formularët."
+       ],
+       [
+        "Logjika e aplikacionit",
+        "Përcakton si përpunohen kërkesat dhe të dhënat."
+       ],
+       [
+        "Serveri",
+        "Ofron shërbime dhe përpunon kërkesat e përdoruesve."
+       ],
+       [
+        "Baza e të dhënave",
+        "Sistem i organizuar për ruajtjen dhe menaxhimin e të dhënave."
+       ],
+       [
+        "Gjuha e programimit",
+        "Gjuhë formale për t'i dhënë udhëzime kompjuterit (Python, Java, JavaScript, C#...)."
+       ],
+       [
+        "Algoritmi",
+        "Varg hapash të përcaktuar dhe të renditur për zgjidhjen e një problemi."
+       ],
+       [
+        "Kodimi",
+        "Shndërrimi i algoritmit dhe kërkesave në udhëzime të shkruara në gjuhë programimi."
+       ],
+       [
+        "Frontend",
+        "Pjesa që përdoruesi e sheh: pamja, butonat, formularët."
+       ],
+       [
+        "Backend",
+        "Pjesa në prapaskenë: logjika, përpunimi i kërkesave, komunikimi me bazën e të dhënave."
+       ],
+       [
+        "Siguria e aplikacionit",
+        "Fjalëkalime të sigurta, autentikim, kontroll i autorizimeve, enkriptim, përditësime të rregullta."
+       ]
+      ]
+     },
+     {
+      "note": "Siguria nuk lihet për në fund: ajo planifikohet që në fazat e para të zhvillimit."
+     }
+    ]
+   },
+   {
+    "h": "Cikli i jetës së zhvillimit të aplikacionit (SDLC)",
+    "blocks": [
+     {
+      "p": "SDLC (Software Development Life Cycle) përfshin të gjitha fazat nëpër të cilat kalon aplikacioni, nga ideja deri te mirëmbajtja. Cikli përsëritet: reagimet e përdoruesve sjellin kërkesa të reja."
+     },
+     {
+      "figure": "sdlc"
+     },
+     {
+      "table": [
+       [
+        "Faza",
+        "Çfarë bëhet",
+        "Shembull: dyqan online"
+       ],
+       [
+        "1. Analiza e kërkesave",
+        "Mblidhen nevojat e klientit dhe përdoruesve; përcaktohen funksionet",
+        "Regjistrim, kërkim produktesh, porosi, pagesë"
+       ],
+       [
+        "2. Planifikimi",
+        "Objektivat, afatet, ekipi, teknologjitë, ndarja e detyrave",
+        "Kush merret me frontend, backend, testim"
+       ],
+       [
+        "3. Dizajnimi",
+        "Arkitektura, baza e të dhënave, ndërfaqja",
+        "Skica e faqeve dhe tabelat Produkti, Porosia"
+       ],
+       [
+        "4. Programimi",
+        "Shkruhet kodi sipas dizajnit",
+        "Programohet shporta dhe pagesa"
+       ],
+       [
+        "5. Testimi",
+        "Kontrollohet a funksionon sipas kërkesave; gjenden dhe korrigjohen gabimet",
+        "Provohet porosia me të dhëna të ndryshme"
+       ],
+       [
+        "6. Publikimi",
+        "Aplikacioni vendoset në përdorim (server, dyqan aplikacionesh)",
+        "Faqja publikohet në internet"
+       ],
+       [
+        "7. Mirëmbajtja dhe përditësimi",
+        "Korrigjohen gabimet, shtohen funksione, përmirësohet siguria",
+        "Shtohet pagesa me kartelë të re"
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "h": "Inteligjenca Artificiale në zhvillimin e aplikacioneve",
+    "blocks": [
+     {
+      "p": "Mjetet e IA-së ndihmojnë zhvilluesin: sugjerojnë ose shpjegojnë kod, propozojnë algoritme dhe struktura bazash të të dhënave, përgatisin raste testimi dhe dokumentacion. IA nuk e zëvendëson zhvilluesin."
+     },
+     {
+      "note": "Kodi i gjeneruar nga IA duhet të kontrollohet dhe testohet. Fjalëkalimet, çelësat e API-ve dhe të dhënat konfidenciale nuk u jepen mjeteve të IA-së."
+     }
+    ]
+   }
+  ],
+  "terms": [
+   [
+    "Aplikacion softuerik",
+    "Program ose grup programesh që realizon detyra të caktuara për përdoruesin."
+   ],
+   [
+    "Arkitektura e aplikacionit",
+    "Mënyra si organizohen pjesët e aplikacionit dhe si komunikojnë mes vete."
+   ],
+   [
+    "Klient – server",
+    "Model ku klienti dërgon kërkesa dhe serveri i përpunon."
+   ],
+   [
+    "Frontend",
+    "Pjesa e aplikacionit që përdoruesi e sheh dhe me të cilën ndërvepron."
+   ],
+   [
+    "Backend",
+    "Pjesa në prapaskenë: logjika, përpunimi i kërkesave, lidhja me bazën e të dhënave."
+   ],
+   [
+    "Algoritmi",
+    "Varg hapash të renditur për zgjidhjen e një problemi."
+   ],
+   [
+    "Kodimi",
+    "Shkrimi i udhëzimeve në një gjuhë programimi."
+   ],
+   [
+    "SDLC",
+    "Cikli i jetës së zhvillimit të softuerit: analiza, planifikimi, dizajnimi, programimi, testimi, publikimi, mirëmbajtja."
+   ],
+   [
+    "Autentikimi",
+    "Kontrolli i identitetit të përdoruesit, p.sh. me emër përdoruesi dhe fjalëkalim."
+   ]
+  ],
+  "quiz": [
+   {
+    "q": "Cila është pjesa fizike e kompjuterit?",
+    "o": [
+     "Softueri",
+     "Hardueri",
+     "Algoritmi",
+     "Kodi"
+    ],
+    "a": 1,
+    "e": "Hardueri janë pjesët fizike; softueri është pjesa logjike."
+   },
+   {
+    "q": "Në arkitekturën me tri shtresa, shtresa e tretë merret me:",
+    "o": [
+     "ndërfaqen",
+     "logjikën",
+     "të dhënat dhe bazën e të dhënave",
+     "printimin"
+    ],
+    "a": 2,
+    "e": "Ndërfaqja → logjika → të dhënat."
+   },
+   {
+    "q": "Butonat, menutë dhe formularët janë pjesë e:",
+    "o": [
+     "backend-it",
+     "frontend-it",
+     "bazës së të dhënave",
+     "serverit"
+    ],
+    "a": 1,
+    "e": "Frontend është pjesa që përdoruesi e sheh."
+   },
+   {
+    "q": "Cila fazë e SDLC vjen menjëherë pas analizës së kërkesave?",
+    "o": [
+     "Testimi",
+     "Planifikimi",
+     "Publikimi",
+     "Programimi"
+    ],
+    "a": 1,
+    "e": "Analiza → Planifikimi → Dizajnimi → Programimi → Testimi → Publikimi → Mirëmbajtja."
+   },
+   {
+    "q": "Në cilën fazë kontrollohet nëse aplikacioni funksionon sipas kërkesave?",
+    "o": [
+     "Dizajnimi",
+     "Testimi",
+     "Planifikimi",
+     "Analiza"
+    ],
+    "a": 1,
+    "e": "Testimi gjen gabimet para publikimit."
+   },
+   {
+    "q": "Aplikacioni që përdoret përmes shfletuesit është aplikacion:",
+    "o": [
+     "desktop",
+     "web",
+     "i integruar",
+     "hardueri"
+    ],
+    "a": 1,
+    "e": "Aplikacionet web hapen në shfletues."
+   },
+   {
+    "q": "Cila është masë sigurie e aplikacionit?",
+    "o": [
+     "Fjalëkalimi 123456",
+     "Enkriptimi i të dhënave",
+     "Ndarja publike e të dhënave",
+     "Mospërditësimi"
+    ],
+    "a": 1,
+    "e": "Enkriptimi mbron të dhënat nga qasja e paautorizuar."
+   },
+   {
+    "q": "Kodi që e gjeneron një mjet i IA-së:",
+    "o": [
+     "publikohet menjëherë",
+     "kontrollohet dhe testohet nga zhvilluesi",
+     "nuk ka kurrë gabime",
+     "zëvendëson testimin"
+    ],
+    "a": 1,
+    "e": "Përgjegjësia për kodin mbetet te zhvilluesi."
+   }
+  ],
+  "tf": [
+   [
+    "Backend-i merret me komunikimin me bazën e të dhënave.",
+    true
+   ],
+   [
+    "Cikli i jetës së aplikacionit përfundon me publikimin.",
+    false
+   ],
+   [
+    "Në fazën e planifikimit përcaktohen afatet dhe ndarja e detyrave në ekip.",
+    true
+   ],
+   [
+    "Siguria e aplikacionit mendohet vetëm pasi aplikacioni të jetë publikuar.",
+    false
+   ],
+   [
+    "Aplikacionet mobile krijohen për telefona dhe tableta.",
+    true
+   ]
+  ],
+  "order": {
+   "prompt": "Rendit fazat e ciklit të jetës së zhvillimit të aplikacionit (SDLC):",
+   "items": [
+    "Analiza e kërkesave",
+    "Planifikimi",
+    "Dizajnimi",
+    "Programimi",
+    "Testimi",
+    "Publikimi",
+    "Mirëmbajtja dhe përditësimi"
+   ]
+  },
+  "exercises": [
+   {
+    "t": "Frontend apo backend?",
+    "task": "Ndaj në frontend dhe backend: a) butoni “Blej”, b) kontrolli i fjalëkalimit në server, c) formulari i regjistrimit, d) ruajtja e porosisë në bazën e të dhënave, e) menuja e faqes.",
+    "sol": "Frontend: a, c, e. Backend: b, d."
+   },
+   {
+    "t": "Cikli i jetës për aplikacionin e shkollës",
+    "task": "Shkolla kërkon një aplikacion për njoftimin e prindërve për mungesat. Për secilën nga 7 fazat e SDLC shkruaj një fjali se çfarë do të bëhej.",
+    "sol": "Shembull: Analiza – bisedohet me drejtorinë për çfarë njoftimesh duhen; Planifikimi – afati 2 muaj, ekipi 3 veta; Dizajnimi – skica e ekranit dhe tabela Mungesat; Programimi – shkruhet kodi; Testimi – provohen njoftimet me të dhëna prove; Publikimi – aplikacioni vihet në përdorim; Mirëmbajtja – shtohen njoftime për nota."
+   },
+   {
+    "t": "Paraqitja grafike",
+    "task": "Vizato ciklin e jetës së aplikacionit si rreth me 7 faza dhe shigjeta (në fletore ose në draw.io).",
+    "sol": "Rrethi duhet të ketë fazat me renditje të saktë dhe shigjetë nga mirëmbajtja përsëri te analiza."
+   }
+  ]
+ },
+ {
+  "id": "rm2",
+  "short": "RM2",
+  "code": "RM2",
+  "title": "Algoritmet për zhvillimin e aplikacioneve",
+  "rm": "Nxënësi përshkruan algoritmet për zhvillimin e aplikacioneve.",
+  "sections": [
+   {
+    "h": "Algoritmi dhe komponentët e tij",
+    "blocks": [
+     {
+      "p": "Algoritmi është një varg hapash të qartë, të renditur dhe të fundëm që zgjidh një problem. Para se të shkruhet kodi, zgjidhja përshkruhet si algoritëm; pastaj algoritmi shndërrohet në kod në një gjuhë programimi."
+     },
+     {
+      "table": [
+       [
+        "Komponenti",
+        "Kuptimi",
+        "Shembull: mesatarja e 3 notave"
+       ],
+       [
+        "Input-i (hyrja)",
+        "Të dhënat që merr algoritmi",
+        "nota1, nota2, nota3"
+       ],
+       [
+        "Përpunimi",
+        "Veprimet mbi të dhënat",
+        "mesatarja = (nota1 + nota2 + nota3) / 3"
+       ],
+       [
+        "Output-i (dalja)",
+        "Rezultati",
+        "shfaqet mesatarja"
+       ]
+      ]
+     },
+     {
+      "p": "Një algoritëm i mirë është: i qartë (çdo hap kuptohet njëlloj), i renditur, i fundëm (përfundon), i saktë dhe efikas."
+     }
+    ]
+   },
+   {
+    "h": "Simbolet e diagramës (flowchart)",
+    "blocks": [
+     {
+      "p": "Diagrama e algoritmit (flowchart) e paraqet algoritmin me figura të standardizuara, të lidhura me shigjeta."
+     },
+     {
+      "figure": "symbols"
+     },
+     {
+      "table": [
+       [
+        "Simboli",
+        "Figura",
+        "Përdorimi"
+       ],
+       [
+        "Fillimi / Fundi",
+        "Ovale",
+        "Tregon ku fillon dhe ku mbaron algoritmi"
+       ],
+       [
+        "Hyrje / Dalje",
+        "Paralelogram",
+        "Leximi i të dhënave ose shfaqja e rezultatit"
+       ],
+       [
+        "Përpunimi",
+        "Drejtkëndësh",
+        "Llogaritje ose veprim"
+       ],
+       [
+        "Vendimi",
+        "Romb",
+        "Kusht me dy dalje: PO / JO"
+       ],
+       [
+        "Rrjedha",
+        "Shigjetë",
+        "Drejtimi i kalimit nga një hap te tjetri"
+       ],
+       [
+        "Lidhësi",
+        "Rreth i vogël",
+        "Lidh pjesë të diagramës që janë larg"
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "h": "Llojet e algoritmeve",
+    "blocks": [
+     {
+      "table": [
+       [
+        "Lloji",
+        "Si funksionon",
+        "Shembull"
+       ],
+       [
+        "Linear",
+        "Hapat kryhen njëri pas tjetrit, pa kushte",
+        "Syprina e drejtkëndëshit: S = a × b"
+       ],
+       [
+        "I degëzuar",
+        "Ka kusht; sipas përgjigjes (PO/JO) ndiqet njëra rrugë",
+        "Kalues ose jokalues sipas notës"
+       ],
+       [
+        "Ciklik",
+        "Disa hapa përsëriten derisa të plotësohet një kusht",
+        "Shuma e numrave nga 1 deri në n"
+       ]
+      ]
+     },
+     {
+      "p": "Shembull i algoritmit të degëzuar – kontrolli i notës:"
+     },
+     {
+      "code": "1. Fillimi\n2. Lexo notën\n3. Nëse nota ≥ 2 atëherë\n       shfaq \"Kalues\"\n   përndryshe\n       shfaq \"Jokalues\"\n4. Fundi"
+     },
+     {
+      "figure": "flow_nota"
+     },
+     {
+      "p": "Shembull i algoritmit ciklik – shuma nga 1 deri në n:"
+     },
+     {
+      "code": "1. Fillimi\n2. Lexo n\n3. shuma = 0, i = 1\n4. Përderisa i ≤ n:\n       shuma = shuma + i\n       i = i + 1\n5. Shfaq shumën\n6. Fundi"
+     }
+    ]
+   },
+   {
+    "h": "Hapat logjikë për ndërtimin e algoritmit",
+    "blocks": [
+     {
+      "list": [
+       "Kupto problemin: çfarë kërkohet saktësisht?",
+       "Përcakto hyrjet (çfarë të dhënash kemi) dhe daljet (çfarë rezultati duam).",
+       "Shkruaj hapat e përpunimit me radhë; shto kushte ose përsëritje kur duhen.",
+       "Vizato diagramën (flowchart).",
+       "Provoje me të dhëna shembull (“testim në letër”) dhe korrigjo gabimet."
+      ]
+     },
+     {
+      "p": "Shembull nga aplikacionet – identifikimi i përdoruesit: merr emrin e përdoruesit dhe fjalëkalimin → kontrollo në bazën e të dhënave → nëse janë të sakta lejo hyrjen, përndryshe shfaq mesazh gabimi."
+     }
+    ]
+   }
+  ],
+  "terms": [
+   [
+    "Algoritmi",
+    "Varg hapash të qartë, të renditur dhe të fundëm për zgjidhjen e një problemi."
+   ],
+   [
+    "Input",
+    "Të dhënat hyrëse që merr algoritmi."
+   ],
+   [
+    "Output",
+    "Rezultati që jep algoritmi."
+   ],
+   [
+    "Flowchart",
+    "Diagrama e algoritmit me simbole të standardizuara."
+   ],
+   [
+    "Rombi",
+    "Simboli i vendimit (kushtit) me dy dalje: PO dhe JO."
+   ],
+   [
+    "Paralelogrami",
+    "Simboli për hyrje (lexim) ose dalje (shfaqje) të të dhënave."
+   ],
+   [
+    "Algoritëm linear",
+    "Hapat kryhen njëri pas tjetrit pa kushte."
+   ],
+   [
+    "Algoritëm i degëzuar",
+    "Algoritëm me kusht, ku ndiqet njëra nga dy rrugët."
+   ],
+   [
+    "Algoritëm ciklik",
+    "Algoritëm ku disa hapa përsëriten derisa plotësohet kushti."
+   ],
+   [
+    "Pseudokodi",
+    "Përshkrim i algoritmit me fjali të thjeshta, afër gjuhës programuese."
+   ]
+  ],
+  "quiz": [
+   {
+    "q": "Cili simbol përdoret për vendim (kusht)?",
+    "o": [
+     "Ovali",
+     "Rombi",
+     "Drejtkëndëshi",
+     "Paralelogrami"
+    ],
+    "a": 1,
+    "e": "Rombi ka dy dalje: PO dhe JO."
+   },
+   {
+    "q": "Leximi i një numri nga përdoruesi paraqitet me:",
+    "o": [
+     "paralelogram",
+     "romb",
+     "ovale",
+     "rreth"
+    ],
+    "a": 0,
+    "e": "Paralelogrami = hyrje/dalje."
+   },
+   {
+    "q": "Llogaritja S = a × b paraqitet me:",
+    "o": [
+     "ovale",
+     "drejtkëndësh",
+     "romb",
+     "shigjetë"
+    ],
+    "a": 1,
+    "e": "Drejtkëndëshi = përpunim."
+   },
+   {
+    "q": "Algoritmi që ka kusht “nëse... përndryshe” është:",
+    "o": [
+     "linear",
+     "i degëzuar",
+     "ciklik",
+     "i pafund"
+    ],
+    "a": 1,
+    "e": "Kushti e degëzon rrugën."
+   },
+   {
+    "q": "Në algoritmin për mesataren e 3 notave, output-i është:",
+    "o": [
+     "tri notat",
+     "mbledhja",
+     "mesatarja",
+     "numri 3"
+    ],
+    "a": 2,
+    "e": "Notat janë input, mesatarja është output."
+   },
+   {
+    "q": "Cila veti NUK duhet ta ketë algoritmi?",
+    "o": [
+     "I qartë",
+     "I fundëm",
+     "I renditur",
+     "I paqartë"
+    ],
+    "a": 3,
+    "e": "Çdo hap duhet të kuptohet njëlloj."
+   },
+   {
+    "q": "Si lidhet algoritmi me kodimin?",
+    "o": [
+     "Nuk kanë lidhje",
+     "Algoritmi shndërrohet në kod",
+     "Kodi shkruhet para algoritmit gjithmonë",
+     "Algoritmi është vetëm për matematikë"
+    ],
+    "a": 1,
+    "e": "Kodimi është shkrimi i algoritmit në gjuhë programimi."
+   }
+  ],
+  "tf": [
+   [
+    "Ovali tregon fillimin dhe fundin e algoritmit.",
+    true
+   ],
+   [
+    "Rombi ka vetëm një dalje.",
+    false
+   ],
+   [
+    "Në algoritmin ciklik disa hapa përsëriten.",
+    true
+   ],
+   [
+    "Algoritmi mund të ketë hapa që nuk përfundojnë kurrë.",
+    false
+   ]
+  ],
+  "order": {
+   "prompt": "Rendit hapat e algoritmit për identifikimin e përdoruesit:",
+   "items": [
+    "Fillimi",
+    "Lexo emrin e përdoruesit dhe fjalëkalimin",
+    "Kontrollo të dhënat në bazën e të dhënave",
+    "Nëse janë të sakta: lejo hyrjen, përndryshe shfaq gabim",
+    "Fundi"
+   ]
+  },
+  "exercises": [
+   {
+    "t": "Numri më i madh",
+    "task": "Shkruaj algoritmin (me hapa) dhe vizato diagramën për gjetjen e numrit më të madh nga dy numra a dhe b.",
+    "sol": "1. Fillimi  2. Lexo a, b  3. Nëse a > b shfaq a, përndryshe shfaq b  4. Fundi. Diagrama: ovale → paralelogram (lexo a, b) → romb (a > b?) → PO: paralelogram (shfaq a), JO: paralelogram (shfaq b) → ovale."
+   },
+   {
+    "t": "Perimetri i drejtkëndëshit",
+    "task": "Ndërto algoritëm linear që lexon gjatësinë a dhe gjerësinë b dhe shfaq perimetrin. Cilat janë input-i, përpunimi dhe output-i?",
+    "sol": "Input: a, b. Përpunimi: P = 2 × (a + b). Output: P. Hapat: Fillimi → Lexo a, b → P = 2 × (a + b) → Shfaq P → Fundi."
+   },
+   {
+    "t": "Çmimi me zbritje",
+    "task": "Dyqani online jep 10% zbritje nëse shuma e blerjes është mbi 50 €. Shkruaj algoritmin që lexon shumën dhe shfaq çmimin për pagesë.",
+    "sol": "1. Fillimi 2. Lexo shuma 3. Nëse shuma > 50 atëherë pagesa = shuma × 0.9, përndryshe pagesa = shuma 4. Shfaq pagesa 5. Fundi. Provë: 80 € → 72 €; 40 € → 40 €."
+   },
+   {
+    "t": "Numërimi",
+    "task": "Ndërto algoritëm ciklik që shfaq numrat nga 1 deri në 10.",
+    "sol": "1. Fillimi 2. i = 1 3. Përderisa i ≤ 10: shfaq i; i = i + 1 4. Fundi."
+   }
+  ]
+ },
+ {
+  "id": "rm3",
+  "short": "RM3",
+  "code": "RM3",
+  "title": "Gjuhët programuese",
+  "rm": "Nxënësi përshkruan gjuhët programuese.",
+  "sections": [
+   {
+    "h": "Gjuha programuese dhe roli i saj",
+    "blocks": [
+     {
+      "p": "Gjuha programuese është sistem formal simbolesh, rregullash dhe sintakse me të cilin programuesi i jep udhëzime kompjuterit. Me të, algoritmi shndërrohet në kod burimor (source code) që kompjuteri mund ta ekzekutojë."
+     },
+     {
+      "p": "Kompjuteri në fund kupton vetëm gjuhën e makinës (0 dhe 1). Gjuhët e nivelit të lartë (Python, Java, C#) janë më afër gjuhës së njeriut dhe më të lehta për t'u shkruar e lexuar."
+     }
+    ]
+   },
+   {
+    "h": "Grupet kryesore sipas përdorimit",
+    "blocks": [
+     {
+      "table": [
+       [
+        "Gjuha",
+        "Përdorime tipike"
+       ],
+       [
+        "JavaScript / TypeScript",
+        "Frontend, backend, aplikacione web"
+       ],
+       [
+        "Python",
+        "Backend, automatizim, analizë të dhënash, IA"
+       ],
+       [
+        "Java",
+        "Backend, sisteme biznesi, aplikacione"
+       ],
+       [
+        "C#",
+        "Aplikacione .NET: web, desktop, lojëra"
+       ],
+       [
+        "PHP",
+        "Backend dhe aplikacione web"
+       ],
+       [
+        "Kotlin",
+        "Aplikacione Android dhe backend"
+       ],
+       [
+        "Swift",
+        "Aplikacione për platformat Apple (iPhone, iPad, Mac)"
+       ],
+       [
+        "SQL",
+        "Puna me bazat e të dhënave relacionale"
+       ]
+      ]
+     },
+     {
+      "note": "Nuk ka një gjuhë më të mirë për çdo projekt. Zgjedhja varet nga platforma, kërkesat, njohuritë e ekipit, performanca dhe siguria."
+     }
+    ]
+   },
+   {
+    "h": "Rregullat dhe sintaksa",
+    "blocks": [
+     {
+      "p": "Sintaksa janë rregullat se si shkruhen komandat. Nëse shkelet sintaksa, programi nuk ekzekutohet (gabim sintaksor). Nëse programi ekzekutohet por jep rezultat të gabuar, kemi gabim logjik."
+     },
+     {
+      "table": [
+       [
+        "Nocioni",
+        "Kuptimi",
+        "Shembull (Python)"
+       ],
+       [
+        "Variabla",
+        "Emër që ruan një vlerë",
+        "emri = \"Arta\""
+       ],
+       [
+        "Tipi i të dhënave",
+        "Lloji i vlerës: numër, tekst, logjike",
+        "mosha = 16  (numër i plotë)"
+       ],
+       [
+        "Operatorët",
+        "Veprimet + − × / dhe krahasimet",
+        "mesatarja = (a + b) / 2"
+       ],
+       [
+        "Kushti",
+        "Zgjedhje sipas kushtit",
+        "if nota >= 2:"
+       ],
+       [
+        "Cikli",
+        "Përsëritje",
+        "for i in range(1, 11):"
+       ],
+       [
+        "Komenti",
+        "Shënim për njerëzit, nuk ekzekutohet",
+        "# llogarit mesataren"
+       ]
+      ]
+     },
+     {
+      "p": "E njëjta detyrë në dy gjuhë – shfaqja e një përshëndetjeje:"
+     },
+     {
+      "code": "# Python\nprint(\"Përshëndetje!\")\n\n// C++\n#include <iostream>\nint main() {\n    std::cout << \"Përshëndetje!\";\n    return 0;\n}"
+     },
+     {
+      "p": "Kodi i mirë është i qartë, i lexueshëm, i ndarë në pjesë (modular), i sigurt dhe me emra kuptimplotë për variablat."
+     }
+    ]
+   },
+   {
+    "h": "Ekzekutimi i kodit: kompilimi dhe interpretimi",
+    "blocks": [
+     {
+      "table": [
+       [
+        "",
+        "Kompiluesi (compiler)",
+        "Interpretuesi (interpreter)"
+       ],
+       [
+        "Si punon",
+        "Përkthen gjithë programin në kod makine para ekzekutimit",
+        "Përkthen dhe ekzekuton rresht pas rreshti"
+       ],
+       [
+        "Rezultati",
+        "Skedar i ekzekutueshëm (p.sh. .exe)",
+        "Nuk krijon skedar të veçantë"
+       ],
+       [
+        "Gabimet",
+        "Raportohen të gjitha para ekzekutimit",
+        "Programi ndalet te rreshti me gabim"
+       ],
+       [
+        "Shpejtësia",
+        "Ekzekutim më i shpejtë",
+        "Ekzekutim më i ngadaltë"
+       ],
+       [
+        "Shembuj",
+        "C, C++, Go",
+        "Python, JavaScript, PHP"
+       ]
+      ]
+     },
+     {
+      "p": "Java dhe C# përdorin mënyrë të kombinuar: kodi kompilohet në një kod të ndërmjetëm (bytecode) që pastaj ekzekutohet nga një makinë virtuale (JVM / .NET)."
+     },
+     {
+      "figure": "compile"
+     }
+    ]
+   }
+  ],
+  "terms": [
+   [
+    "Gjuhë programuese",
+    "Sistem formal simbolesh dhe rregullash për të shkruar programe."
+   ],
+   [
+    "Kodi burimor",
+    "Kodi i shkruar nga programuesi në një gjuhë programimi."
+   ],
+   [
+    "Sintaksa",
+    "Rregullat se si shkruhen komandat e një gjuhe."
+   ],
+   [
+    "Variabla",
+    "Emër që ruan një vlerë që mund të ndryshojë gjatë ekzekutimit."
+   ],
+   [
+    "Gabim sintaksor",
+    "Shkelje e rregullave të gjuhës; programi nuk ekzekutohet."
+   ],
+   [
+    "Gabim logjik",
+    "Programi ekzekutohet, por rezultati është i gabuar."
+   ],
+   [
+    "Kompiluesi",
+    "Përkthen gjithë programin në kod makine para ekzekutimit."
+   ],
+   [
+    "Interpretuesi",
+    "Përkthen dhe ekzekuton kodin rresht pas rreshti."
+   ],
+   [
+    "Bytecode",
+    "Kod i ndërmjetëm që ekzekutohet nga makina virtuale (p.sh. JVM te Java)."
+   ]
+  ],
+  "quiz": [
+   {
+    "q": "Cila gjuhë përdoret kryesisht për aplikacione Android?",
+    "o": [
+     "Swift",
+     "Kotlin",
+     "SQL",
+     "PHP"
+    ],
+    "a": 1,
+    "e": "Kotlin (dhe Java) për Android; Swift për Apple."
+   },
+   {
+    "q": "Cila gjuhë përdoret për punë me bazat e të dhënave relacionale?",
+    "o": [
+     "SQL",
+     "Swift",
+     "C++",
+     "HTML"
+    ],
+    "a": 0,
+    "e": "SQL = Structured Query Language."
+   },
+   {
+    "q": "Programi ekzekutohet, por mesatarja del gabim. Ky është:",
+    "o": [
+     "gabim sintaksor",
+     "gabim logjik",
+     "gabim i kompjuterit",
+     "virus"
+    ],
+    "a": 1,
+    "e": "Gabimi logjik jep rezultat të gabuar pa e ndalur programin."
+   },
+   {
+    "q": "Kompiluesi:",
+    "o": [
+     "ekzekuton rresht pas rreshti",
+     "përkthen gjithë programin para ekzekutimit",
+     "vizaton diagrama",
+     "ruan të dhëna"
+    ],
+    "a": 1,
+    "e": "Krijon kod makine / skedar të ekzekutueshëm."
+   },
+   {
+    "q": "Python zakonisht:",
+    "o": [
+     "interpretohet",
+     "nuk ekzekutohet",
+     "është gjuhë makine",
+     "përdoret vetëm për Apple"
+    ],
+    "a": 0,
+    "e": "Python ekzekutohet nga interpretuesi."
+   },
+   {
+    "q": "Rreshti # llogarit mesataren në Python është:",
+    "o": [
+     "variabël",
+     "koment",
+     "kusht",
+     "cikël"
+    ],
+    "a": 1,
+    "e": "Komentet nuk ekzekutohen."
+   }
+  ],
+  "tf": [
+   [
+    "Kompjuteri në fund kupton vetëm gjuhën e makinës.",
+    true
+   ],
+   [
+    "Ekziston një gjuhë programuese që është më e mira për çdo projekt.",
+    false
+   ],
+   [
+    "Java kompilohet në bytecode që ekzekutohet nga JVM.",
+    true
+   ],
+   [
+    "Interpretuesi krijon gjithmonë një skedar .exe.",
+    false
+   ]
+  ],
+  "order": null,
+  "exercises": [
+   {
+    "t": "Gjej gabimin",
+    "task": "Kodi në Python: print(\"Mirëdita\"  – çfarë gabimi ka dhe si korrigjohet? A është gabim sintaksor apo logjik?",
+    "sol": "Mungon kllapa mbyllëse: print(\"Mirëdita\"). Është gabim sintaksor."
+   },
+   {
+    "t": "Gabim logjik",
+    "task": "mesatarja = a + b / 2 duhet të llogarisë mesataren e a dhe b. Pse jep rezultat të gabuar dhe si korrigjohet?",
+    "sol": "Pjesëtimi bëhet para mbledhjes, prandaj llogaritet a + (b/2). Korrigjimi: mesatarja = (a + b) / 2."
+   },
+   {
+    "t": "Zgjidh gjuhën",
+    "task": "Cilën gjuhë do të zgjidhje për: a) aplikacion për iPhone, b) faqe web interaktive, c) analizë të dhënash, d) pyetje në bazë të dhënash?",
+    "sol": "a) Swift, b) JavaScript, c) Python, d) SQL."
+   },
+   {
+    "t": "Prezantim",
+    "task": "Në grup, zgjidhni një gjuhë programuese dhe përgatitni 4–5 slajde: kur u krijua, për çfarë përdoret, një shembull kodi, a kompilohet apo interpretohet.",
+    "sol": "Vlerësohet saktësia e informatave, shembulli i kodit dhe qartësia e prezantimit."
+   }
+  ]
+ },
+ {
+  "id": "rm4",
+  "short": "RM4",
+  "code": "RM4",
+  "title": "Bazat e të dhënave",
+  "rm": "Nxënësi përshkruan bazat e të dhënave.",
+  "sections": [
+   {
+    "h": "Të dhënat dhe informacioni",
+    "blocks": [
+     {
+      "p": "Të dhënat janë fakte të papërpunuara: numra, emra, data, fotografi. Informacioni është rezultati i përpunimit të të dhënave, që ka kuptim dhe ndihmon në marrjen e vendimeve."
+     },
+     {
+      "table": [
+       [
+        "Të dhëna",
+        "Informacion"
+       ],
+       [
+        "4, 5, 3",
+        "Mesatarja e Artës në Programim është 4"
+       ],
+       [
+        "23, 25, 21 (°C)",
+        "Temperatura mesatare e javës ishte 23 °C"
+       ],
+       [
+        "lista e porosive",
+        "Produkti më i shitur i muajit"
+       ]
+      ]
+     },
+     {
+      "p": "Llojet e të dhënave:"
+     },
+     {
+      "table": [
+       [
+        "Lloji",
+        "Shembull"
+       ],
+       [
+        "Tekst (string)",
+        "\"Prishtinë\", \"Arta\""
+       ],
+       [
+        "Numër i plotë (integer)",
+        "16, 250"
+       ],
+       [
+        "Numër dhjetor (decimal/float)",
+        "4.75, 19.99"
+       ],
+       [
+        "Datë / orë",
+        "01.09.2026 08:00"
+       ],
+       [
+        "Logjike (boolean)",
+        "PO / JO, true / false"
+       ],
+       [
+        "Binare",
+        "fotografi, dokumente"
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "h": "Baza e të dhënave dhe roli i saj",
+    "blocks": [
+     {
+      "p": "Baza e të dhënave është koleksion i organizuar të dhënash që mund të ruhen, kërkohen, përditësohen dhe menaxhohen në mënyrë sistematike. Ajo menaxhohet nga një sistem për menaxhimin e bazave të të dhënave (SMBD / DBMS), p.sh. MySQL, PostgreSQL, SQL Server, SQLite, MS Access ose MongoDB."
+     },
+     {
+      "p": "Në aplikacion, baza e të dhënave ruan përdoruesit, produktet, porositë, notat etj., në mënyrë që të mos humben kur mbyllet aplikacioni dhe të gjenden shpejt."
+     }
+    ]
+   },
+   {
+    "h": "Struktura tipike",
+    "blocks": [
+     {
+      "table": [
+       [
+        "Nocioni",
+        "Kuptimi"
+       ],
+       [
+        "Tabela",
+        "Ruan të dhëna për një lloj objekti (p.sh. Nxënësit)"
+       ],
+       [
+        "Kolona (fusha)",
+        "Një veti e objektit (p.sh. Emri)"
+       ],
+       [
+        "Rreshti (rekordi)",
+        "Të dhënat për një objekt (një nxënës)"
+       ],
+       [
+        "Çelësi primar (PK)",
+        "Fushë që e identifikon në mënyrë unike çdo rresht (p.sh. nxenes_id)"
+       ],
+       [
+        "Çelësi i jashtëm (FK)",
+        "Fushë që lidhet me çelësin primar të një tabele tjetër"
+       ]
+      ]
+     },
+     {
+      "p": "Shembull – tabela Nxënësit:"
+     },
+     {
+      "table": [
+       [
+        "nxenes_id (PK)",
+        "emri",
+        "mbiemri",
+        "klasa",
+        "datelindja"
+       ],
+       [
+        "1",
+        "Arta",
+        "Krasniqi",
+        "X-5",
+        "12.03.2011"
+       ],
+       [
+        "2",
+        "Dren",
+        "Berisha",
+        "X-5",
+        "05.07.2011"
+       ],
+       [
+        "3",
+        "Elira",
+        "Gashi",
+        "X-5",
+        "21.11.2010"
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "h": "Llojet e bazave dhe lidhjet ndërmjet tabelave",
+    "blocks": [
+     {
+      "table": [
+       [
+        "Lloji",
+        "Karakteristikat",
+        "Shembuj"
+       ],
+       [
+        "Relacionale (SQL)",
+        "Të dhënat në tabela të lidhura mes vete; përdoret gjuha SQL",
+        "MySQL, PostgreSQL, SQL Server, SQLite"
+       ],
+       [
+        "Jorelacionale (NoSQL)",
+        "Të dhënat si dokumente, çifte çelës–vlerë ose grafe; fleksibile për sasi të mëdha",
+        "MongoDB, Redis"
+       ],
+       [
+        "Në cloud",
+        "Ruhen dhe menaxhohen nga ofrues cloud",
+        "Firebase, Azure SQL"
+       ]
+      ]
+     },
+     {
+      "table": [
+       [
+        "Lidhja",
+        "Kuptimi",
+        "Shembull"
+       ],
+       [
+        "Një me një (1:1)",
+        "Një rekord në A lidhet me vetëm një në B",
+        "Përdoruesi – Profili"
+       ],
+       [
+        "Një me shumë (1:N)",
+        "Një rekord në A lidhet me shumë në B",
+        "Klasa – Nxënësit"
+       ],
+       [
+        "Shumë me shumë (N:M)",
+        "Shumë në A lidhen me shumë në B (përmes tabelës ndërmjetëse)",
+        "Nxënësit – Lëndët"
+       ]
+      ]
+     },
+     {
+      "figure": "er"
+     }
+    ]
+   },
+   {
+    "h": "Operacionet kryesore (CRUD)",
+    "blocks": [
+     {
+      "table": [
+       [
+        "Operacioni",
+        "Kuptimi",
+        "SQL"
+       ],
+       [
+        "Futja (Create)",
+        "Shtohet rekord i ri",
+        "INSERT INTO Nxenesit (emri, klasa) VALUES ('Blend', 'X-5');"
+       ],
+       [
+        "Leximi (Read)",
+        "Merren të dhënat",
+        "SELECT * FROM Nxenesit WHERE klasa = 'X-5';"
+       ],
+       [
+        "Përditësimi (Update)",
+        "Ndryshohet rekordi",
+        "UPDATE Nxenesit SET klasa = 'X-4' WHERE nxenes_id = 2;"
+       ],
+       [
+        "Fshirja (Delete)",
+        "Largohet rekordi",
+        "DELETE FROM Nxenesit WHERE nxenes_id = 3;"
+       ]
+      ]
+     },
+     {
+      "note": "Kujdes te UPDATE dhe DELETE: pa kushtin WHERE ndryshohen ose fshihen të gjitha rreshtat e tabelës."
+     }
+    ]
+   }
+  ],
+  "terms": [
+   [
+    "Të dhëna",
+    "Fakte të papërpunuara: numra, emra, data."
+   ],
+   [
+    "Informacion",
+    "Të dhëna të përpunuara që kanë kuptim."
+   ],
+   [
+    "Baza e të dhënave",
+    "Koleksion i organizuar të dhënash që ruhen dhe menaxhohen sistematikisht."
+   ],
+   [
+    "SMBD (DBMS)",
+    "Sistemi për menaxhimin e bazës së të dhënave, p.sh. MySQL."
+   ],
+   [
+    "Tabela",
+    "Struktura me rreshta dhe kolona që ruan të dhëna për një lloj objekti."
+   ],
+   [
+    "Rekordi",
+    "Një rresht i tabelës."
+   ],
+   [
+    "Fusha",
+    "Një kolonë e tabelës."
+   ],
+   [
+    "Çelësi primar",
+    "Fushë që e identifikon në mënyrë unike çdo rresht."
+   ],
+   [
+    "Çelësi i jashtëm",
+    "Fushë që lidh tabelën me çelësin primar të tabelës tjetër."
+   ],
+   [
+    "CRUD",
+    "Create, Read, Update, Delete: futja, leximi, përditësimi, fshirja."
+   ]
+  ],
+  "quiz": [
+   {
+    "q": "“Mesatarja e klasës është 4.2” është:",
+    "o": [
+     "e dhënë e papërpunuar",
+     "informacion",
+     "tabelë",
+     "çelës primar"
+    ],
+    "a": 1,
+    "e": "Është rezultat i përpunimit të notave."
+   },
+   {
+    "q": "Vlera true/false është e tipit:",
+    "o": [
+     "tekst",
+     "datë",
+     "logjik (boolean)",
+     "dhjetor"
+    ],
+    "a": 2,
+    "e": "Boolean ka vetëm dy vlera."
+   },
+   {
+    "q": "Një rresht i tabelës quhet:",
+    "o": [
+     "fushë",
+     "rekord",
+     "çelës",
+     "SMBD"
+    ],
+    "a": 1,
+    "e": "Kolona = fushë, rreshti = rekord."
+   },
+   {
+    "q": "Fusha që e identifikon në mënyrë unike çdo rekord është:",
+    "o": [
+     "çelësi primar",
+     "çelësi i jashtëm",
+     "emri",
+     "indeksi i faqes"
+    ],
+    "a": 0,
+    "e": "P.sh. nxenes_id."
+   },
+   {
+    "q": "Lidhja Klasa – Nxënësit është:",
+    "o": [
+     "1:1",
+     "1:N",
+     "N:M",
+     "nuk ka lidhje"
+    ],
+    "a": 1,
+    "e": "Një klasë ka shumë nxënës; një nxënës është në një klasë."
+   },
+   {
+    "q": "Cila komandë SQL lexon të dhëna?",
+    "o": [
+     "INSERT",
+     "DELETE",
+     "SELECT",
+     "UPDATE"
+    ],
+    "a": 2,
+    "e": "SELECT = leximi."
+   },
+   {
+    "q": "MongoDB është bazë e të dhënave:",
+    "o": [
+     "relacionale",
+     "jorelacionale (NoSQL)",
+     "gjuhë programimi",
+     "sistem operativ"
+    ],
+    "a": 1,
+    "e": "Ruan të dhënat si dokumente."
+   }
+  ],
+  "tf": [
+   [
+    "Informacioni është e dhënë e përpunuar që ka kuptim.",
+    true
+   ],
+   [
+    "Dy nxënës mund të kenë të njëjtën vlerë të çelësit primar.",
+    false
+   ],
+   [
+    "UPDATE pa WHERE ndryshon të gjitha rreshtat.",
+    true
+   ],
+   [
+    "MySQL është bazë e të dhënave relacionale.",
+    true
+   ],
+   [
+    "Lidhja Nxënësit – Lëndët është 1:1.",
+    false
+   ]
+  ],
+  "order": null,
+  "exercises": [
+   {
+    "t": "Tabela Librat",
+    "task": "Dizajno tabelën Librat për bibliotekën e shkollës: shkruaj 5 fusha, tipin e të dhënave për secilën dhe cila është çelës primar.",
+    "sol": "Shembull: libri_id (numër i plotë, PK), titulli (tekst), autori (tekst), viti (numër i plotë), ne_dispozicion (boolean)."
+   },
+   {
+    "t": "Lloji i lidhjes",
+    "task": "Përcakto llojin e lidhjes: a) Shteti – Kryeqyteti, b) Mësimdhënësi – Lëndët që jep (një lëndë mund ta japin shumë mësimdhënës), c) Klienti – Porositë.",
+    "sol": "a) 1:1, b) N:M, c) 1:N."
+   },
+   {
+    "t": "CRUD",
+    "task": "Për tabelën Nxenesit shkruaj komandat SQL: a) shto nxënësen Rina në X-5, b) shfaq të gjithë nxënësit, c) ndrysho klasën e nxënësit me id 1 në X-6, d) fshij nxënësin me id 4.",
+    "sol": "a) INSERT INTO Nxenesit (emri, klasa) VALUES ('Rina', 'X-5');  b) SELECT * FROM Nxenesit;  c) UPDATE Nxenesit SET klasa = 'X-6' WHERE nxenes_id = 1;  d) DELETE FROM Nxenesit WHERE nxenes_id = 4;"
+   },
+   {
+    "t": "Skema grafike",
+    "task": "Vizato dy tabela, Klasat dhe Nxenesit, me fushat e tyre, shëno PK dhe FK dhe lidhjen 1:N ndërmjet tyre.",
+    "sol": "Klasat(klasa_id PK, emri) — 1:N — Nxenesit(nxenes_id PK, emri, mbiemri, klasa_id FK)."
+   }
+  ]
+ },
+ {
+  "id": "rm5",
+  "short": "RM5",
+  "code": "RM5",
+  "title": "Aspektet ligjore, administrative dhe ekonomike",
+  "rm": "Nxënësi përshkruan aspektet ligjore, administrative dhe ekonomike për zhvillim aplikacionesh.",
+  "sections": [
+   {
+    "h": "Ndërmarrjet për zhvillim aplikacionesh",
+    "blocks": [
+     {
+      "p": "Aplikacione zhvillojnë: kompani softuerike, kompani të TIK-ut, kompani për aplikacione web dhe mobile, kompani të shërbimeve cloud, start-up-e, kompani që punojnë me outsourcing (për klientë të jashtëm) dhe profesionistë të pavarur (freelancer). Aplikacione zhvillojnë edhe departamentet e TI-së në banka, institucione publike dhe kompani telekomunikacioni."
+     },
+     {
+      "p": "Në Kosovë biznesi regjistrohet sipas legjislacionit në fuqi. Format e zakonshme juridike janë biznesi individual, ortakëria, shoqëria me përgjegjësi të kufizuar (SH.P.K.) dhe shoqëria aksionare (SH.A.). Regjistrimi zakonisht përfshin zgjedhjen e formës juridike dhe emrit, përcaktimin e veprimtarisë, regjistrimin në institucionet kompetente dhe respektimin e detyrimeve tatimore."
+     }
+    ]
+   },
+   {
+    "h": "Të drejtat dhe detyrimet e zhvilluesit",
+    "blocks": [
+     {
+      "table": [
+       [
+        "Të drejtat",
+        "Detyrimet"
+       ],
+       [
+        "Kontratë pune me shkrim",
+        "Kryerja e detyrave me cilësi dhe në afat"
+       ],
+       [
+        "Pagë e rregullt",
+        "Ruajtja e konfidencialitetit të kompanisë dhe klientëve"
+       ],
+       [
+        "Kushte të sigurta pune",
+        "Respektimi i rregullave të sigurisë dhe të privatësisë"
+       ],
+       [
+        "Pushim ditor, javor dhe vjetor",
+        "Respektimi i licencave dhe i së drejtës së autorit"
+       ],
+       [
+        "Trajnim dhe zhvillim profesional",
+        "Respektimi i orarit dhe i rregullores së punës"
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "h": "Etika, privatësia dhe e drejta e autorit",
+    "blocks": [
+     {
+      "list": [
+       "Privatësia: të dhënat personale (emri, adresa, numri personal, fotografitë) mblidhen vetëm kur duhen, ruhen të sigurta dhe nuk u jepen të tjerëve pa leje.",
+       "Fjalëkalimet nuk ruhen si tekst i hapur, por në formë të mbrojtur (hash).",
+       "E drejta e autorit: kodi, imazhet, bibliotekat dhe materialet e tjera përdoren sipas licencës së tyre.",
+       "Softueri me licencë komerciale blihet; softueri me burim të hapur (open source, p.sh. licencat MIT ose GPL) përdoret sipas kushteve të licencës.",
+       "Siguria në punë dhe mbrojtja e mjedisit vlejnë edhe këtu: ergonomia, pajisjet e sigurta, kursimi i energjisë, riciklimi i mbetjeve elektronike."
+      ]
+     }
+    ]
+   },
+   {
+    "h": "Dokumentet administrative dhe kontrata e punës",
+    "blocks": [
+     {
+      "table": [
+       [
+        "Dokumenti",
+        "Përdorimi"
+       ],
+       [
+        "CV",
+        "Arsimi, përvoja, teknologjitë dhe projektet e kandidatit"
+       ],
+       [
+        "Letra e motivimit",
+        "Pse kandidati e dëshiron pozitën"
+       ],
+       [
+        "Portfolio",
+        "Projektet e realizuara me përshkrim dhe teknologji"
+       ],
+       [
+        "Oferta",
+        "Çmimi dhe përmbajtja e punës që i propozohet klientit"
+       ],
+       [
+        "Fatura",
+        "Pagesa për shërbimin e kryer"
+       ],
+       [
+        "Raporti i punës",
+        "Çfarë është bërë, sa orë, çfarë mbetet"
+       ]
+      ]
+     },
+     {
+      "p": "Kontrata tipike e punës përmban:"
+     },
+     {
+      "list": [
+       "palët (punëdhënësi dhe punëmarrësi) dhe data e lidhjes",
+       "pozita dhe përshkrimi i detyrave, vendi i punës",
+       "kohëzgjatja (e caktuar / e pacaktuar) dhe periudha provuese",
+       "orari i punës dhe pushimet",
+       "paga dhe mënyra e pagesës",
+       "konfidencialiteti dhe e drejta mbi kodin e zhvilluar",
+       "kushtet e ndërprerjes së kontratës dhe nënshkrimet"
+      ]
+     },
+     {
+      "p": "Fatura përmban të dhënat e shitësit dhe të klientit, numrin dhe datën, përshkrimin e shërbimit, sasinë, çmimin, vlerën totale dhe afatin e pagesës."
+     }
+    ]
+   },
+   {
+    "h": "Kostoja dhe llogaritja e çmimit të projektit",
+    "blocks": [
+     {
+      "p": "Faktorët e kostos: koha e punës, kompleksiteti i projektit, numri i funksioneve, pajisjet, licencat, serveri / hosting-u / domain-i, mirëmbajtja e parashikuar dhe fitimi i planifikuar."
+     },
+     {
+      "formula": "Çmimi i projektit = Kostoja e punës + Shpenzimet e tjera + Fitimi"
+     },
+     {
+      "p": "Shembull (nga Udhëzuesi): aplikacion i thjeshtë web për regjistrimin e klientëve."
+     },
+     {
+      "table": [
+       [
+        "Veprimtaria",
+        "Orë"
+       ],
+       [
+        "Takimi me klientin dhe kërkesat",
+        "1"
+       ],
+       [
+        "Analiza dhe planifikimi",
+        "2"
+       ],
+       [
+        "Dizajnimi i ndërfaqes dhe i bazës",
+        "2"
+       ],
+       [
+        "Programimi i funksioneve",
+        "8"
+       ],
+       [
+        "Testimi dhe korrigjimi",
+        "3"
+       ],
+       [
+        "Publikimi, dokumentimi, dorëzimi",
+        "2"
+       ],
+       [
+        "Gjithsej",
+        "18"
+       ]
+      ]
+     },
+     {
+      "list": [
+       "Kostoja e punës: 18 orë × 10 € = 180 €",
+       "Shpenzimet e tjera (licenca, internet, energji, pajisje, hosting, transferim të dhënash): 30 €",
+       "Kostoja e projektit: 180 € + 30 € = 210 €",
+       "Fitimi 20%: 210 € × 0,20 = 42 €",
+       "Çmimi: 210 € + 42 € = 252 €, i rrumbullakuar në 250 €"
+      ]
+     },
+     {
+      "calc": true
+     }
+    ]
+   }
+  ],
+  "terms": [
+   [
+    "SH.P.K.",
+    "Shoqëri me përgjegjësi të kufizuar: forma më e shpeshtë juridike e kompanive."
+   ],
+   [
+    "Freelancer",
+    "Profesionist i pavarur që punon me projekte për klientë."
+   ],
+   [
+    "Outsourcing",
+    "Kryerja e punës për klientë të jashtëm (shpesh jashtë vendit)."
+   ],
+   [
+    "Konfidencialiteti",
+    "Detyrimi për të mos zbuluar informacionet e kompanisë dhe klientëve."
+   ],
+   [
+    "E drejta e autorit",
+    "E drejta e krijuesit mbi veprën e tij (kod, imazh, tekst)."
+   ],
+   [
+    "Licenca",
+    "Leja dhe kushtet për përdorimin e një softueri ose materiali."
+   ],
+   [
+    "Open source",
+    "Softuer me kod burimor të hapur që përdoret sipas licencës (MIT, GPL...)."
+   ],
+   [
+    "Kontrata e punës",
+    "Marrëveshje me shkrim ndërmjet punëdhënësit dhe punëmarrësit."
+   ],
+   [
+    "Fatura",
+    "Dokument financiar që kërkon pagesë për shërbimin e kryer."
+   ],
+   [
+    "Kostoja e punës",
+    "Orët e punës × vlera e një ore pune."
+   ]
+  ],
+  "quiz": [
+   {
+    "q": "Çmimi i projektit llogaritet:",
+    "o": [
+     "Kostoja e punës + Shpenzimet e tjera + Fitimi",
+     "Vetëm orët e punës",
+     "Fitimi − Shpenzimet",
+     "Hosting-u × 2"
+    ],
+    "a": 0,
+    "e": "Formula e thjeshtuar nga Udhëzuesi."
+   },
+   {
+    "q": "12 orë punë me 15 €/orë kushtojnë:",
+    "o": [
+     "27 €",
+     "150 €",
+     "180 €",
+     "120 €"
+    ],
+    "a": 2,
+    "e": "12 × 15 = 180 €."
+   },
+   {
+    "q": "Cili dokument dërgohet klientit pas përfundimit të punës për pagesë?",
+    "o": [
+     "CV",
+     "Fatura",
+     "Letra e motivimit",
+     "Portfolio"
+    ],
+    "a": 1,
+    "e": "Fatura kërkon pagesë për shërbimin."
+   },
+   {
+    "q": "Si ruhen fjalëkalimet e përdoruesve?",
+    "o": [
+     "Si tekst i hapur",
+     "Në formë të mbrojtur (hash)",
+     "Në një fletë letre",
+     "Nuk ruhen kurrë"
+    ],
+    "a": 1,
+    "e": "Kështu nuk lexohen edhe nëse baza vidhet."
+   },
+   {
+    "q": "Cila NUK hyn zakonisht në kontratën e punës?",
+    "o": [
+     "Paga",
+     "Orari",
+     "Nota mesatare në shkollë e fëmijëve",
+     "Pozita"
+    ],
+    "a": 2,
+    "e": "Kontrata përmban pozitën, detyrat, orarin, pagën, pushimet etj."
+   },
+   {
+    "q": "Përdorimi i një biblioteke open source:",
+    "o": [
+     "nuk ka asnjë rregull",
+     "bëhet sipas kushteve të licencës",
+     "është i ndaluar",
+     "kërkon gjithmonë pagesë"
+    ],
+    "a": 1,
+    "e": "Edhe open source ka licencë (MIT, GPL...)."
+   }
+  ],
+  "tf": [
+   [
+    "Freelancer-i është profesionist i pavarur.",
+    true
+   ],
+   [
+    "Zhvilluesi mund t'ua tregojë të tjerëve të dhënat e klientëve pa leje.",
+    false
+   ],
+   [
+    "Fitimi 20% mbi koston 210 € është 42 €.",
+    true
+   ],
+   [
+    "Kontrata e punës duhet të përmbajë pagën dhe orarin e punës.",
+    true
+   ]
+  ],
+  "order": null,
+  "exercises": [
+   {
+    "t": "Llogarit çmimin",
+    "task": "Një aplikacion për rezervime kërkon 30 orë punë me 12 €/orë. Shpenzimet e tjera janë 45 €. Fitimi i planifikuar është 15%. Llogarit koston e punës, koston e projektit, fitimin dhe çmimin.",
+    "sol": "Kostoja e punës = 30 × 12 = 360 €. Kostoja e projektit = 360 + 45 = 405 €. Fitimi = 405 × 0,15 = 60,75 €. Çmimi = 465,75 € ≈ 465 € ose 470 €."
+   },
+   {
+    "t": "Kontrata ime e parë",
+    "task": "Plotëso një kontratë pune tipike (në fletë ose në Word) për pozitën “Zhvillues/e i ri i aplikacioneve web” me të gjitha elementet kryesore.",
+    "sol": "Kontrollo: palët, data, pozita dhe detyrat, vendi, kohëzgjatja, periudha provuese, orari, paga, pushimet, konfidencialiteti, ndërprerja, nënshkrimet."
+   },
+   {
+    "t": "Etikë apo jo?",
+    "task": "Vlerëso secilin rast: a) përdor një foto nga interneti pa kontrolluar licencën, b) e ruan fjalëkalimin si hash, c) ia dërgon listën e klientëve një shoku, d) e fik monitorin kur shkon në pushim.",
+    "sol": "a) jo e drejtë, b) e drejtë, c) jo e drejtë (shkelje e privatësisë), d) e drejtë (kursim energjie)."
+   }
+  ]
+ }
+];
+const FIGS = {"sdlc": "<svg viewBox=\"0 0 760 460\" width=\"760\" height=\"460\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Cikli i jetës së zhvillimit të aplikacionit me 7 faza\"><defs><marker id=\"sar\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto-start-reverse\"><path d=\"M0,0 L10,5 L0,10 z\" style=\"fill:var(--svg-line)\"/></marker></defs><line x1=\"475.82674308500293\" y1=\"87.0\" x2=\"489.01310532162086\" y2=\"91.26579487286291\" style=\"fill:none;stroke:var(--svg-line);stroke-width:1.6\" marker-end=\"url(#sar)\"/><line x1=\"595.3727660145602\" y1=\"153.2657948728629\" x2=\"624.8981953837014\" y2=\"240.16368437631132\" style=\"fill:none;stroke:var(--svg-line);stroke-width:1.6\" marker-end=\"url(#sar)\"/><line x1=\"598.629528534235\" y1=\"302.1636843763113\" x2=\"530.479124106203\" y2=\"359.5705207508258\" style=\"fill:none;stroke:var(--svg-line);stroke-width:1.6\" marker-end=\"url(#sar)\"/><line x1=\"392.67753964880023\" y1=\"390.5705207508258\" x2=\"367.32246035119977\" y2=\"390.5705207508258\" style=\"fill:none;stroke:var(--svg-line);stroke-width:1.6\" marker-end=\"url(#sar)\"/><line x1=\"229.520875893797\" y1=\"359.5705207508258\" x2=\"161.37047146576498\" y2=\"302.1636843763114\" style=\"fill:none;stroke:var(--svg-line);stroke-width:1.6\" marker-end=\"url(#sar)\"/><line x1=\"135.10180461629858\" y1=\"240.16368437631138\" x2=\"164.62723398543983\" y2=\"153.26579487286293\" style=\"fill:none;stroke:var(--svg-line);stroke-width:1.6\" marker-end=\"url(#sar)\"/><line x1=\"270.9868946783791\" y1=\"91.26579487286293\" x2=\"284.17325691499707\" y2=\"87.0\" style=\"fill:none;stroke:var(--svg-line);stroke-width:1.6\" marker-end=\"url(#sar)\"/><rect x=\"285.0\" y=\"31.0\" width=\"190\" height=\"50\" rx=\"10\" style=\"fill:var(--svg-accentFill);stroke:var(--svg-accent);stroke-width:1.6\"/><circle cx=\"305.0\" cy=\"56.0\" r=\"12\" style=\"fill:var(--svg-accent);stroke:none;stroke-width:1.6\"/><text x=\"305.0\" y=\"57.0\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-onAccent);font-family:'Onest', system-ui, sans-serif;font-size:13px;font-weight:700\">1</text><text x=\"396.0\" y=\"57.0\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:13.5px;font-weight:600\">Analiza e kërkesave</text><rect x=\"489.8398484066238\" y=\"97.26579487286291\" width=\"190\" height=\"50\" rx=\"10\" style=\"fill:var(--svg-fill);stroke:var(--svg-stroke);stroke-width:1.6\"/><circle cx=\"509.8398484066238\" cy=\"122.26579487286291\" r=\"12\" style=\"fill:var(--svg-accent);stroke:none;stroke-width:1.6\"/><text x=\"509.8398484066238\" y=\"123.26579487286291\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-onAccent);font-family:'Onest', system-ui, sans-serif;font-size:13px;font-weight:700\">2</text><text x=\"600.8398484066238\" y=\"123.26579487286291\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:13.5px;font-weight:600\">Planifikimi</text><rect x=\"540.4311129916377\" y=\"246.16368437631132\" width=\"190\" height=\"50\" rx=\"10\" style=\"fill:var(--svg-fill);stroke:var(--svg-stroke);stroke-width:1.6\"/><circle cx=\"560.4311129916377\" cy=\"271.1636843763113\" r=\"12\" style=\"fill:var(--svg-accent);stroke:none;stroke-width:1.6\"/><text x=\"560.4311129916377\" y=\"272.1636843763113\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-onAccent);font-family:'Onest', system-ui, sans-serif;font-size:13px;font-weight:700\">3</text><text x=\"651.4311129916377\" y=\"272.1636843763113\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:13.5px;font-weight:600\">Dizajnimi</text><rect x=\"398.67753964880023\" y=\"365.5705207508258\" width=\"190\" height=\"50\" rx=\"10\" style=\"fill:var(--svg-fill);stroke:var(--svg-stroke);stroke-width:1.6\"/><circle cx=\"418.67753964880023\" cy=\"390.5705207508258\" r=\"12\" style=\"fill:var(--svg-accent);stroke:none;stroke-width:1.6\"/><text x=\"418.67753964880023\" y=\"391.5705207508258\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-onAccent);font-family:'Onest', system-ui, sans-serif;font-size:13px;font-weight:700\">4</text><text x=\"509.67753964880023\" y=\"391.5705207508258\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:13.5px;font-weight:600\">Programimi</text><rect x=\"171.32246035119977\" y=\"365.5705207508258\" width=\"190\" height=\"50\" rx=\"10\" style=\"fill:var(--svg-fill);stroke:var(--svg-stroke);stroke-width:1.6\"/><circle cx=\"191.32246035119977\" cy=\"390.5705207508258\" r=\"12\" style=\"fill:var(--svg-accent);stroke:none;stroke-width:1.6\"/><text x=\"191.32246035119977\" y=\"391.5705207508258\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-onAccent);font-family:'Onest', system-ui, sans-serif;font-size:13px;font-weight:700\">5</text><text x=\"282.32246035119977\" y=\"391.5705207508258\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:13.5px;font-weight:600\">Testimi</text><rect x=\"29.568887008362225\" y=\"246.16368437631138\" width=\"190\" height=\"50\" rx=\"10\" style=\"fill:var(--svg-fill);stroke:var(--svg-stroke);stroke-width:1.6\"/><circle cx=\"49.568887008362225\" cy=\"271.1636843763114\" r=\"12\" style=\"fill:var(--svg-accent);stroke:none;stroke-width:1.6\"/><text x=\"49.568887008362225\" y=\"272.1636843763114\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-onAccent);font-family:'Onest', system-ui, sans-serif;font-size:13px;font-weight:700\">6</text><text x=\"140.56888700836222\" y=\"272.1636843763114\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:13.5px;font-weight:600\">Publikimi</text><rect x=\"80.16015159337616\" y=\"97.26579487286293\" width=\"190\" height=\"50\" rx=\"10\" style=\"fill:var(--svg-fill);stroke:var(--svg-stroke);stroke-width:1.6\"/><circle cx=\"100.16015159337616\" cy=\"122.26579487286293\" r=\"12\" style=\"fill:var(--svg-accent);stroke:none;stroke-width:1.6\"/><text x=\"100.16015159337616\" y=\"123.26579487286293\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-onAccent);font-family:'Onest', system-ui, sans-serif;font-size:13px;font-weight:700\">7</text><text x=\"191.16015159337616\" y=\"123.26579487286293\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:13.5px;font-weight:600\">Mirëmbajtja</text><text x=\"380\" y=\"222\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-accent);font-family:'Onest', system-ui, sans-serif;font-size:26px;font-weight:800\">SDLC</text><text x=\"380\" y=\"250\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-muted);font-family:'Onest', system-ui, sans-serif;font-size:13px;font-weight:500\">cikli përsëritet</text></svg>", "symbols": "<svg viewBox=\"0 0 720 170\" width=\"720\" height=\"170\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Simbolet e diagramës së algoritmit\"><defs><marker id=\"yar\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto-start-reverse\"><path d=\"M0,0 L10,5 L0,10 z\" style=\"fill:var(--svg-line)\"/></marker></defs><rect x=\"12.0\" y=\"44\" width=\"96\" height=\"48\" rx=\"24\" style=\"fill:var(--svg-fill);stroke:var(--svg-stroke);stroke-width:1.8\"/><text x=\"60.0\" y=\"130\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:14px;font-weight:600\">Fillimi / Fundi</text><polygon points=\"144.0,92 230.0,92 216.0,44 130.0,44\" style=\"fill:var(--svg-fill);stroke:var(--svg-stroke);stroke-width:1.8\"/><text x=\"180.0\" y=\"130\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:14px;font-weight:600\">Hyrje / Dalje</text><rect x=\"252.0\" y=\"44\" width=\"96\" height=\"48\" rx=\"2\" style=\"fill:var(--svg-fill);stroke:var(--svg-stroke);stroke-width:1.8\"/><text x=\"300.0\" y=\"130\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:14px;font-weight:600\">Përpunimi</text><polygon points=\"420.0,34 470.0,68 420.0,102 370.0,68\" style=\"fill:var(--svg-fill);stroke:var(--svg-stroke);stroke-width:1.8\"/><text x=\"420.0\" y=\"130\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:14px;font-weight:600\">Vendimi</text><line x1=\"496.0\" y1=\"68\" x2=\"584.0\" y2=\"68\" style=\"fill:none;stroke:var(--svg-line);stroke-width:1.6\" marker-end=\"url(#yar)\"/><text x=\"540.0\" y=\"130\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:14px;font-weight:600\">Rrjedha</text><circle cx=\"660.0\" cy=\"68\" r=\"18\" style=\"fill:var(--svg-fill);stroke:var(--svg-stroke);stroke-width:1.8\"/><text x=\"660.0\" y=\"130\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:14px;font-weight:600\">Lidhësi</text></svg>", "flow_nota": "<svg viewBox=\"0 0 560 470\" width=\"560\" height=\"470\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Diagrama e algoritmit: kalues ose jokalues sipas notës\"><defs><marker id=\"far\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto-start-reverse\"><path d=\"M0,0 L10,5 L0,10 z\" style=\"fill:var(--svg-line)\"/></marker></defs><rect x=\"220\" y=\"16\" width=\"120\" height=\"44\" rx=\"22\" style=\"fill:var(--svg-accentFill);stroke:var(--svg-accent);stroke-width:1.8\"/><text x=\"280\" y=\"39\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:15px;font-weight:700\">Fillimi</text><line x1=\"280\" y1=\"60\" x2=\"280\" y2=\"92\" style=\"fill:none;stroke:var(--svg-line);stroke-width:1.6\" marker-end=\"url(#far)\"/><polygon points=\"208,140 366,140 352,94 194,94\" style=\"fill:var(--svg-fill);stroke:var(--svg-stroke);stroke-width:1.8\"/><text x=\"280\" y=\"118\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:15px;font-weight:600\">Lexo notën</text><line x1=\"280\" y1=\"140\" x2=\"280\" y2=\"170\" style=\"fill:none;stroke:var(--svg-line);stroke-width:1.6\" marker-end=\"url(#far)\"/><polygon points=\"280,172 370,222 280,272 190,222\" style=\"fill:var(--svg-fill);stroke:var(--svg-stroke);stroke-width:1.8\"/><text x=\"280\" y=\"223\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:15px;font-weight:700\">nota ≥ 2 ?</text><polyline points=\"370,222 450,222 450,300\" style=\"fill:none;stroke:var(--svg-line);stroke-width:1.6\" marker-end=\"url(#far)\"/><text x=\"408\" y=\"208\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-good);font-family:'Onest', system-ui, sans-serif;font-size:13px;font-weight:700\">PO</text><polygon points=\"385,346 525,346 515,302 375,302\" style=\"fill:var(--svg-fill);stroke:var(--svg-stroke);stroke-width:1.8\"/><text x=\"450\" y=\"324\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:14px;font-weight:600\">Shfaq “Kalues”</text><polyline points=\"190,222 110,222 110,300\" style=\"fill:none;stroke:var(--svg-line);stroke-width:1.6\" marker-end=\"url(#far)\"/><text x=\"152\" y=\"208\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-bad);font-family:'Onest', system-ui, sans-serif;font-size:13px;font-weight:700\">JO</text><polygon points=\"35,346 185,346 175,302 25,302\" style=\"fill:var(--svg-fill);stroke:var(--svg-stroke);stroke-width:1.8\"/><text x=\"105\" y=\"324\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:14px;font-weight:600\">Shfaq “Jokalues”</text><polyline points=\"450,346 450,386 286,386\" style=\"fill:none;stroke:var(--svg-line);stroke-width:1.6\" marker-end=\"url(#far)\"/><polyline points=\"105,346 105,386 274,386\" style=\"fill:none;stroke:var(--svg-line);stroke-width:1.6\" marker-end=\"url(#far)\"/><circle cx=\"280\" cy=\"386\" r=\"5\" style=\"fill:var(--svg-line);stroke:none;stroke-width:1.6\"/><line x1=\"280\" y1=\"391\" x2=\"280\" y2=\"410\" style=\"fill:none;stroke:var(--svg-line);stroke-width:1.6\" marker-end=\"url(#far)\"/><rect x=\"220\" y=\"412\" width=\"120\" height=\"44\" rx=\"22\" style=\"fill:var(--svg-accentFill);stroke:var(--svg-accent);stroke-width:1.8\"/><text x=\"280\" y=\"435\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:15px;font-weight:700\">Fundi</text></svg>", "compile": "<svg viewBox=\"0 0 720 220\" width=\"720\" height=\"220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Kompilimi dhe interpretimi i kodit\"><defs><marker id=\"car\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto-start-reverse\"><path d=\"M0,0 L10,5 L0,10 z\" style=\"fill:var(--svg-line)\"/></marker></defs><text x=\"10\" y=\"54\" text-anchor=\"start\" dominant-baseline=\"middle\" style=\"fill:var(--svg-muted);font-family:'Onest', system-ui, sans-serif;font-size:12px;font-weight:700\">C, C++</text><rect x=\"92\" y=\"26\" width=\"138\" height=\"56\" rx=\"8\" style=\"fill:var(--svg-fill);stroke:var(--svg-stroke);stroke-width:1.6\"/><text x=\"161.0\" y=\"46\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:14px;font-weight:700\">Kodi burimor</text><text x=\"161.0\" y=\"65\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-muted);font-family:'Onest', system-ui, sans-serif;font-size:12px;font-weight:500\">print(...)</text><line x1=\"232\" y1=\"54\" x2=\"262\" y2=\"54\" style=\"fill:none;stroke:var(--svg-line);stroke-width:1.6\" marker-end=\"url(#car)\"/><rect x=\"264\" y=\"26\" width=\"150\" height=\"56\" rx=\"8\" style=\"fill:var(--svg-accentFill);stroke:var(--svg-accent);stroke-width:1.6\"/><text x=\"339.0\" y=\"46\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:14px;font-weight:700\">Kompiluesi</text><text x=\"339.0\" y=\"65\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-muted);font-family:'Onest', system-ui, sans-serif;font-size:12px;font-weight:500\">gjithë programi</text><line x1=\"416\" y1=\"54\" x2=\"446\" y2=\"54\" style=\"fill:none;stroke:var(--svg-line);stroke-width:1.6\" marker-end=\"url(#car)\"/><rect x=\"448\" y=\"26\" width=\"120\" height=\"56\" rx=\"8\" style=\"fill:var(--svg-fill);stroke:var(--svg-stroke);stroke-width:1.6\"/><text x=\"508.0\" y=\"46\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:14px;font-weight:700\">Kod makine</text><text x=\"508.0\" y=\"65\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-muted);font-family:'Onest', system-ui, sans-serif;font-size:12px;font-weight:500\">.exe</text><line x1=\"570\" y1=\"54\" x2=\"598\" y2=\"54\" style=\"fill:none;stroke:var(--svg-line);stroke-width:1.6\" marker-end=\"url(#car)\"/><rect x=\"600\" y=\"26\" width=\"112\" height=\"56\" rx=\"8\" style=\"fill:var(--svg-fill);stroke:var(--svg-stroke);stroke-width:1.6\"/><text x=\"656.0\" y=\"46\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:14px;font-weight:700\">Ekzekutimi</text><text x=\"656.0\" y=\"65\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-muted);font-family:'Onest', system-ui, sans-serif;font-size:12px;font-weight:500\">rezultati</text><text x=\"10\" y=\"154\" text-anchor=\"start\" dominant-baseline=\"middle\" style=\"fill:var(--svg-muted);font-family:'Onest', system-ui, sans-serif;font-size:12px;font-weight:700\">Python, JS</text><rect x=\"92\" y=\"126\" width=\"138\" height=\"56\" rx=\"8\" style=\"fill:var(--svg-fill);stroke:var(--svg-stroke);stroke-width:1.6\"/><text x=\"161.0\" y=\"146\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:14px;font-weight:700\">Kodi burimor</text><text x=\"161.0\" y=\"165\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-muted);font-family:'Onest', system-ui, sans-serif;font-size:12px;font-weight:500\">print(...)</text><line x1=\"232\" y1=\"154\" x2=\"262\" y2=\"154\" style=\"fill:none;stroke:var(--svg-line);stroke-width:1.6\" marker-end=\"url(#car)\"/><rect x=\"264\" y=\"126\" width=\"150\" height=\"56\" rx=\"8\" style=\"fill:var(--svg-accentFill);stroke:var(--svg-accent);stroke-width:1.6\"/><text x=\"339.0\" y=\"146\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:14px;font-weight:700\">Interpretuesi</text><text x=\"339.0\" y=\"165\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-muted);font-family:'Onest', system-ui, sans-serif;font-size:12px;font-weight:500\">rresht pas rreshti</text><line x1=\"416\" y1=\"154\" x2=\"598\" y2=\"154\" style=\"fill:none;stroke:var(--svg-line);stroke-width:1.6\" marker-end=\"url(#car)\"/><rect x=\"600\" y=\"126\" width=\"112\" height=\"56\" rx=\"8\" style=\"fill:var(--svg-fill);stroke:var(--svg-stroke);stroke-width:1.6\"/><text x=\"656.0\" y=\"146\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:14px;font-weight:700\">Ekzekutimi</text><text x=\"656.0\" y=\"165\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-muted);font-family:'Onest', system-ui, sans-serif;font-size:12px;font-weight:500\">rezultati</text></svg>", "er": "<svg viewBox=\"0 0 640 220\" width=\"640\" height=\"220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Lidhja një me shumë ndërmjet tabelave Klasat dhe Nxenesit\"><defs><marker id=\"ear\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto-start-reverse\"><path d=\"M0,0 L10,5 L0,10 z\" style=\"fill:var(--svg-line)\"/></marker></defs><rect x=\"20\" y=\"20\" width=\"220\" height=\"130\" rx=\"8\" style=\"fill:var(--svg-fill);stroke:var(--svg-stroke);stroke-width:1.6\"/><path d=\"M20 60 H240\" style=\"fill:none;stroke:var(--svg-stroke);stroke-width:1.2\"/><rect x=\"20\" y=\"20\" width=\"220\" height=\"40\" rx=\"8\" style=\"fill:var(--svg-accentFill);stroke:none;stroke-width:1.6\"/><text x=\"130\" y=\"41\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:16px;font-weight:800\">Klasat</text><text x=\"36\" y=\"76\" text-anchor=\"start\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'JetBrains Mono', ui-monospace, monospace;font-size:14px;font-weight:500\">klasa_id</text><text x=\"224\" y=\"76\" text-anchor=\"end\" dominant-baseline=\"middle\" style=\"fill:var(--svg-accent);font-family:'Onest', system-ui, sans-serif;font-size:12px;font-weight:800\">PK</text><text x=\"36\" y=\"106\" text-anchor=\"start\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'JetBrains Mono', ui-monospace, monospace;font-size:14px;font-weight:500\">emri</text><text x=\"36\" y=\"136\" text-anchor=\"start\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'JetBrains Mono', ui-monospace, monospace;font-size:14px;font-weight:500\">kujdestari</text><rect x=\"400\" y=\"20\" width=\"220\" height=\"160\" rx=\"8\" style=\"fill:var(--svg-fill);stroke:var(--svg-stroke);stroke-width:1.6\"/><path d=\"M400 60 H620\" style=\"fill:none;stroke:var(--svg-stroke);stroke-width:1.2\"/><rect x=\"400\" y=\"20\" width=\"220\" height=\"40\" rx=\"8\" style=\"fill:var(--svg-accentFill);stroke:none;stroke-width:1.6\"/><text x=\"510\" y=\"41\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'Onest', system-ui, sans-serif;font-size:16px;font-weight:800\">Nxenesit</text><text x=\"416\" y=\"76\" text-anchor=\"start\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'JetBrains Mono', ui-monospace, monospace;font-size:14px;font-weight:500\">nxenes_id</text><text x=\"604\" y=\"76\" text-anchor=\"end\" dominant-baseline=\"middle\" style=\"fill:var(--svg-accent);font-family:'Onest', system-ui, sans-serif;font-size:12px;font-weight:800\">PK</text><text x=\"416\" y=\"106\" text-anchor=\"start\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'JetBrains Mono', ui-monospace, monospace;font-size:14px;font-weight:500\">emri</text><text x=\"416\" y=\"136\" text-anchor=\"start\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'JetBrains Mono', ui-monospace, monospace;font-size:14px;font-weight:500\">mbiemri</text><text x=\"416\" y=\"166\" text-anchor=\"start\" dominant-baseline=\"middle\" style=\"fill:var(--svg-ink);font-family:'JetBrains Mono', ui-monospace, monospace;font-size:14px;font-weight:500\">klasa_id</text><text x=\"604\" y=\"166\" text-anchor=\"end\" dominant-baseline=\"middle\" style=\"fill:var(--svg-accent);font-family:'Onest', system-ui, sans-serif;font-size:12px;font-weight:800\">FK</text><path d=\"M240 76 C 320 76, 320 166, 400 166\" style=\"fill:none;stroke:var(--svg-line);stroke-width:1.8\"/><text x=\"254\" y=\"64\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-accent);font-family:'Onest', system-ui, sans-serif;font-size:15px;font-weight:800\">1</text><text x=\"384\" y=\"154\" text-anchor=\"middle\" dominant-baseline=\"middle\" style=\"fill:var(--svg-accent);font-family:'Onest', system-ui, sans-serif;font-size:15px;font-weight:800\">N</text></svg>"};
+const MODES = [['learn','Mëso'],['review','Përsërit'],['practice','Ushtro']];
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem('bza:'+k); return v ? JSON.parse(v) : d; }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem('bza:'+k, JSON.stringify(v)); }catch(e){} }
+};
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const FINAL = {id:'test', short:'Test', code:'TEST', title:'Test përmbledhës', rm:'12 pyetje të rastësishme nga i gjithë moduli. Ideal para testit me shkrim.'};
+const CHAPTERS = [...DATA, FINAL];
+
+let state = { ch: store.get('ch', 'hyrje'), mode: store.get('mode', 'learn') };
+if (!CHAPTERS.find(c => c.id === state.ch)) state.ch = 'hyrje';
+const scores = store.get('scores', {}); // {chId: {quiz:{i:bool}, tf:{i:bool}}}
+
+function chStats(id){
+  const c = DATA.find(x => x.id === id); if (!c) return null;
+  const s = scores[id] || {};
+  const total = c.quiz.length + c.tf.length;
+  const done = Object.keys(s.quiz||{}).length + Object.keys(s.tf||{}).length;
+  const ok = Object.values(s.quiz||{}).filter(Boolean).length + Object.values(s.tf||{}).filter(Boolean).length;
+  return {total, done, ok};
+}
+function renderOverall(){
+  let t=0, ok=0; DATA.forEach(c => { const s = chStats(c.id); t += s.total; ok += s.ok; });
+  const p = t ? Math.round(ok/t*100) : 0;
+  document.getElementById('ovpct').textContent = p + '%';
+  document.getElementById('ovbar').style.width = p + '%';
+}
+function renderNav(){
+  const nav = document.getElementById('nav');
+  nav.innerHTML = CHAPTERS.map(c => {
+    const s = chStats(c.id);
+    const meta = s ? `${s.ok}/${s.total} të sakta` : 'nga i gjithë moduli';
+    return `<button class="chbtn" data-ch="${c.id}" aria-current="${c.id===state.ch}"><span class="code">${c.code}</span><span class="t">${esc(c.title)}<small>${meta}</small></span></button>`;
+  }).join('');
+  nav.querySelectorAll('.chbtn').forEach(b => b.onclick = () => { state.ch = b.dataset.ch; store.set('ch', state.ch); if(state.ch==='test') state.mode='practice'; render(); window.scrollTo({top:0}); });
+}
+function setScore(ch, kind, i, val){
+  scores[ch] = scores[ch] || {}; scores[ch][kind] = scores[ch][kind] || {};
+  scores[ch][kind][i] = val; store.set('scores', scores); renderOverall(); renderNav();
+}
+
+/* ---------- LEARN ---------- */
+function blockHTML(b){
+  if (b.p) return `<p>${esc(b.p)}</p>`;
+  if (b.list) return `<ul>${b.list.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`;
+  if (b.note) return `<div class="note">${esc(b.note)}</div>`;
+  if (b.code) return `<pre>${esc(b.code)}</pre>`;
+  if (b.formula) return `<div class="formula">${esc(b.formula)}</div>`;
+  if (b.figure) return `<figure>${FIGS[b.figure]}</figure>`;
+  if (b.table){
+    const [h, ...rows] = b.table;
+    const cell = v => /^(INSERT|SELECT|UPDATE|DELETE)/.test(v) ? `<code>${esc(v)}</code>` : esc(v);
+    return `<div class="tbl"><table><thead><tr>${h.map(x=>`<th>${esc(x)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(x=>`<td>${cell(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+  }
+  if (b.calc) return calcHTML();
+  return '';
+}
+function learnHTML(c){
+  return c.sections.map((s,i)=>`<section class="sec"><h3><span class="n">${c.code}.${i+1}</span>${esc(s.h)}</h3>${s.blocks.map(blockHTML).join('')}</section>`).join('');
+}
+function calcHTML(){
+  return `<div class="block" style="margin-top:8px"><h3>Llogaritësi i çmimit</h3><p class="sub">Ndrysho vlerat dhe shiko si ndryshon çmimi.</p>
+  <div class="calc">
+    <label for="c-h">Orë pune<input id="c-h" type="number" min="0" value="18"></label>
+    <label for="c-r">Vlera e orës (€)<input id="c-r" type="number" min="0" value="10"></label>
+    <label for="c-e">Shpenzime të tjera (€)<input id="c-e" type="number" min="0" value="30"></label>
+    <label for="c-p">Fitimi (%)<input id="c-p" type="number" min="0" value="20"></label>
+  </div>
+  <div class="res" id="c-res"></div></div>`;
+}
+function bindCalc(){
+  const ids = ['c-h','c-r','c-e','c-p']; if (!document.getElementById('c-h')) return;
+  const f = n => n.toLocaleString('sq-AL',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €';
+  const upd = () => {
+    const [h,r,e,p] = ids.map(i => parseFloat(document.getElementById(i).value) || 0);
+    const labor = h*r, cost = labor+e, profit = cost*p/100, price = cost+profit;
+    document.getElementById('c-res').innerHTML =
+      `<div><small>Kostoja e punës</small><b>${f(labor)}</b></div><div><small>Kostoja e projektit</small><b>${f(cost)}</b></div><div><small>Fitimi</small><b>${f(profit)}</b></div><div class="final"><small>Çmimi i projektit</small><b>${f(price)}</b></div>`;
+  };
+  ids.forEach(i => document.getElementById(i).addEventListener('input', upd)); upd();
+}
+
+/* ---------- REVIEW ---------- */
+let fc = {i:0, known:new Set(), order:null};
+function reviewHTML(c){
+  return `<div class="fc-wrap">
+    <button class="card" id="card" aria-label="Kthe kartelën"><div class="in"><div class="face"><div class="term" id="fterm"></div><small>Kliko për ta kthyer</small></div><div class="face back"><div class="def" id="fdef"></div><small>Kliko për ta kthyer</small></div></div></button>
+    <div class="fc-ctrl">
+      <button class="btn" id="fprev" aria-label="Kartela e mëparshme">←</button>
+      <span class="count" id="fcount"></span>
+      <button class="btn" id="fnext" aria-label="Kartela tjetër">→</button>
+    </div>
+    <div class="fc-ctrl">
+      <button class="btn bad" id="fno">Ende jo</button>
+      <button class="btn good" id="fyes">E dija</button>
+      <button class="btn" id="fshuf">Përziej</button>
+    </div>
+    <p class="count" id="fknown" style="min-width:0"></p>
+    <details class="gloss sec"><summary>Fjalori i kapitullit (${c.terms.length} terma)</summary><dl>${c.terms.map(t=>`<dt>${esc(t[0])}</dt><dd>${esc(t[1])}</dd>`).join('')}</dl></details>
+  </div>`;
+}
+function bindReview(c){
+  fc = {i:0, known:new Set(store.get('known:'+c.id, [])), order:c.terms.map((_,i)=>i)};
+  const card = document.getElementById('card');
+  const show = () => {
+    const t = c.terms[fc.order[fc.i]];
+    card.classList.remove('flip');
+    document.getElementById('fterm').textContent = t[0];
+    document.getElementById('fdef').textContent = t[1];
+    document.getElementById('fcount').textContent = `${fc.i+1} / ${c.terms.length}`;
+    document.getElementById('fknown').textContent = `I di: ${fc.known.size} nga ${c.terms.length} terma`;
+  };
+  card.onclick = () => card.classList.toggle('flip');
+  const step = d => { fc.i = (fc.i + d + c.terms.length) % c.terms.length; show(); };
+  document.getElementById('fprev').onclick = () => step(-1);
+  document.getElementById('fnext').onclick = () => step(1);
+  const mark = yes => { const k = fc.order[fc.i]; yes ? fc.known.add(k) : fc.known.delete(k); store.set('known:'+c.id, [...fc.known]); step(1); };
+  document.getElementById('fyes').onclick = () => mark(true);
+  document.getElementById('fno').onclick = () => mark(false);
+  document.getElementById('fshuf').onclick = () => { fc.order.sort(()=>Math.random()-.5); fc.i=0; show(); };
+  show();
+}
+
+/* ---------- PRACTICE ---------- */
+function quizQ(q, idx, key){
+  return `<div class="q" data-key="${key}" data-i="${idx}"><div class="qt">${idx+1}. ${esc(q.q)}</div><div class="opts">${q.o.map((o,j)=>`<button class="opt" data-j="${j}">${String.fromCharCode(97+j)}) ${esc(o)}</button>`).join('')}</div><div class="fbh"></div></div>`;
+}
+function practiceHTML(c){
+  let h = `<div class="block"><h3>Kuiz</h3><p class="sub">Zgjidh përgjigjen. Shpjegimi del menjëherë.</p><div id="quiz">${c.quiz.map((q,i)=>quizQ(q,i,'quiz')).join('')}</div><div class="score"><span>Rezultati: <b id="qs">0 / ${c.quiz.length}</b></span><button class="btn" id="qreset">Fillo nga e para</button></div></div>`;
+  h += `<div class="block"><h3>E vërtetë apo e gabuar?</h3><p class="sub">Vlerëso secilin pohim.</p><div id="tf">${c.tf.map((t,i)=>`<div class="q" data-i="${i}"><div class="tfrow"><div class="qt" style="margin:0;flex:1 1 260px">${esc(t[0])}</div><div class="opts"><button class="opt" data-v="1">E vërtetë</button><button class="opt" data-v="0">E gabuar</button></div></div><div class="fbh"></div></div>`).join('')}</div></div>`;
+  if (c.order) h += `<div class="block"><h3>Renditja</h3><p class="sub">${esc(c.order.prompt)} Përdor shigjetat ↑ ↓.</p><ol class="order" id="ord"></ol><div class="score"><span id="ordmsg"></span><span style="display:flex;gap:8px"><button class="btn" id="ordmix">Përziej</button><button class="btn pri" id="ordchk">Kontrollo</button></span></div></div>`;
+  h += `<div class="block"><h3>Ushtrime</h3><p class="sub">Zgjidhi në fletore ose në kompjuter, pastaj krahaso me zgjidhjen.</p>${c.exercises.map((e,i)=>`<div class="ex"><h4>Ushtrimi ${i+1}: ${esc(e.t)}</h4><p>${esc(e.task)}</p><details><summary>Shfaq zgjidhjen</summary><p>${esc(e.sol)}</p></details></div>`).join('')}</div>`;
+  return h;
+}
+function bindQuiz(root, list, chId, kind, onScore){
+  const s = (scores[chId]||{})[kind] || {};
+  root.querySelectorAll('.q').forEach(qd => {
+    const i = +qd.dataset.i, q = list[i];
+    const answer = j => {
+      qd.querySelectorAll('.opt').forEach((b,k) => { b.disabled = true; if (k===q.a) b.classList.add('ok'); });
+      const ok = j === q.a;
+      if (!ok) qd.querySelectorAll('.opt')[j].classList.add('no');
+      qd.querySelector('.fbh').innerHTML = `<div class="fb ${ok?'ok':'no'}">${ok?'Saktë!':'Jo saktë.'} <span>${esc(q.e||'')}</span></div>`;
+      return ok;
+    };
+    qd.querySelectorAll('.opt').forEach(b => b.onclick = () => { const ok = answer(+b.dataset.j); if(chId) setScore(chId, kind, i, ok); onScore(); });
+    if (chId && s[i] !== undefined && q.picked === undefined){ /* restore only correctness state */ }
+  });
+}
+function bindPractice(c){
+  const qs = () => { const n = [...document.querySelectorAll('#quiz .fb.ok')].length; document.getElementById('qs').textContent = `${n} / ${c.quiz.length}`; };
+  bindQuiz(document.getElementById('quiz'), c.quiz, c.id, 'quiz', qs);
+  document.getElementById('qreset').onclick = () => { if(scores[c.id]) { scores[c.id].quiz = {}; store.set('scores',scores); } render(); };
+  document.querySelectorAll('#tf .q').forEach(qd => {
+    const i = +qd.dataset.i, [txt, val] = c.tf[i];
+    qd.querySelectorAll('.opt').forEach(b => b.onclick = () => {
+      const pick = b.dataset.v === '1', ok = pick === val;
+      qd.querySelectorAll('.opt').forEach(x => { x.disabled = true; if ((x.dataset.v==='1') === val) x.classList.add('ok'); });
+      if (!ok) b.classList.add('no');
+      qd.querySelector('.fbh').innerHTML = `<div class="fb ${ok?'ok':'no'}">${ok?'Saktë!':'Jo saktë.'} <span>Pohimi është ${val?'i vërtetë':'i gabuar'}.</span></div>`;
+      setScore(c.id, 'tf', i, ok);
+    });
+  });
+  if (c.order){
+    let cur = c.order.items.map((_,i)=>i);
+    const mix = () => { do { cur.sort(()=>Math.random()-.5); } while (cur.every((v,i)=>v===i)); draw(); document.getElementById('ordmsg').textContent=''; };
+    const draw = (check) => {
+      document.getElementById('ord').innerHTML = cur.map((k,pos)=>`<li class="${check ? (k===pos?'ok':'no') : ''}"><span class="pos">${pos+1}.</span><span class="txt">${esc(c.order.items[k])}</span><button class="mv" data-p="${pos}" data-d="-1" aria-label="Lart">↑</button><button class="mv" data-p="${pos}" data-d="1" aria-label="Poshtë">↓</button></li>`).join('');
+      document.querySelectorAll('#ord .mv').forEach(b => b.onclick = () => { const p=+b.dataset.p, d=+b.dataset.d, t=p+d; if(t<0||t>=cur.length) return; [cur[p],cur[t]]=[cur[t],cur[p]]; draw(); document.getElementById('ordmsg').textContent=''; });
+    };
+    document.getElementById('ordmix').onclick = mix;
+    document.getElementById('ordchk').onclick = () => { draw(true); const n = cur.filter((k,p)=>k===p).length; document.getElementById('ordmsg').innerHTML = n===cur.length ? '<b style="color:var(--good)">Renditje e saktë!</b>' : `<b>${n} / ${cur.length}</b> në vendin e duhur`; };
+    mix();
+  }
+}
+
+/* ---------- FINAL TEST ---------- */
+function finalTest(){
+  const pool = []; DATA.forEach(c => c.quiz.forEach(q => pool.push({...q, from:c.code})));
+  pool.sort(()=>Math.random()-.5);
+  const list = pool.slice(0,12);
+  const main = document.getElementById('main');
+  main.innerHTML = `<div class="chead"><span class="eyebrow">Përsëritje e përgjithshme</span><h2>${FINAL.title}</h2><p class="rm">${FINAL.rm}</p></div>
+  <div class="block"><div id="fq">${list.map((q,i)=>quizQ(q,i,'final').replace('<div class="qt">', `<div class="qt"><span class="code" style="height:22px;padding:0 6px;font-size:11px;margin-right:8px">${q.from}</span>`)).join('')}</div>
+  <div class="score"><span>Rezultati: <b id="fs">0 / ${list.length}</b> <span id="fgrade" class="count"></span></span><button class="btn pri" id="fnew">Test i ri</button></div></div>`;
+  const upd = () => {
+    const ok = document.querySelectorAll('#fq .fb.ok').length, done = document.querySelectorAll('#fq .fb').length;
+    document.getElementById('fs').textContent = `${ok} / ${list.length}`;
+    if (done === list.length){ const p = ok/list.length; const g = p>=.9?5:p>=.75?4:p>=.6?3:p>=.45?2:1; document.getElementById('fgrade').textContent = `· nota orientuese: ${g}`; }
+  };
+  bindQuiz(document.getElementById('fq'), list, null, 'final', upd);
+  document.getElementById('fnew').onclick = () => { finalTest(); window.scrollTo({top:0}); };
+}
+
+/* ---------- RENDER ---------- */
+function render(){
+  renderNav(); renderOverall();
+  if (state.ch === 'test') return finalTest();
+  const c = DATA.find(x => x.id === state.ch);
+  const main = document.getElementById('main');
+  main.innerHTML = `<div class="chead"><span class="eyebrow">${c.code === 'H' ? 'Hyrje' : 'Rezultati mësimor ' + c.code.slice(2)}</span><h2>${esc(c.title)}</h2><p class="rm">${c.code==='H'?'':'<b>'+c.code+':</b> '}${esc(c.rm)}</p></div>
+  <div class="modes" role="tablist">${MODES.map(([k,l])=>`<button role="tab" data-m="${k}" aria-selected="${k===state.mode}">${l}</button>`).join('')}</div>
+  <div id="pane"></div>`;
+  main.querySelectorAll('.modes button').forEach(b => b.onclick = () => { state.mode = b.dataset.m; store.set('mode', state.mode); render(); });
+  const pane = document.getElementById('pane');
+  if (state.mode === 'learn'){ pane.innerHTML = learnHTML(c); bindCalc(); }
+  if (state.mode === 'review'){ pane.innerHTML = reviewHTML(c); bindReview(c); }
+  if (state.mode === 'practice'){ pane.innerHTML = practiceHTML(c); bindPractice(c); }
+}
+render();
+</script>
+
+</body></html>
